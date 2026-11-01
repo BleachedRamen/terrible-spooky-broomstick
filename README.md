@@ -53,7 +53,7 @@ providers:
 
 defaultTest:
   options:
-    provider: openai:Gemma-4-Basic
+    provider: openai:Gemma-4-26B-A4B-QAT-IT
 ```
 ### Refer to the [Promptfoo Provider Documentation](https://www.promptfoo.dev/docs/providers/) for full configuration options.
 Running Benchmarks
