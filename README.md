@@ -49,11 +49,17 @@ providers:
   - id: openai:chat:LFM2.5-8B-A1B-MoE
     config:
       apiBaseUrl: http://localhost:9931/v1
-      apiKey: dummy
+      apiKeyRequired: false
+      useDefaultApiKey: false
 
 defaultTest:
   options:
-    provider: openai:Gemma-4-26B-A4B-QAT-IT
+    provider:
+      id: openai:chat:Gemma-4-26B-QAT-IT
+      config:
+        apiBaseUrl: http://localhost:9931/v1
+        apiKeyRequired: false
+        useDefaultApiKey: false
 ```
 ### Refer to the [Promptfoo Provider Documentation](https://www.promptfoo.dev/docs/providers/) for full configuration options.
 Running Benchmarks
