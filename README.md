@@ -76,6 +76,7 @@ Useful Flags
 ```
 --no-cache: Disables caching to ensure every prompt is evaluated fresh.
 --repeat <number>: Runs each test prompt multiple times to test consistency/variance.
+--filter-metadata category=<category>: filters for only questions from a specific category of test.
 ```
 Example:
 ```
