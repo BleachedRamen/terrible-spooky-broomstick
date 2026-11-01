@@ -1,0 +1,613 @@
+- description: CR-01 single_fact the storage code
+  vars:
+    input: |-
+      Remember this detail: The storage code is KITE-482.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      What is the storage code? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: single_fact
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: KITE-482
+- description: CR-02 single_fact the assigned reviewer
+  vars:
+    input: |-
+      Remember this detail: The assigned reviewer is Avery Chen.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      What is the assigned reviewer? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: single_fact
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: Avery Chen
+- description: CR-03 single_fact the inspection date
+  vars:
+    input: |-
+      Remember this detail: The inspection date is September 14, 2031.
+
+      A canal footpath runs between the water and a line of old brick walls. Reeds grow along the edges, and small bridges connect the route to nearby lanes. The water moves slowly beneath the stone arches. Walkers can follow the path for a long stretch without leaving the quiet corridor, although a few narrow passages require care.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      What is the inspection date? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: single_fact
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: September 14, 2031
+- description: CR-04 single_fact the meeting location
+  vars:
+    input: |-
+      Remember this detail: The meeting location is Westmere Harbor.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      A canal footpath runs between the water and a line of old brick walls. Reeds grow along the edges, and small bridges connect the route to nearby lanes. The water moves slowly beneath the stone arches. Walkers can follow the path for a long stretch without leaving the quiet corridor, although a few narrow passages require care.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      What is the meeting location? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: single_fact
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: Westmere Harbor
+- description: CR-05 single_fact the archive reference
+  vars:
+    input: |-
+      Remember this detail: The archive reference is QX-7319.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      A canal footpath runs between the water and a line of old brick walls. Reeds grow along the edges, and small bridges connect the route to nearby lanes. The water moves slowly beneath the stone arches. Walkers can follow the path for a long stretch without leaving the quiet corridor, although a few narrow passages require care.
+
+      What is the archive reference? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: single_fact
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: QX-7319
+- description: CR-06 single_fact the named coordinator
+  vars:
+    input: |-
+      Remember this detail: The named coordinator is Leona Marwick.
+
+      A courtyard garden is enclosed by pale walls and filled with pots of hardy herbs. A narrow path leads past a shaded table toward a small fountain. The leaves release a fresh scent when brushed, while climbing plants soften the edges of the stonework. The space is maintained with simple tools and regular watering rather than elaborate decoration.
+
+      The hillside town rises gradually from a narrow stream toward a line of wooded slopes. Houses have small front gardens, and low walls separate the footpaths from the road. From the upper lane, visitors can see rooftops gathered around the market square. The view changes gently as clouds move across the open sky.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      A canal footpath runs between the water and a line of old brick walls. Reeds grow along the edges, and small bridges connect the route to nearby lanes. The water moves slowly beneath the stone arches. Walkers can follow the path for a long stretch without leaving the quiet corridor, although a few narrow passages require care.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      What is the named coordinator? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: single_fact
+    difficulty: hard
+  assert:
+  - type: icontains
+    value: Leona Marwick
+- description: CR-07 two_facts the access code and the room name
+  vars:
+    input: |-
+      Remember both details: the access code is FROST-28, and the room name is Juniper Hall.
+
+      At the center of the town, a paved square opens between modest storefronts. A fountain creates a soft background sound, and several benches stand beneath mature trees. The surrounding lanes carry little traffic, so visitors can cross without hurrying. In the afternoon, the square becomes a convenient place to pause after walking through nearby streets.
+
+      The bakery kitchen is warm from the ovens, and trays are arranged on wide work surfaces. Dough is mixed until it becomes smooth, then left covered while it rises. The baker checks the texture before shaping each loaf. Flour is brushed from the counter at the end, leaving the room ready for the next batch.
+
+      A courtyard garden is enclosed by pale walls and filled with pots of hardy herbs. A narrow path leads past a shaded table toward a small fountain. The leaves release a fresh scent when brushed, while climbing plants soften the edges of the stonework. The space is maintained with simple tools and regular watering rather than elaborate decoration.
+
+      What are the access code and the room name? Reply with both values only, in the order asked, separated by a vertical bar.
+  metadata:
+    category: context_retention
+    subtype: two_facts
+    difficulty: easy
+  assert:
+  - type: icontains-all
+    value:
+    - FROST-28
+    - Juniper Hall
+- description: CR-08 two_facts the contact name and the folder color
+  vars:
+    input: |-
+      Remember both details: the contact name is Talia Mercer, and the folder color is amber.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      At the center of the town, a paved square opens between modest storefronts. A fountain creates a soft background sound, and several benches stand beneath mature trees. The surrounding lanes carry little traffic, so visitors can cross without hurrying. In the afternoon, the square becomes a convenient place to pause after walking through nearby streets.
+
+      What are the contact name and the folder color? Reply with both values only, in the order asked, separated by a vertical bar.
+  metadata:
+    category: context_retention
+    subtype: two_facts
+    difficulty: easy
+  assert:
+  - type: icontains-all
+    value:
+    - Talia Mercer
+    - amber
+- description: CR-09 two_facts the carton label and the shelf location
+  vars:
+    input: |-
+      Remember both details: the carton label is BOX-614, and the shelf location is North Shelf.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      At the center of the town, a paved square opens between modest storefronts. A fountain creates a soft background sound, and several benches stand beneath mature trees. The surrounding lanes carry little traffic, so visitors can cross without hurrying. In the afternoon, the square becomes a convenient place to pause after walking through nearby streets.
+
+      What are the carton label and the shelf location? Reply with both values only, in the order asked, separated by a vertical bar.
+  metadata:
+    category: context_retention
+    subtype: two_facts
+    difficulty: medium
+  assert:
+  - type: icontains-all
+    value:
+    - BOX-614
+    - North Shelf
+- description: CR-10 two_facts the project code and the project lead
+  vars:
+    input: |-
+      Remember both details: the project code is PROJECT-53, and the project lead is Ravi Sen.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      What are the project code and the project lead? Reply with both values only, in the order asked, separated by a vertical bar.
+  metadata:
+    category: context_retention
+    subtype: two_facts
+    difficulty: medium
+  assert:
+  - type: icontains-all
+    value:
+    - PROJECT-53
+    - Ravi Sen
+- description: CR-11 two_facts the review date and the review location
+  vars:
+    input: |-
+      Remember both details: the review date is June 22, 2030, and the review location is Larch Point.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      A canal footpath runs between the water and a line of old brick walls. Reeds grow along the edges, and small bridges connect the route to nearby lanes. The water moves slowly beneath the stone arches. Walkers can follow the path for a long stretch without leaving the quiet corridor, although a few narrow passages require care.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      What are the review date and the review location? Reply with both values only, in the order asked, separated by a vertical bar.
+  metadata:
+    category: context_retention
+    subtype: two_facts
+    difficulty: hard
+  assert:
+  - type: icontains-all
+    value:
+    - June 22, 2030
+    - Larch Point
+- description: CR-12 updated_fact the current record code
+  vars:
+    input: |-
+      The record code was originally recorded as DUNE-41.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      Correction: the record code is DUNE-84; use this corrected value instead of the earlier one.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      What is the current record code? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: updated_fact
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: DUNE-84
+  - type: not-icontains
+    value: DUNE-41
+- description: CR-13 updated_fact the current meeting room
+  vars:
+    input: |-
+      The meeting room was originally recorded as Room Cedar.
+
+      The hillside town rises gradually from a narrow stream toward a line of wooded slopes. Houses have small front gardens, and low walls separate the footpaths from the road. From the upper lane, visitors can see rooftops gathered around the market square. The view changes gently as clouds move across the open sky.
+
+      Correction: the meeting room is Room Willow; use this corrected value instead of the earlier one.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      What is the current meeting room? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: updated_fact
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: Room Willow
+  - type: not-icontains
+    value: Room Cedar
+- description: CR-14 updated_fact the corrected lead name
+  vars:
+    input: |-
+      The lead name was originally recorded as Nora Bell.
+
+      The bakery kitchen is warm from the ovens, and trays are arranged on wide work surfaces. Dough is mixed until it becomes smooth, then left covered while it rises. The baker checks the texture before shaping each loaf. Flour is brushed from the counter at the end, leaving the room ready for the next batch.
+
+      A courtyard garden is enclosed by pale walls and filled with pots of hardy herbs. A narrow path leads past a shaded table toward a small fountain. The leaves release a fresh scent when brushed, while climbing plants soften the edges of the stonework. The space is maintained with simple tools and regular watering rather than elaborate decoration.
+
+      Correction: the lead name is Nora Beck; use this corrected value instead of the earlier one.
+
+      The hillside town rises gradually from a narrow stream toward a line of wooded slopes. Houses have small front gardens, and low walls separate the footpaths from the road. From the upper lane, visitors can see rooftops gathered around the market square. The view changes gently as clouds move across the open sky.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      What is the corrected lead name? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: updated_fact
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: Nora Beck
+  - type: not-icontains
+    value: Nora Bell
+- description: CR-15 updated_fact the current shipment reference
+  vars:
+    input: |-
+      The shipment reference was originally recorded as PACK-6381.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      At the center of the town, a paved square opens between modest storefronts. A fountain creates a soft background sound, and several benches stand beneath mature trees. The surrounding lanes carry little traffic, so visitors can cross without hurrying. In the afternoon, the square becomes a convenient place to pause after walking through nearby streets.
+
+      The bakery kitchen is warm from the ovens, and trays are arranged on wide work surfaces. Dough is mixed until it becomes smooth, then left covered while it rises. The baker checks the texture before shaping each loaf. Flour is brushed from the counter at the end, leaving the room ready for the next batch.
+
+      A courtyard garden is enclosed by pale walls and filled with pots of hardy herbs. A narrow path leads past a shaded table toward a small fountain. The leaves release a fresh scent when brushed, while climbing plants soften the edges of the stonework. The space is maintained with simple tools and regular watering rather than elaborate decoration.
+
+      Correction: the shipment reference is PACK-6831; use this corrected value instead of the earlier one.
+
+      The hillside town rises gradually from a narrow stream toward a line of wooded slopes. Houses have small front gardens, and low walls separate the footpaths from the road. From the upper lane, visitors can see rooftops gathered around the market square. The view changes gently as clouds move across the open sky.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      What is the current shipment reference? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: updated_fact
+    difficulty: hard
+  assert:
+  - type: icontains
+    value: PACK-6831
+  - type: not-icontains
+    value: PACK-6381
+- description: CR-16 similar_distractor Inez Cole's locker code
+  vars:
+    input: |-
+      Remember these separate details: Inez Cole's locker code is LARK-17, and Tomas Reed's locker code is LARK-71.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      What is Inez Cole's locker code? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: similar_distractor
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: LARK-17
+  - type: not-icontains
+    value: LARK-71
+- description: CR-17 similar_distractor Mara Gill's locker code
+  vars:
+    input: |-
+      Remember these separate details: Mara Gill's locker code is CEDAR-52, and Niko Vale's locker code is CEDAR-25.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      What is Mara Gill's locker code? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: similar_distractor
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: CEDAR-52
+  - type: not-icontains
+    value: CEDAR-25
+- description: CR-18 similar_distractor Bea Rowan's locker code
+  vars:
+    input: |-
+      Remember these separate details: Bea Rowan's locker code is NORTH-314, and Cal Mercer's locker code is NORTH-341.
+
+      A canal footpath runs between the water and a line of old brick walls. Reeds grow along the edges, and small bridges connect the route to nearby lanes. The water moves slowly beneath the stone arches. Walkers can follow the path for a long stretch without leaving the quiet corridor, although a few narrow passages require care.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      What is Bea Rowan's locker code? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: similar_distractor
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: NORTH-314
+  - type: not-icontains
+    value: NORTH-341
+- description: CR-19 similar_distractor Owen Pike's locker code
+  vars:
+    input: |-
+      Remember these separate details: Owen Pike's locker code is VALE-9082, and Priya Shah's locker code is VALE-9802.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      A canal footpath runs between the water and a line of old brick walls. Reeds grow along the edges, and small bridges connect the route to nearby lanes. The water moves slowly beneath the stone arches. Walkers can follow the path for a long stretch without leaving the quiet corridor, although a few narrow passages require care.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      What is Owen Pike's locker code? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: similar_distractor
+    difficulty: hard
+  assert:
+  - type: icontains
+    value: VALE-9082
+  - type: not-icontains
+    value: VALE-9802
+- description: CR-20 mid_position the reference code
+  vars:
+    input: |-
+      Read the neutral notes and retain the specific detail placed among them.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      Remember this detail: The reference code is MOSS-26.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      What is the reference code? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: mid_position
+    difficulty: easy
+  assert:
+  - type: icontains
+    value: MOSS-26
+- description: CR-21 mid_position the designated room
+  vars:
+    input: |-
+      Read the neutral notes and retain the specific detail placed among them.
+
+      A courtyard garden is enclosed by pale walls and filled with pots of hardy herbs. A narrow path leads past a shaded table toward a small fountain. The leaves release a fresh scent when brushed, while climbing plants soften the edges of the stonework. The space is maintained with simple tools and regular watering rather than elaborate decoration.
+
+      The hillside town rises gradually from a narrow stream toward a line of wooded slopes. Houses have small front gardens, and low walls separate the footpaths from the road. From the upper lane, visitors can see rooftops gathered around the market square. The view changes gently as clouds move across the open sky.
+
+      Remember this detail: The designated room is Alder Room.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      What is the designated room? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: mid_position
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: Alder Room
+- description: CR-22 mid_position the contact person
+  vars:
+    input: |-
+      Read the neutral notes and retain the specific detail placed among them.
+
+      At the center of the town, a paved square opens between modest storefronts. A fountain creates a soft background sound, and several benches stand beneath mature trees. The surrounding lanes carry little traffic, so visitors can cross without hurrying. In the afternoon, the square becomes a convenient place to pause after walking through nearby streets.
+
+      The bakery kitchen is warm from the ovens, and trays are arranged on wide work surfaces. Dough is mixed until it becomes smooth, then left covered while it rises. The baker checks the texture before shaping each loaf. Flour is brushed from the counter at the end, leaving the room ready for the next batch.
+
+      A courtyard garden is enclosed by pale walls and filled with pots of hardy herbs. A narrow path leads past a shaded table toward a small fountain. The leaves release a fresh scent when brushed, while climbing plants soften the edges of the stonework. The space is maintained with simple tools and regular watering rather than elaborate decoration.
+
+      The hillside town rises gradually from a narrow stream toward a line of wooded slopes. Houses have small front gardens, and low walls separate the footpaths from the road. From the upper lane, visitors can see rooftops gathered around the market square. The view changes gently as clouds move across the open sky.
+
+      Remember this detail: The contact person is Selene Ward.
+
+      The coastal guesthouse faces a sheltered inlet and has a narrow porch with simple wooden chairs. Curtains move when the sea breeze passes through the open windows. Inside, the rooms are uncluttered, with pale walls and woven rugs. Guests often spend quiet periods reading near the porch before taking a short walk along the shore.
+
+      Beyond the dunes, a coastal path curves around low grasses and patches of pale sand. The breeze carries a faint salt smell, and the sound of the surf grows louder near the exposed shoreline. Visitors tend to stay on the marked route because loose sand can hide fragile plants. The landscape feels open and changes subtly with the tide.
+
+      Along the harbor, a walking path follows a low stone wall beside the water. Small boats rest near the docks, and gulls circle above the quiet slips. A row of benches faces the open channel, where the surface changes with the wind. The route feels spacious even when a few visitors stop to watch the boats.
+
+      Inside the greenhouse, warm air gathers beneath clear roof panels. Rows of leafy plants grow in carefully watered beds, and small labels sit near the stems. The gardener checks the soil before adding more water, since damp roots need room to breathe. A shaded corner holds tools, spare pots, and folded cloth for cleaning surfaces.
+
+      What is the contact person? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: mid_position
+    difficulty: hard
+  assert:
+  - type: icontains
+    value: Selene Ward
+- description: CR-23 transcript the tracking reference
+  vars:
+    input: |-
+      Read this short chat transcript.
+      User: Please remember that the tracking reference is RIVER-590.
+      Assistant: I will retain that detail for this task.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      At the center of the town, a paved square opens between modest storefronts. A fountain creates a soft background sound, and several benches stand beneath mature trees. The surrounding lanes carry little traffic, so visitors can cross without hurrying. In the afternoon, the square becomes a convenient place to pause after walking through nearby streets.
+
+      The bakery kitchen is warm from the ovens, and trays are arranged on wide work surfaces. Dough is mixed until it becomes smooth, then left covered while it rises. The baker checks the texture before shaping each loaf. Flour is brushed from the counter at the end, leaving the room ready for the next batch.
+
+      A courtyard garden is enclosed by pale walls and filled with pots of hardy herbs. A narrow path leads past a shaded table toward a small fountain. The leaves release a fresh scent when brushed, while climbing plants soften the edges of the stonework. The space is maintained with simple tools and regular watering rather than elaborate decoration.
+
+      What did the user say the tracking reference was? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: transcript
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: RIVER-590
+- description: CR-24 transcript the parcel label code
+  vars:
+    input: |-
+      Read this short chat transcript.
+      User: Please remember that the parcel label code is FIR-204.
+      Assistant: I will retain that detail for this task.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      A simple soup begins with chopped vegetables softened in a heavy pot. Herbs are added before the broth, allowing their aroma to spread through the kitchen. The mixture simmers gently until the vegetables become tender. A little fresh seasoning at the end gives the finished meal a balanced flavor without making the preparation complicated.
+
+      At the center of the town, a paved square opens between modest storefronts. A fountain creates a soft background sound, and several benches stand beneath mature trees. The surrounding lanes carry little traffic, so visitors can cross without hurrying. In the afternoon, the square becomes a convenient place to pause after walking through nearby streets.
+
+      What did the user say the parcel label code was? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: transcript
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: FIR-204
+- description: CR-25 transcript the workshop coordinator
+  vars:
+    input: |-
+      Read this short chat transcript.
+      User: Please remember that the workshop coordinator is Elodie Grant.
+      Assistant: I will retain that detail for this task.
+
+      A pot of beans cooks slowly with onion, garlic, and a mild blend of herbs. The liquid thickens as the ingredients soften, so occasional stirring keeps the bottom clear. A lid helps retain warmth while allowing a little steam to escape. The finished dish can be served alone or alongside bread, depending on the meal.
+
+      The market street is lined with plain shopfronts and broad windows. Fresh bread cools behind a bakery counter, while baskets of produce sit beneath striped awnings. Shoppers move at an unhurried pace and pause to compare ingredients. The street feels busiest near the covered passage, where the scent of warm pastry drifts outside.
+
+      The forest trail passes through mixed trees and follows a shallow stream. Fallen leaves soften the ground, while exposed roots make some sections uneven. The sound of moving water remains nearby even when the path bends behind a stand of trunks. A quiet clearing offers space to rest before the trail returns beneath the canopy.
+
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The wheel turns steadily as the maker guides the walls of a bowl upward. Finished pieces dry on open shelves before they are glazed. The room stays orderly because tools are rinsed and returned to their places after each session.
+
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Travelers can sit indoors when the weather turns wet, and a simple notice board explains the local service pattern. The building is quiet between arrivals. Its plain design makes the space easy to navigate without distracting signs or displays.
+
+      What did the user say the workshop coordinator was? Reply with the value only.
+  metadata:
+    category: context_retention
+    subtype: transcript
+    difficulty: medium
+  assert:
+  - type: icontains
+    value: Elodie Grant

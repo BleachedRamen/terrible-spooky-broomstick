@@ -1,0 +1,349 @@
+- description: 'MA-01 basic arithmetic precedence'
+  vars:
+    input: 'What is the result of 12 + 8 * 3 - 5? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: arithmetic_precedence
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 31
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 31) <= 1e-6;
+
+- description: 'MA-02 basic subtraction and multiplication precedence'
+  vars:
+    input: 'Evaluate 50 - 4 * 5 + 10. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: arithmetic_precedence
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 40
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 40) <= 1e-6;
+
+- description: 'MA-03 parentheses and division precedence'
+  vars:
+    input: 'Evaluate 15 + (18 / 3) * 4 - 7. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: arithmetic_precedence
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 32
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 32) <= 1e-6;
+
+- description: 'MA-04 division and multiplication chain'
+  vars:
+    input: 'Evaluate 120 / (4 + 2) * 3 - 15. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: arithmetic_precedence
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 45
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 45) <= 1e-6;
+
+- description: 'MA-05 nested grouping arithmetic'
+  vars:
+    input: 'Evaluate 45 - (3 * (12 - 4) + 16) / 2 + 5. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: arithmetic_precedence
+    difficulty: hard
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 30
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 30) <= 1e-6;
+
+- description: 'MA-06 simple percentage calculation'
+  vars:
+    input: 'What is 15 percent of 240? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: percent_ratio
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 36
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 36) <= 1e-6;
+
+- description: 'MA-07 discount sale price'
+  vars:
+    input: 'An item originally priced at 80 dollars is on sale for 25 percent off. What is the sale price? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: percent_ratio
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 60
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 60) <= 1e-6;
+
+- description: 'MA-08 percentage increase calculation'
+  vars:
+    input: 'A population increases from 1200 to 1410. What is the percentage increase? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: percent_ratio
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 17.5
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 17.5) <= 1e-6;
+
+- description: 'MA-09 multistep percentage changes and tax'
+  vars:
+    input: 'The price of an item is increased by 20 percent, then decreased by 15 percent, and finally an 8 percent tax is added to the price after the decrease. If the original price is 250, what is the final price rounded to 2 decimal places? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: percent_ratio
+    difficulty: hard
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 275.4
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 275.4) <= 0.005;
+
+- description: 'MA-10 basic decimal addition and subtraction'
+  vars:
+    input: 'Evaluate 3.5 + 4.25 - 1.15. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: fractions_decimals
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 6.6
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 6.6) <= 1e-6;
+
+- description: 'MA-11 fraction addition with decimal rounding'
+  vars:
+    input: 'Evaluate 3/4 + 5/8 - 1/2 expressed as a decimal rounded to 2 decimal places (round half up). End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: fractions_decimals
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 0.88
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 0.88) <= 0.005;
+
+- description: 'MA-12 complex fraction division'
+  vars:
+    input: 'Evaluate (2/3 + 3/5) / (1/4 - 1/6) rounded to 2 decimal places. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: fractions_decimals
+    difficulty: hard
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 15.2
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 15.2) <= 0.005;
+
+- description: 'MA-13 hours to seconds conversion'
+  vars:
+    input: 'How many seconds are in 3.5 hours? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: unit_conversion
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 12600
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 12600) <= 1e-6;
+
+- description: 'MA-14 speed unit conversion'
+  vars:
+    input: 'Convert 75 miles per hour to feet per second. Use 1 mile = 5280 feet. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: unit_conversion
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 110
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 110) <= 1e-6;
+
+- description: 'MA-15 pool volume conversion'
+  vars:
+    input: 'A rectangular swimming pool measures 10 yards by 5 yards by 2 yards. What is its volume in cubic feet? Use 1 yard = 3 feet. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: unit_conversion
+    difficulty: hard
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 2700
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 2700) <= 1e-6;
+
+- description: 'MA-16 2x2 matrix determinant'
+  vars:
+    input: 'Find the determinant of a 2x2 matrix with row 1: [3, 5], row 2: [2, 4]. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: linear_algebra
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 2
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 2) <= 1e-6;
+
+- description: 'MA-17 vector dot product'
+  vars:
+    input: 'Find the dot product of vectors [2, -3, 4] and [5, 2, -1]. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: linear_algebra
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 0
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 0) <= 1e-6;
+
+- description: 'MA-18 linear system x value'
+  vars:
+    input: 'Given the system of linear equations 2x + y = 7 and x - y = 2, find the value of x. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: linear_algebra
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 3
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 3) <= 1e-6;
+
+- description: 'MA-19 3x3 matrix determinant'
+  vars:
+    input: 'Find the determinant of the 3x3 matrix with rows: [1, 2, 3], [0, 4, 5], [1, 0, 6]. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: linear_algebra
+    difficulty: hard
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 22
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 22) <= 1e-6;
+
+- description: 'MA-20 bakery purchase cost'
+  vars:
+    input: 'A bakery sells cookies for 2 dollars each and muffins for 3 dollars each. If a customer buys 4 cookies and 3 muffins, what is the total cost in dollars? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: multistep_word_problem
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 17
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 17) <= 1e-6;
+
+- description: 'MA-21 constant speed distance'
+  vars:
+    input: 'A car travels at a constant speed of 55 miles per hour for 4 hours. How many miles does it travel? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: multistep_word_problem
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 220
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 220) <= 1e-6;
+
+- description: 'MA-22 average journey speed'
+  vars:
+    input: 'A car travels 60 miles in the first hour, 45 miles in the second hour, and 75 miles in the third hour. What is the average speed in miles per hour over the entire 3-hour journey? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: multistep_word_problem
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 60
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 60) <= 1e-6;
+
+- description: 'MA-23 workshop production fluctuations'
+  vars:
+    input: 'A workshop produces 120 units on Monday. Production increases by 15 percent on Tuesday, decreases by 10 percent on Wednesday, and increases by 20 percent on Thursday. What is the total number of units produced on Thursday rounded to 2 decimal places? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: multistep_word_problem
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 149.04
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 149.04) <= 0.005;
+
+- description: 'MA-24 circle area calculation'
+  vars:
+    input: 'What is the area of a circle with a radius of 5 units? Use pi = 3.14159. Round to 2 decimal places. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: geometry_formula
+    difficulty: easy
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 78.54
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 78.54) <= 0.005;
+
+- description: 'MA-25 cylinder volume calculation'
+  vars:
+    input: 'What is the volume of a right circular cylinder with a radius of 3 units and a height of 10 units? Use pi = 3.14159. Round to 2 decimal places. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+  metadata:
+    category: mathematics
+    subtype: geometry_formula
+    difficulty: medium
+  assert:
+    - type: javascript
+      value: |
+        // Expected: 282.74
+        const m = [...output.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 282.74) <= 0.005;

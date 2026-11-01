@@ -1,0 +1,316 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+- description: 'BK-01 symbol for gold'
+  vars:
+    input: 'What chemical symbol represents the element gold? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: easy
+  assert:
+    - type: regex
+      value: '\bAu\b'
+
+- description: 'BK-02 water boiling point'
+  vars:
+    input: 'At what temperature in degrees Celsius does pure water boil at standard sea-level pressure? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: easy
+  assert:
+    - type: regex
+      value: '\b100\b'
+
+- description: 'BK-03 mitochondria function'
+  vars:
+    input: 'What primary cellular function is performed by mitochondria? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - 'energy production'
+        - 'ATP'
+        - 'cellular respiration'
+
+- description: 'BK-04 speed of light'
+  vars:
+    input: 'What is the approximate speed of light in a vacuum in kilometers per second? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - '300,000'
+        - '300000'
+        - '299,792'
+        - '299792'
+        - '299,800'
+
+- description: 'BK-05 first synthetic element'
+  vars:
+    input: 'What is the name of the first artificially produced synthetic element on the periodic table? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: hard
+  assert:
+    - type: icontains-any
+      value:
+        - 'technetium'
+
+- description: 'BK-06 capital of Australia'
+  vars:
+    input: 'What city serves as the capital of Australia? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: geography
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - 'Canberra'
+
+- description: 'BK-07 largest ocean'
+  vars:
+    input: 'What is the name of the largest ocean on Earth? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: geography
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - 'Pacific Ocean'
+        - 'Pacific'
+
+- description: 'BK-08 longest river'
+  vars:
+    input: 'Which river is traditionally considered the longest in the world? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: geography
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - 'Nile River'
+        - 'Nile'
+
+- description: 'BK-09 highest waterfall'
+  vars:
+    input: 'What is the name of the highest uninterrupted waterfall in the world? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: geography
+    difficulty: hard
+  assert:
+    - type: icontains-any
+      value:
+        - 'Angel Falls'
+
+- description: 'BK-10 Titanic sinking year'
+  vars:
+    input: 'In what calendar year did the RMS Titanic sink in the Atlantic Ocean? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: history
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - '1912'
+
+- description: 'BK-11 printing press inventor'
+  vars:
+    input: 'Who is credited with inventing the mechanical movable-type printing press in Europe? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: history
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - 'Johannes Gutenberg'
+        - 'Gutenberg'
+
+- description: 'BK-12 Berlin Wall fall year'
+  vars:
+    input: 'In what calendar year did the Berlin Wall fall, opening the border between East and West Berlin? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: history
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - '1989'
+
+- description: 'BK-13 Magna Carta year'
+  vars:
+    input: 'In what calendar year was the Magna Carta sealed by King John at Runnymede? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: history
+    difficulty: hard
+  assert:
+    - type: icontains-any
+      value:
+        - '1215'
+
+- description: 'BK-14 Romeo and Juliet author'
+  vars:
+    input: 'Who wrote the classic tragic play Romeo and Juliet? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: literature_language
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - 'William Shakespeare'
+        - 'Shakespeare'
+
+- description: 'BK-15 language family'
+  vars:
+    input: 'To which major language family do Mandarin and Cantonese belong? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: literature_language
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - 'Sino-Tibetan'
+        - 'Sino Tibetan'
+
+- description: 'BK-16 Odyssey epic poem'
+  vars:
+    input: 'What ancient Greek epic poem details the long journey of Odysseus returning home after the Trojan War? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: literature_language
+    difficulty: hard
+  assert:
+    - type: icontains-any
+      value:
+        - 'The Odyssey'
+        - 'Odyssey'
+
+- description: 'BK-17 CPU definition'
+  vars:
+    input: 'What do the initials CPU stand for in computer hardware architecture? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: everyday_technology
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - 'Central Processing Unit'
+
+- description: 'BK-18 HTML definition'
+  vars:
+    input: 'What do the initials HTML stand for in web development? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: everyday_technology
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - 'HyperText Markup Language'
+        - 'Hypertext Markup Language'
+
+- description: 'BK-19 World Wide Web inventor'
+  vars:
+    input: 'Who is credited with inventing the World Wide Web in 1989? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: everyday_technology
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - 'Tim Berners-Lee'
+        - 'Tim Berners Lee'
+        - 'Berners-Lee'
+
+- description: 'BK-20 Mona Lisa painter'
+  vars:
+    input: 'Who painted the famous Renaissance portrait known as the Mona Lisa? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: arts_culture
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - 'Leonardo da Vinci'
+        - 'Da Vinci'
+        - 'Leonardo'
+
+- description: 'BK-21 musical term fortissimo'
+  vars:
+    input: 'What Italian musical term is used to indicate a very loud volume? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: arts_culture
+    difficulty: medium
+  assert:
+    - type: icontains-any
+      value:
+        - 'fortissimo'
+
+- description: 'BK-22 primary colors'
+  vars:
+    input: 'What three colors make up the traditional primary color set in art and painting? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: arts_culture
+    difficulty: medium
+  assert:
+    - type: icontains-all
+      value:
+        - 'red'
+        - 'yellow'
+        - 'blue'
+
+- description: 'BK-23 largest human organ'
+  vars:
+    input: 'What is the single largest organ of the human body? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: human_body_nature
+    difficulty: easy
+  assert:
+    - type: icontains-any
+      value:
+        - 'skin'
+
+- description: 'BK-24 symbol for iron'
+  vars:
+    input: 'What chemical symbol represents the element iron on the periodic table? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: medium
+  assert:
+    - type: regex
+      value: '\bFe\b'
+
+- description: 'BK-25 hardest natural substance'
+  vars:
+    input: 'What is the hardest naturally occurring substance found on Earth? Answer in one short sentence.'
+  metadata:
+    category: basic_knowledge
+    subtype: human_body_nature
+    difficulty: hard
+  assert:
+    - type: icontains-any
+      value:
+        - 'diamond'

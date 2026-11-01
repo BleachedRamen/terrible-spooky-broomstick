@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: 'Local model suite'
+# Optionally set API keys here instead of exporting environment variables.
+# Never commit real keys to source control.
+# env:
+#   OPENAI_API_KEY: sk-...
+prompts:
+  - '{{input}}' 
+
+providers:
+  - id: openai:chat:LFM2.5-8B-A1B-MoE
+    config:
+      apiBaseUrl: http://localhost:9931/v1
+      apiKey: dummy
+
+defaultTest:
+  options:
+    provider: openai:Gemma-4-Basic
+
+tests:
+  - file://tests/*.yaml
