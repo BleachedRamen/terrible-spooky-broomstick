@@ -9,9 +9,9 @@
     subtype: ordering_transitive
     difficulty: easy
   assert:
-    - type: equals
-      value: 'amy'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bamy\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-02 transitive score ordering'
   vars:
@@ -21,9 +21,9 @@
     subtype: ordering_transitive
     difficulty: easy
   assert:
-    - type: equals
-      value: 'frank'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bfrank\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-03 transitive speed ranking'
   vars:
@@ -33,9 +33,9 @@
     subtype: ordering_transitive
     difficulty: medium
   assert:
-    - type: equals
-      value: 'paul'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bpaul\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-04 transitive age ranking'
   vars:
@@ -45,9 +45,9 @@
     subtype: ordering_transitive
     difficulty: medium
   assert:
-    - type: equals
-      value: 'liam'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bliam\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-05 transitive weight comparison'
   vars:
@@ -57,9 +57,9 @@
     subtype: ordering_transitive
     difficulty: hard
   assert:
-    - type: equals
-      value: '6'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '(?:box\s*)?6\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-06 transitive wealth ranking'
   vars:
@@ -69,9 +69,9 @@
     subtype: ordering_transitive
     difficulty: hard
   assert:
-    - type: equals
-      value: 'v'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bv\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-07 categorical syllogism yes'
   vars:
@@ -81,9 +81,9 @@
     subtype: syllogism_truth
     difficulty: easy
   assert:
-    - type: equals
-      value: 'yes'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\byes\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-08 categorical syllogism no'
   vars:
@@ -93,9 +93,9 @@
     subtype: syllogism_truth
     difficulty: easy
   assert:
-    - type: equals
-      value: 'no'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bno\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-09 conditional syllogism valid'
   vars:
@@ -105,9 +105,9 @@
     subtype: syllogism_truth
     difficulty: medium
   assert:
-    - type: equals
-      value: 'yes'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\byes\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-10 denying the antecedent fallacy'
   vars:
@@ -117,9 +117,9 @@
     subtype: syllogism_truth
     difficulty: medium
   assert:
-    - type: equals
-      value: 'no'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bno\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-11 complex syllogism chain'
   vars:
@@ -129,9 +129,9 @@
     subtype: syllogism_truth
     difficulty: hard
   assert:
-    - type: equals
-      value: 'yes'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\byes\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-12 apple sharing word problem'
   vars:
@@ -141,9 +141,9 @@
     subtype: multistep_word_problem
     difficulty: easy
   assert:
-    - type: equals
-      value: '9'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\b9(?:\s*apples?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-13 book reading word problem'
   vars:
@@ -153,9 +153,9 @@
     subtype: multistep_word_problem
     difficulty: medium
   assert:
-    - type: equals
-      value: '25'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\b25(?:\s*pages?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-14 store discount word problem'
   vars:
@@ -165,9 +165,9 @@
     subtype: multistep_word_problem
     difficulty: medium
   assert:
-    - type: equals
-      value: '50'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '(?:\$)?50(?:\s*dollars?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-15 ticket sales word problem'
   vars:
@@ -177,9 +177,9 @@
     subtype: multistep_word_problem
     difficulty: medium
   assert:
-    - type: equals
-      value: '50'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '(?:\$)?50(?:\s*dollars?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-16 train speed meeting problem'
   vars:
@@ -189,9 +189,9 @@
     subtype: multistep_word_problem
     difficulty: hard
   assert:
-    - type: equals
-      value: '3'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\b3(?:\s*hours?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-17 water tank drainage problem'
   vars:
@@ -201,9 +201,9 @@
     subtype: multistep_word_problem
     difficulty: hard
   assert:
-    - type: equals
-      value: '650'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\b650(?:\s*liters?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-18 seating arrangement puzzle'
   vars:
@@ -213,9 +213,9 @@
     subtype: constraint_puzzle
     difficulty: easy
   assert:
-    - type: equals
-      value: 'dan'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bdan\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-19 pet ownership constraint puzzle'
   vars:
@@ -225,9 +225,9 @@
     subtype: constraint_puzzle
     difficulty: medium
   assert:
-    - type: equals
-      value: 'cat'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bcat\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-20 locker puzzle trick'
   vars:
@@ -237,9 +237,9 @@
     subtype: constraint_puzzle
     difficulty: hard
   assert:
-    - type: equals
-      value: '3'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '(?:locker\s*)?3\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-21 colored hat constraint puzzle'
   vars:
@@ -249,9 +249,9 @@
     subtype: constraint_puzzle
     difficulty: hard
   assert:
-    - type: equals
-      value: 'red'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bred\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-22 meeting schedule easy'
   vars:
@@ -261,9 +261,9 @@
     subtype: schedule_time
     difficulty: easy
   assert:
-    - type: equals
+    - type: regex
       value: '11:00'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-23 train departure schedule'
   vars:
@@ -273,9 +273,9 @@
     subtype: schedule_time
     difficulty: medium
   assert:
-    - type: equals
+    - type: regex
       value: '12:20'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-24 time zone flight schedule'
   vars:
@@ -285,9 +285,9 @@
     subtype: schedule_time
     difficulty: medium
   assert:
-    - type: equals
+    - type: regex
       value: '16:00'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-25 complex project schedule deadline'
   vars:
@@ -297,9 +297,9 @@
     subtype: schedule_time
     difficulty: hard
   assert:
-    - type: equals
-      value: '12'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '(?:day\s*)?12\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-26 basic cardinal directions'
   vars:
@@ -309,9 +309,9 @@
     subtype: spatial_direction
     difficulty: easy
   assert:
-    - type: equals
-      value: 'south'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bsouth\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-27 relative position puzzle'
   vars:
@@ -321,9 +321,9 @@
     subtype: spatial_direction
     difficulty: medium
   assert:
-    - type: equals
-      value: 'north'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bnorth\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-28 grid movement direction'
   vars:
@@ -333,9 +333,9 @@
     subtype: spatial_direction
     difficulty: hard
   assert:
-    - type: equals
-      value: 'north'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bnorth\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-29 bat and ball trick question'
   vars:
@@ -345,9 +345,9 @@
     subtype: trick_or_counterfactual
     difficulty: easy
   assert:
-    - type: equals
-      value: '5'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\b5(?:\s*cents?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-30 lily pad doubling trick question'
   vars:
@@ -357,9 +357,9 @@
     subtype: trick_or_counterfactual
     difficulty: medium
   assert:
-    - type: equals
-      value: '47'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\b47(?:\s*days?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-31 counterfactual machine production trick'
   vars:
@@ -369,9 +369,9 @@
     subtype: trick_or_counterfactual
     difficulty: hard
   assert:
-    - type: equals
-      value: '5'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\b5(?:\s*minutes?)?\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-32 simple causal chain'
   vars:
@@ -381,9 +381,9 @@
     subtype: conditional_causal
     difficulty: easy
   assert:
-    - type: equals
-      value: 'yes'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\byes\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-33 conditional switch logic'
   vars:
@@ -393,9 +393,9 @@
     subtype: conditional_causal
     difficulty: medium
   assert:
-    - type: equals
-      value: 'yes'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\byes\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-34 complex conditional causality'
   vars:
@@ -405,9 +405,9 @@
     subtype: conditional_causal
     difficulty: medium
   assert:
-    - type: equals
-      value: 'yes'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\byes\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
 
 - description: 'RS-35 counterfactual causal blockage'
   vars:
@@ -417,6 +417,6 @@
     subtype: conditional_causal
     difficulty: medium
   assert:
-    - type: equals
-      value: 'no'
-      transform: "(output.match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"\\s]+|[.*\"\\s]+$/g, '').toLowerCase()"
+    - type: regex
+      value: '\bno\b'
+      transform: "(output.normalize('NFKC').match(/ANSWER:\\s*([^\\n]+)/gi) || []).pop()?.replace(/^ANSWER:\\s*/i, '').replace(/^[.*\"'\\s]+|[.*\"'\\s]+$/g, '').toLowerCase()"
