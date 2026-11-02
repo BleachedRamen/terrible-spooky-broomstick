@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
 - description: JS-01 flat_object easy
   vars:
     input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
@@ -469,8 +470,8 @@
         data["path"] === "C:\\plant\\logs\\valve.txt";
 - description: JS-15 enum_constrained easy
   vars:
-    input: 'Create a JSON object from the details in this sentence, using: status and region as strings restricted
-      to their stated allowed values. Sentence: The sensor status is "active" and its region is "north". Return
+    input: 'Create a JSON object from the details in this sentence, using: status as a string, one of
+      active, paused, retired, and region as a string, one of north, south. Sentence: The sensor status is "active" and its region is "north". Return
       only JSON, no explanation.'
   metadata:
     category: json_output
@@ -506,7 +507,8 @@
 - description: JS-16 enum_constrained easy
   vars:
     input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
-      priority and state as strings restricted to their stated allowed values. Sentence: The request priority is
+      priority as a string, one of low, medium, high, and state as a string,
+      one of queued, working, closed. Sentence: The request priority is
       "medium" and its state is "queued". Return only JSON, no explanation.'
   metadata:
     category: json_output
@@ -542,8 +544,9 @@
         data["state"] === "queued";
 - description: JS-17 enum_constrained medium
   vars:
-    input: 'Read the sentence and build a JSON object with the following fields: all three fields as strings restricted
-      to their respective allowed values. Sentence: The ticket is assigned to "support", has urgency "urgent", and
+    input: 'Read the sentence and build a JSON object with the following fields: assigned_group, urgency, and category as strings,
+      each restricted to its allowed values (assigned_group: support, sales, operations; urgency: low, normal,
+      urgent; category: billing, access, delivery). Sentence: The ticket is assigned to "support", has urgency "urgent", and
       category "billing". Return only JSON, no explanation.'
   metadata:
     category: json_output
@@ -728,7 +731,7 @@
   vars:
     input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
       title, quote_text, file_path, city, and status as strings, and page_count as an integer. Sentence: The memo
-      title is "Path Review", its exact sentence is "She said \"leave it ready\".", the file path is "C:\archive\final.txt",
+      title is "Path Review", its exact sentence is ''She said "leave it ready".'', the file path is "C:\archive\final.txt",
       the city is "Montréal", the status is "saved", and the page count is 12. Return only JSON, no explanation.'
   metadata:
     category: json_output
@@ -774,7 +777,7 @@
   vars:
     input: 'Read the sentence and build a JSON object with the following fields: record_name, alternate_label, quoted_tag,
       directory, and language_code as strings, and enabled as a boolean. Sentence: The record name is "Crème brûlée",
-      its alternate label is "jalapeño", its quoted tag is "a \"bright\" finish", the directory is "D:\café\notes",
+      its alternate label is "jalapeño", its quoted tag is ''a "bright" finish'', the directory is "D:\café\notes",
       the language code is "fr", and the enabled flag is true. Return only JSON, no explanation.'
   metadata:
     category: json_output
