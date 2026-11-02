@@ -29,11 +29,8 @@
     subtype: science
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - 'energy production'
-        - 'ATP'
-        - 'cellular respiration'
+    - type: regex
+      value: '[eE]nergy\s+production|\bATP\b|[cC]ellular\s+respiration'
 
 - description: 'BK-04 speed of light'
   vars:
@@ -43,13 +40,8 @@
     subtype: science
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - '300,000'
-        - '300000'
-        - '299,792'
-        - '299792'
-        - '299,800'
+    - type: regex
+      value: '\b(?:300[\s, ]?000|299[\s, ]?(?:792|800))\b'
 
 - description: 'BK-05 first synthetic element'
   vars:
@@ -59,9 +51,8 @@
     subtype: science
     difficulty: hard
   assert:
-    - type: icontains-any
-      value:
-        - 'technetium'
+    - type: regex
+      value: '[tT]echnetium'
 
 - description: 'BK-06 capital of Australia'
   vars:
@@ -71,9 +62,8 @@
     subtype: geography
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - 'Canberra'
+    - type: regex
+      value: 'Canberra'
 
 - description: 'BK-07 largest ocean'
   vars:
@@ -83,10 +73,8 @@
     subtype: geography
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - 'Pacific Ocean'
-        - 'Pacific'
+    - type: regex
+      value: 'Pacific(?:\s+Ocean)?'
 
 - description: 'BK-08 longest river'
   vars:
@@ -96,10 +84,8 @@
     subtype: geography
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - 'Nile River'
-        - 'Nile'
+    - type: regex
+      value: 'Nile(?:\s+River)?'
 
 - description: 'BK-09 highest waterfall'
   vars:
@@ -109,9 +95,8 @@
     subtype: geography
     difficulty: hard
   assert:
-    - type: icontains-any
-      value:
-        - 'Angel Falls'
+    - type: regex
+      value: 'Angel\s+Falls'
 
 - description: 'BK-10 Titanic sinking year'
   vars:
@@ -121,9 +106,8 @@
     subtype: history
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - '1912'
+    - type: regex
+      value: '\b1912\b'
 
 - description: 'BK-11 printing press inventor'
   vars:
@@ -133,10 +117,8 @@
     subtype: history
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - 'Johannes Gutenberg'
-        - 'Gutenberg'
+    - type: regex
+      value: '(?:Johannes\s+)?Gutenberg'
 
 - description: 'BK-12 Berlin Wall fall year'
   vars:
@@ -146,9 +128,8 @@
     subtype: history
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - '1989'
+    - type: regex
+      value: '\b1989\b'
 
 - description: 'BK-13 Magna Carta year'
   vars:
@@ -158,9 +139,8 @@
     subtype: history
     difficulty: hard
   assert:
-    - type: icontains-any
-      value:
-        - '1215'
+    - type: regex
+      value: '\b1215\b'
 
 - description: 'BK-14 Romeo and Juliet author'
   vars:
@@ -170,10 +150,8 @@
     subtype: literature_language
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - 'William Shakespeare'
-        - 'Shakespeare'
+    - type: regex
+      value: '(?:William\s+)?Shakespeare'
 
 - description: 'BK-15 language family'
   vars:
@@ -183,10 +161,8 @@
     subtype: literature_language
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - 'Sino-Tibetan'
-        - 'Sino Tibetan'
+    - type: regex
+      value: 'Sino[\s-‑–—]?Tibetan'
 
 - description: 'BK-16 Odyssey epic poem'
   vars:
@@ -196,10 +172,8 @@
     subtype: literature_language
     difficulty: hard
   assert:
-    - type: icontains-any
-      value:
-        - 'The Odyssey'
-        - 'Odyssey'
+    - type: regex
+      value: '(?:The\s+)?Odyssey'
 
 - description: 'BK-17 CPU definition'
   vars:
@@ -209,9 +183,8 @@
     subtype: everyday_technology
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - 'Central Processing Unit'
+    - type: regex
+      value: 'Central\s+Processing\s+Unit'
 
 - description: 'BK-18 HTML definition'
   vars:
@@ -221,10 +194,8 @@
     subtype: everyday_technology
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - 'HyperText Markup Language'
-        - 'Hypertext Markup Language'
+    - type: regex
+      value: 'Hyper[\s-‑–—]?text\s+Markup\s+Language'
 
 - description: 'BK-19 World Wide Web inventor'
   vars:
@@ -234,11 +205,8 @@
     subtype: everyday_technology
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - 'Tim Berners-Lee'
-        - 'Tim Berners Lee'
-        - 'Berners-Lee'
+    - type: regex
+      value: '(?:Tim\s+)?Berners[\s-‑–—]?Lee'
 
 - description: 'BK-20 Mona Lisa painter'
   vars:
@@ -248,11 +216,8 @@
     subtype: arts_culture
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - 'Leonardo da Vinci'
-        - 'Da Vinci'
-        - 'Leonardo'
+    - type: regex
+      value: 'Leonardo(?:\s+da\s+Vinci)?|da\s+Vinci'
 
 - description: 'BK-21 musical term fortissimo'
   vars:
@@ -262,9 +227,8 @@
     subtype: arts_culture
     difficulty: medium
   assert:
-    - type: icontains-any
-      value:
-        - 'fortissimo'
+    - type: regex
+      value: '[fF]ortissimo'
 
 - description: 'BK-22 primary colors'
   vars:
@@ -288,9 +252,8 @@
     subtype: human_body_nature
     difficulty: easy
   assert:
-    - type: icontains-any
-      value:
-        - 'skin'
+    - type: regex
+      value: '[sS]kin'
 
 - description: 'BK-24 symbol for iron'
   vars:
@@ -311,6 +274,5 @@
     subtype: human_body_nature
     difficulty: hard
   assert:
-    - type: icontains-any
-      value:
-        - 'diamond'
+    - type: regex
+      value: '[dD]iamond'
