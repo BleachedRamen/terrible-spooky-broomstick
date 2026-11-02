@@ -35,6 +35,8 @@ defaultTest:
         apiKeyRequired: false
         useDefaultApiKey: false
         showThinking: false
+        max_tokens: 16384
+# Adjust for your grader models verbosity.
 
 # Lol it literally just imports all yaml files from tests
 tests:
