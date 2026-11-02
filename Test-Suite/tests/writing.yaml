@@ -1,523 +1,452 @@
-- description: WR-01 meeting notes follow-up
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+- description: "WR-01 meeting notes follow-up"
   vars:
-    input: 'Write a brief email message to a coworker who missed the morning planning meeting. Tone: polite and
-      helpful. Say that the notes are attached and invite the coworker to ask about any unclear decision. Output
-      exactly 2 sentences in plain text, with no subject line, bullets, or markdown heading.'
+    input: "Write a brief email message to a coworker who missed the morning planning meeting. Tone: polite and helpful. Say that the notes are attached and invite the coworker to ask about any unclear decision. Output exactly 2 sentences in plain text, with no subject line, bullets, or markdown heading."
   metadata:
     category: writing
     subtype: email_or_message
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a brief email message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      includes the requested purpose and audience-relevant details. Score 1 if all met, 0.5 if one minor error,
-      0 otherwise.'
-    threshold: 0.5
-- description: WR-02 delay update
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a brief email message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) includes the requested purpose and audience-relevant details. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-02 delay update"
   vars:
-    input: 'Write a text message to a friend. Tone: casual and considerate. Explain that your train is delayed by
-      about fifteen minutes and that you will send another message when you arrive. Output exactly 1 sentence in
-      plain text, with no heading or bullets.'
+    input: "Write a text message to a friend. Tone: casual and considerate. Explain that your train is delayed by about fifteen minutes and that you will send another message when you arrive. Output exactly 1 sentence in plain text, with no heading or bullets."
   metadata:
     category: writing
     subtype: email_or_message
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a short text message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      communicates the delay and the promised follow-up clearly. Score 1 if all met, 0.5 if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-03 order status update
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a short text message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) communicates the delay and the promised follow-up clearly. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-03 order status update"
   vars:
-    input: 'Write a short email message to a customer. Tone: courteous and reassuring. Explain that the order has
-      been packed and that tracking information will be sent after the carrier scans the parcel. Output exactly
-      2 sentences in plain text, with no subject line, bullets, or markdown heading.'
+    input: "Write a short email message to a customer. Tone: courteous and reassuring. Explain that the order has been packed and that tracking information will be sent after the carrier scans the parcel. Output exactly 2 sentences in plain text, with no subject line, bullets, or markdown heading."
   metadata:
     category: writing
     subtype: email_or_message
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a customer service email message. Criteria: (1) grammatically correct, (2) coherent and on-brief,
-      (3) states the order status and the next tracking step accurately. Score 1 if all met, 0.5 if one minor error,
-      0 otherwise.'
-    threshold: 0.5
-- description: WR-04 review reschedule
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a customer service email message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) states the order status and the next tracking step accurately. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-04 review reschedule"
   vars:
-    input: 'Write a message to a project partner. Tone: tactful and professional. Explain that the review needs
-      to move from this afternoon to tomorrow because a required file is incomplete, and ask which time tomorrow
-      works for them. Output exactly 2 sentences in plain text, with no heading or bullets.'
+    input: "Write a message to a project partner. Tone: tactful and professional. Explain that the review needs to move from this afternoon to tomorrow because a required file is incomplete, and ask which time tomorrow works for them. Output exactly 2 sentences in plain text, with no heading or bullets."
   metadata:
     category: writing
     subtype: email_or_message
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a project message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) communicates
-      the schedule change and requests a usable alternative. Score 1 if all met, 0.5 if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-05 missing invoice receipt
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a project message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) communicates the schedule change and requests a usable alternative. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-05 missing invoice receipt"
   vars:
-    input: Write a formal message to a client in no more than 40 words. Explain that the invoice cannot be approved
-      because the itemized receipt is missing, request that the receipt be resent, and state that review can continue
-      promptly after it arrives. Output exactly 2 sentences in plain text, with no subject line, bullets, or markdown
-      heading.
+    input: "Write a formal message to a client in no more than 40 words. Explain that the invoice cannot be approved because the itemized receipt is missing, request that the receipt be resent, and state that review can continue promptly after it arrives. Output exactly 2 sentences in plain text, with no subject line, bullets, or markdown heading."
   metadata:
     category: writing
     subtype: email_or_message
     difficulty: hard
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a formal client email message. Criteria: (1) grammatically correct, (2) coherent and on-brief,
-      (3) explains the approval blocker and gives a clear next action. Score 1 if all met, 0.5 if one minor error,
-      0 otherwise.'
-    threshold: 0.5
-- description: WR-06 plural agreement
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        const wordCount = text.split(/\s+/).length;
+        return text.length > 0 && sentenceCount === 2 && wordCount <= 40 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a formal client email message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) explains the approval blocker and gives a clear next action. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-06 plural agreement"
   vars:
-    input: 'Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve
-      its meaning. Return exactly 1 corrected sentence and nothing else: "The reports is ready for review."'
+    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"The reports is ready for review.\""
   metadata:
     category: writing
     subtype: grammar_correction
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: icontains
-    value: The reports are ready for review.
-  - type: not-icontains
-    value: The reports is ready
-  - type: llm-rubric
-    value: 'Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      preserves the intended meaning while correcting the supplied agreement error. Score 1 if all met, 0.5 if one
-      minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-07 each agreement
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: icontains
+      value: "The reports are ready for review"
+    - type: not-icontains
+      value: "The reports is ready"
+    - type: llm-rubric
+      value: "Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) preserves the intended meaning while correcting the supplied agreement error. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-07 each agreement"
   vars:
-    input: 'Audience: general readers. Tone: neutral and precise. Edit this sentence for standard written English
-      without changing its meaning. Return exactly 1 corrected sentence and no explanation: "Each of the boxes have
-      a label."'
+    input: "Audience: general readers. Tone: neutral and precise. Edit this sentence for standard written English without changing its meaning. Return exactly 1 corrected sentence and no explanation: \"Each of the boxes have a label.\""
   metadata:
     category: writing
     subtype: grammar_correction
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: icontains
-    value: Each of the boxes has a label.
-  - type: not-icontains
-    value: boxes have a label
-  - type: llm-rubric
-    value: 'Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      preserves the intended meaning while correcting the supplied agreement error. Score 1 if all met, 0.5 if one
-      minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-08 third person verb
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: icontains
+      value: "Each of the boxes has a label"
+    - type: not-icontains
+      value: "boxes have a label"
+    - type: llm-rubric
+      value: "Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) preserves the intended meaning while correcting the supplied agreement error. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-08 third person verb"
   vars:
-    input: 'Audience: a colleague reading a project note. Tone: neutral and precise. Correct the sentence grammar
-      while preserving its meaning. Return exactly 1 corrected sentence, without commentary: "Maya don''t need the
-      spare key."'
+    input: "Audience: a colleague reading a project note. Tone: neutral and precise. Correct the sentence grammar while preserving its meaning. Return exactly 1 corrected sentence, without commentary: \"Maya don't need the spare key.\""
   metadata:
     category: writing
     subtype: grammar_correction
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: icontains
-    value: Maya doesn't need the spare key.
-  - type: not-icontains
-    value: Maya don't need
-  - type: llm-rubric
-    value: 'Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      corrects the verb form and retains the original meaning. Score 1 if all met, 0.5 if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-09 unneeded preposition
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: regex
+      value: "Maya (?:doesn['’]t|does not) need the spare key"
+    - type: not-regex
+      value: "Maya don['’]t need"
+    - type: llm-rubric
+      value: "Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) corrects the verb form and retains the original meaning. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-09 unneeded preposition"
   vars:
-    input: 'Audience: general readers. Tone: neutral and precise. Correct the sentence for clear standard English.
-      Keep the original meaning and return only 1 corrected sentence: "We discussed about the schedule yesterday."'
+    input: "Audience: general readers. Tone: neutral and precise. Correct the sentence for clear standard English. Keep the original meaning and return only 1 corrected sentence: \"We discussed about the schedule yesterday.\""
   metadata:
     category: writing
     subtype: grammar_correction
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: icontains
-    value: We discussed the schedule yesterday.
-  - type: not-icontains
-    value: discussed about the schedule
-  - type: llm-rubric
-    value: 'Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      removes the nonstandard construction without changing the intended statement. Score 1 if all met, 0.5 if one
-      minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-10 uncountable noun agreement
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: icontains
+      value: "discussed the schedule"
+    - type: icontains
+      value: "yesterday"
+    - type: not-icontains
+      value: "discussed about the schedule"
+    - type: llm-rubric
+      value: "Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) removes the nonstandard construction without changing the intended statement. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-10 uncountable noun agreement"
   vars:
-    input: 'Audience: general readers. Tone: neutral and precise. Proofread this sentence and correct its grammar.
-      Return exactly 1 corrected sentence and nothing else: "The equipment were stored in a dry cabinet."'
+    input: "Audience: general readers. Tone: neutral and precise. Proofread this sentence and correct its grammar. Return exactly 1 corrected sentence and nothing else: \"The equipment were stored in a dry cabinet.\""
   metadata:
     category: writing
     subtype: grammar_correction
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: icontains
-    value: The equipment was stored in a dry cabinet.
-  - type: not-icontains
-    value: equipment were stored
-  - type: llm-rubric
-    value: 'Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      uses the correct verb form for the uncountable noun and preserves meaning. Score 1 if all met, 0.5 if one
-      minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-11 dangling modifier
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: icontains
+      value: "equipment was stored"
+    - type: icontains
+      value: "dry cabinet"
+    - type: not-icontains
+      value: "equipment were stored"
+    - type: llm-rubric
+      value: "Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) uses the correct verb form for the uncountable noun and preserves meaning. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-11 dangling modifier"
   vars:
-    input: 'Audience: general readers. Tone: neutral and precise. Correct the grammatical problem in this sentence
-      without adding a new event. Return exactly 1 corrected sentence and no explanation: "Walking to the station,
-      the rain soaked Jordan."'
+    input: "Audience: general readers. Tone: neutral and precise. Correct the grammatical problem in this sentence without adding a new event. Return exactly 1 corrected sentence and no explanation: \"Walking to the station, the rain soaked Jordan.\""
   metadata:
     category: writing
     subtype: grammar_correction
     difficulty: hard
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: icontains
-    value: While Jordan was walking to the station, the rain soaked Jordan.
-  - type: not-icontains
-    value: Walking to the station, the rain soaked Jordan
-  - type: llm-rubric
-    value: 'Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      repairs the dangling modifier while keeping the intended event clear. Score 1 if all met, 0.5 if one minor
-      error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-12 maintenance notice
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: icontains-all
+      value:
+        - "Jordan"
+        - "rain"
+        - "station"
+    - type: not-icontains
+      value: "Walking to the station, the rain soaked"
+    - type: llm-rubric
+      value: "Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) repairs the dangling modifier while keeping the intended event clear. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-12 maintenance notice"
   vars:
-    input: 'Paraphrase the following notice for apartment residents. Tone: clear and neutral. Preserve both facts:
-      the water service will stop during pipe maintenance, and the work is expected to finish before evening. Output
-      exactly 2 sentences, with no heading or bullets. Source: "Water service will be paused while the pipes are
-      repaired. The crew expects to finish before evening."'
+    input: "Paraphrase the following notice for apartment residents. Tone: clear and neutral. Preserve both facts: the water service will stop during pipe maintenance, and the work is expected to finish before evening. Output exactly 2 sentences, with no heading or bullets. Source: \"Water service will be paused while the pipes are repaired. The crew expects to finish before evening.\""
   metadata:
     category: writing
     subtype: paraphrase_rewrite
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) retains
-      both source facts while using genuinely reworded phrasing. Score 1 if all met, 0.5 if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-13 tool reporting rule
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: not-icontains
+      value: "Water service will be paused while the pipes are repaired"
+    - type: not-icontains
+      value: "The crew expects to finish before evening"
+    - type: llm-rubric
+      value: "Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) retains both source facts while using genuinely reworded phrasing. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-13 tool reporting rule"
   vars:
-    input: 'Rewrite this statement for a new employee. Audience: a new team member. Tone: direct and supportive.
-      Preserve the rule and its consequence without copying the original wording. Output exactly 2 sentences, with
-      no heading or bullets. Source: "If a shared tool is damaged, report it before the end of your shift. This
-      lets the next person choose a safe replacement."'
+    input: "Rewrite this statement for a new employee. Audience: a new team member. Tone: direct and supportive. Preserve the rule and its consequence without copying the original wording. Output exactly 2 sentences, with no heading or bullets. Source: \"If a shared tool is damaged, report it before the end of your shift. This lets the next person choose a safe replacement.\""
   metadata:
     category: writing
     subtype: paraphrase_rewrite
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) preserves
-      the condition and the consequence stated in the source. Score 1 if all met, 0.5 if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-14 venue change
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: not-icontains
+      value: "report it before the end of your shift"
+    - type: not-icontains
+      value: "lets the next person choose a safe replacement"
+    - type: llm-rubric
+      value: "Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) preserves the condition and the consequence stated in the source. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-14 venue change"
   vars:
-    input: 'Restate the following update for a community newsletter. Tone: informative and calm. Keep the sequence
-      of events and the reason for the change accurate. Output exactly 2 sentences, with no heading or bullets.
-      Source: "The library room is closed during floor repairs. The reading group will meet in the east hall until
-      the room reopens."'
+    input: "Restate the following update for a community newsletter. Tone: informative and calm. Keep the sequence of events and the reason for the change accurate. Output exactly 2 sentences, with no heading or bullets. Source: \"The library room is closed during floor repairs. The reading group will meet in the east hall until the room reopens.\""
   metadata:
     category: writing
     subtype: paraphrase_rewrite
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) keeps the
-      timeline and the stated reason intact. Score 1 if all met, 0.5 if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-15 damaged delivery procedure
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: not-icontains
+      value: "The library room is closed during floor repairs"
+    - type: not-icontains
+      value: "will meet in the east hall until the room reopens"
+    - type: llm-rubric
+      value: "Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) keeps the timeline and the stated reason intact. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-15 damaged delivery procedure"
   vars:
-    input: 'Rewrite the source for a formal operations note in no more than 35 words. Tone: formal and neutral.
-      Preserve the condition, the required action, and the reason for recording it. Output exactly 2 sentences,
-      with no heading or bullets. Source: "When a delivery arrives with a broken seal, staff must photograph the
-      package before opening it. The image is needed for the receiving record."'
+    input: "Rewrite the source for a formal operations note in no more than 35 words. Tone: formal and neutral. Preserve the condition, the required action, and the reason for recording it. Output exactly 2 sentences, with no heading or bullets. Source: \"When a delivery arrives with a broken seal, staff must photograph the package before opening it. The image is needed for the receiving record.\""
   metadata:
     category: writing
     subtype: paraphrase_rewrite
     difficulty: hard
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a concise paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      preserves all essential conditions while avoiding copied phrasing. Score 1 if all met, 0.5 if one minor error,
-      0 otherwise.'
-    threshold: 0.5
-- description: WR-16 friendly review note
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        const wordCount = text.split(/\s+/).length;
+        return text.length > 0 && sentenceCount === 2 && wordCount <= 35 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: not-icontains
+      value: "photograph the package before opening it"
+    - type: not-icontains
+      value: "image is needed for the receiving record"
+    - type: llm-rubric
+      value: "Output is a concise paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) preserves all essential conditions while avoiding copied phrasing. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-16 friendly review note"
   vars:
-    input: 'Rewrite the message for a teammate. Tone: friendly and encouraging, but not overly enthusiastic. Keep
-      the same fact that the draft needs another review. Output exactly 1 sentence, with no heading or bullets.
-      Source: "The draft is incomplete and needs another review."'
+    input: "Rewrite the message for a teammate. Tone: friendly and encouraging, but not overly enthusiastic. Keep the same fact that the draft needs another review. Output exactly 1 sentence, with no heading or bullets. Source: \"The draft is incomplete and needs another review.\""
   metadata:
     category: writing
     subtype: tone_shift
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      keeps the factual content while making the wording appropriately warm. Score 1 if all met, 0.5 if one minor
-      error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-17 professional reminder
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 1 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) keeps the factual content while making the wording appropriately warm. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-17 professional reminder"
   vars:
-    input: 'Rewrite this reminder for a vendor. Tone: professional and respectful. Keep the request for the missing
-      delivery confirmation and the stated deadline. Output exactly 2 sentences, with no heading or bullets. Source:
-      "You still have not sent the delivery confirmation. Send it by noon so we can close the order."'
+    input: "Rewrite this reminder for a vendor. Tone: professional and respectful. Keep the request for the missing delivery confirmation and the stated deadline. Output exactly 2 sentences, with no heading or bullets. Source: \"You still have not sent the delivery confirmation. Send it by noon so we can close the order.\""
   metadata:
     category: writing
     subtype: tone_shift
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      retains the deadline and request while sounding appropriately professional. Score 1 if all met, 0.5 if one
-      minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-18 firm channel guidance
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) retains the deadline and request while sounding appropriately professional. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-18 firm channel guidance"
   vars:
-    input: 'Rewrite this message for a shared work channel. Tone: firm, calm, and respectful. Keep the rule that
-      urgent requests belong in the designated channel rather than direct messages. Output exactly 2 sentences,
-      with no heading or bullets. Source: "Stop sending urgent requests to me in direct messages. Put them in the
-      team channel so everyone can see them."'
+    input: "Rewrite this message for a shared work channel. Tone: firm, calm, and respectful. Keep the rule that urgent requests belong in the designated channel rather than direct messages. Output exactly 2 sentences, with no heading or bullets. Source: \"Stop sending urgent requests to me in direct messages. Put them in the team channel so everyone can see them.\""
   metadata:
     category: writing
     subtype: tone_shift
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      conveys the boundary clearly without sounding hostile or changing the rule. Score 1 if all met, 0.5 if one
-      minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-19 refund boundary
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) conveys the boundary clearly without sounding hostile or changing the rule. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-19 refund boundary"
   vars:
-    input: 'Rewrite this response to a customer. Tone: empathetic and formal. Keep the fact that the requested refund
-      is outside the return period and offer the stated alternative of store credit review. Do not promise approval.
-      Output exactly 2 sentences and no more than 38 words, with no heading or bullets. Source: "We cannot refund
-      this purchase because the return period has ended. We can review whether store credit is available."'
+    input: "Rewrite this response to a customer. Tone: empathetic and formal. Keep the fact that the requested refund is outside the return period and offer the stated alternative of store credit review. Do not promise approval. Output exactly 2 sentences and no more than 38 words, with no heading or bullets. Source: \"We cannot refund this purchase because the return period has ended. We can review whether store credit is available.\""
   metadata:
     category: writing
     subtype: tone_shift
     difficulty: hard
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3)
-      communicates refusal and the available alternative without sounding dismissive. Score 1 if all met, 0.5 if
-      one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-20 ceramic bowl listing
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        const wordCount = text.split(/\s+/).length;
+        return text.length > 0 && sentenceCount === 2 && wordCount <= 38 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a tone-adjusted message. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) communicates refusal and the available alternative without sounding dismissive. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-20 ceramic bowl listing"
   vars:
-    input: 'Write descriptive copy for a small product listing aimed at home cooks. Tone: clear and inviting. Describe
-      a matte ceramic bowl with a wide rim and a shallow shape; do not invent durability, safety, or performance
-      claims. Output exactly 2 sentences, with no heading or bullets.'
+    input: "Write descriptive copy for a small product listing aimed at home cooks. Tone: clear and inviting. Describe a matte ceramic bowl with a wide rim and a shallow shape; do not invent durability, safety, or performance claims. Output exactly 2 sentences, with no heading or bullets."
   metadata:
     category: writing
     subtype: descriptive_copy
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a descriptive product copy. Criteria: (1) grammatically correct, (2) coherent and on-brief,
-      (3) describes the supplied physical features without inventing performance claims. Score 1 if all met, 0.5
-      if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-21 garden courtyard description
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a descriptive product copy. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) describes the supplied physical features without inventing performance claims. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-21 garden courtyard description"
   vars:
-    input: 'Write a short description for visitors considering a quiet garden courtyard. Audience: general visitors.
-      Tone: calm and welcoming. Mention the stone path, shaded benches, and small fountain. Output exactly 2 sentences,
-      with no heading or bullets.'
+    input: "Write a short description for visitors considering a quiet garden courtyard. Audience: general visitors. Tone: calm and welcoming. Mention the stone path, shaded benches, and small fountain. Output exactly 2 sentences, with no heading or bullets."
   metadata:
     category: writing
     subtype: descriptive_copy
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a descriptive place copy. Criteria: (1) grammatically correct, (2) coherent and on-brief,
-      (3) uses the given physical details and avoids unsupported claims about the place. Score 1 if all met, 0.5
-      if one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-22 reading nook description
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a descriptive place copy. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) uses the given physical details and avoids unsupported claims about the place. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-22 reading nook description"
   vars:
-    input: 'Describe a compact reading nook for a home design catalog. Audience: people furnishing a small room.
-      Tone: practical and warm. Include a low wooden shelf, a soft floor lamp, and a blue upholstered chair. Output
-      exactly 2 sentences, with no heading or bullets.'
+    input: "Describe a compact reading nook for a home design catalog. Audience: people furnishing a small room. Tone: practical and warm. Include a low wooden shelf, a soft floor lamp, and a blue upholstered chair. Output exactly 2 sentences, with no heading or bullets."
   metadata:
     category: writing
     subtype: descriptive_copy
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a descriptive copy. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) connects
-      the supplied visual details into a coherent description without adding facts. Score 1 if all met, 0.5 if one
-      minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-23 why wet floors are slippery
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a descriptive copy. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) connects the supplied visual details into a coherent description without adding facts. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-23 why wet floors are slippery"
   vars:
-    input: 'Explain to a middle school student why wet floors can be slippery. Tone: clear and patient. Use a simple
-      cause-and-effect explanation without adding unrelated advice. Output exactly 2 sentences in one paragraph,
-      with no heading or bullets.'
+    input: "Explain to a middle school student why wet floors can be slippery. Tone: clear and patient. Use a simple cause-and-effect explanation without adding unrelated advice. Output exactly 2 sentences in one paragraph, with no heading or bullets."
   metadata:
     category: writing
     subtype: short_explanatory_paragraph
     difficulty: easy
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a short explanatory paragraph. Criteria: (1) grammatically correct, (2) coherent and on-brief,
-      (3) explains the basic cause and effect accurately and simply. Score 1 if all met, 0.5 if one minor error,
-      0 otherwise.'
-    threshold: 0.5
-- description: WR-24 attic insulation
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a short explanatory paragraph. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) explains the basic cause and effect accurately and simply. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-24 attic insulation"
   vars:
-    input: 'Explain to a new homeowner how attic insulation helps keep a house comfortable. Tone: practical and
-      accessible. Describe how insulation slows heat transfer in both cold and warm conditions. Output exactly 3
-      sentences in one paragraph, with no heading or bullets.'
+    input: "Explain to a new homeowner how attic insulation helps keep a house comfortable. Tone: practical and accessible. Describe how insulation slows heat transfer in both cold and warm conditions. Output exactly 3 sentences in one paragraph, with no heading or bullets."
   metadata:
     category: writing
     subtype: short_explanatory_paragraph
     difficulty: medium
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 3 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a short explanatory paragraph. Criteria: (1) grammatically correct, (2) coherent and on-brief,
-      (3) connects the role of insulation to heat transfer in a coherent explanation. Score 1 if all met, 0.5 if
-      one minor error, 0 otherwise.'
-    threshold: 0.5
-- description: WR-25 correlation and causation
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        return text.length > 0 && sentenceCount === 3 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a short explanatory paragraph. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) connects the role of insulation to heat transfer in a coherent explanation. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
+- description: "WR-25 correlation and causation"
   vars:
-    input: 'Explain to a general audience why two events happening together does not prove that one caused the other.
-      Tone: precise and accessible. Include a simple example involving ice cream sales and warm weather, and make
-      clear that a shared factor can influence both. Output exactly 2 sentences and no more than 42 words in one
-      paragraph, with no heading or bullets.'
+    input: "Explain to a general audience why two events happening together does not prove that one caused the other. Tone: precise and accessible. Include a simple example involving ice cream sales and warm weather, and make clear that a shared factor can influence both. Output exactly 2 sentences and no more than 42 words in one paragraph, with no heading or bullets."
   metadata:
     category: writing
     subtype: short_explanatory_paragraph
     difficulty: hard
   assert:
-  - type: javascript
-    value: |-
-      const text = output.trim();
-      const sentenceCount = (text.match(/[.!?](?=\s|$)/g) || []).length;
-      return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output);
-  - type: llm-rubric
-    value: 'Output is a short explanatory paragraph. Criteria: (1) grammatically correct, (2) coherent and on-brief,
-      (3) distinguishes correlation from causation while explaining the stated observation. Score 1 if all met,
-      0.5 if one minor error, 0 otherwise.'
-    threshold: 0.5
+    - type: javascript
+      value: |-
+        const text = output.trim();
+        const sentenceCount = (text.match(/[.!?]+(?=[\s"'”’)]|$)/g) || []).length;
+        const wordCount = text.split(/\s+/).length;
+        return text.length > 0 && sentenceCount === 2 && wordCount <= 42 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
+    - type: llm-rubric
+      value: "Output is a short explanatory paragraph. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) distinguishes correlation from causation while explaining the stated observation. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      threshold: 0.5
