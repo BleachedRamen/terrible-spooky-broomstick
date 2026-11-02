@@ -71,6 +71,7 @@ defaultTest:
         useDefaultApiKey: false
         showThinking: false
         max_tokens: 16384
+# 16k max tokens is generous for grading, adjust for how verbose your grader is
 ```
 ### Refer to the [Promptfoo Provider Documentation](https://www.promptfoo.dev/docs/providers/) for full configuration options.
 Running Benchmarks
