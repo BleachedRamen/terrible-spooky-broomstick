@@ -1,524 +1,763 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
 - description: 'SU-01 news_report short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """The municipal council of Oakhaven officially approved a $4.2 million infrastructure upgrade designed to replace aging water mains along Elm Street and prevent recurring winter freeze damage. Construction is scheduled to begin on March 14, 2027, and will continue for approximately six months under the supervision of Apex Engineering. Mayor Evelyn Vance announced during Tuesday''s press conference that funding will be split evenly between state resilience grants and municipal bonds, avoiding any immediate property tax hikes for local residents."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the cost ($4.2 million) and start date (March 14, 2027).
+      """The municipal council of Oakhaven officially approved a $4.2 million infrastructure upgrade designed to replace aging water mains along Elm Street and prevent recurring winter freeze damage. Construction is scheduled to begin on March 14, 2027, and will continue for approximately six months under the supervision of Apex Engineering. Mayor Evelyn Vance announced during Tuesday's press conference that funding will be split evenly between state resilience grants and municipal bonds, avoiding any immediate property tax hikes for local residents."""
   metadata:
     category: summarization
     subtype: news_report
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['$4.2 million', '4.2 million dollars']
     - type: icontains-any
       value: ['March 14, 2027', 'March 14 2027']
     - type: not-icontains
-      value: bridge
+      value: 'bridge'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-02 news_report short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """A brushfire swept through 1,250 acres of brushland near Clearwater Canyon before volunteer firefighters achieved 85% containment late Thursday evening. High winds gusting up to 45 miles per hour complicated initial air drops, prompting mandatory evacuations for three rural townships. Chief Marcus Thorne reported zero structural losses and no serious injuries thanks to rapid community notification protocols implemented by county emergency dispatchers."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the burned area (1,250 acres) and wind speeds (45 miles per hour).
+      """A brushfire swept through 1,250 acres of brushland near Clearwater Canyon before volunteer firefighters achieved 85% containment late Thursday evening. High winds gusting up to 45 miles per hour complicated initial air drops, prompting mandatory evacuations for three rural townships. Chief Marcus Thorne reported zero structural losses and no serious injuries thanks to rapid community notification protocols implemented by county emergency dispatchers."""
   metadata:
     category: summarization
     subtype: news_report
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['1,250 acres', 'twelve hundred fifty acres']
     - type: icontains-any
       value: ['45 miles per hour', '45 mph']
     - type: not-icontains
-      value: hurricane
+      value: 'hurricane'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-03 news_report short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """In an unprecedented corporate restructuring, Meridian Logistics announced the acquisition of regional rival SwiftFreight for $85 million in cash and stock. The merger consolidates a fleet of 400 freight vehicles across 12 distribution hubs in the Midwest. CEO Sarah Jenkins stated that integration will conclude by the fourth quarter of 2028, despite initial antitrust scrutiny from federal regulators who questioned market dominance in cold-chain storage. Meanwhile, competitor Apex Shipping reported record quarterly revenues of $12 million."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the acquisition cost ($85 million) and fleet size (400 freight vehicles).
+      """In an unprecedented corporate restructuring, Meridian Logistics announced the acquisition of regional rival SwiftFreight for $85 million in cash and stock. The merger consolidates a fleet of 400 freight vehicles across 12 distribution hubs in the Midwest. CEO Sarah Jenkins stated that integration will conclude by the fourth quarter of 2028, despite initial antitrust scrutiny from federal regulators who questioned market dominance in cold-chain storage. Meanwhile, competitor Apex Shipping reported record quarterly revenues of $12 million."""
   metadata:
     category: summarization
     subtype: news_report
     difficulty: hard
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['$85 million', '85 million dollars']
     - type: icontains-any
       value: ['400 freight vehicles', '400 vehicles']
     - type: not-icontains
-      value: bankruptcy
+      value: 'bankruptcy'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-04 news_report short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """The historic Harbor Bridge closed to vehicular traffic for twelve hours on Saturday for routine structural cable inspections. Lead inspector David Sterling confirmed that minor surface corrosion was detected on span section 4, requiring localized reinforcement welds scheduled for next month. Public transit buses were rerouted via the tunnel expressway, resulting in minimal commuter delays across the metropolitan area."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the closure duration (twelve hours) and the affected location (span section 4).
+      """The historic Harbor Bridge closed to vehicular traffic for twelve hours on Saturday for routine structural cable inspections. Lead inspector David Sterling confirmed that minor surface corrosion was detected on span section 4, requiring localized reinforcement welds scheduled for next month. Public transit buses were rerouted via the tunnel expressway, resulting in minimal commuter delays across the metropolitan area."""
   metadata:
     category: summarization
     subtype: news_report
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['twelve hours', '12 hours']
     - type: icontains-any
       value: ['span section 4', 'section 4']
     - type: not-icontains
-      value: earthquake
+      value: 'earthquake'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-05 news_report short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Global tech manufacturer Horizon Electronics unveiled its new zero-emission assembly plant in Valencia, Spain, representing a 300 million euro capital investment. The facility operates entirely on rooftop solar arrays and geothermal energy, targeting full carbon neutrality by 2030. Managing Director Elena Rossi noted that the plant will employ 650 specialized technicians recruited from local vocational institutes."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the investment amount (300 million euro) and the number of technicians (650 specialized technicians).
+      """Global tech manufacturer Horizon Electronics unveiled its new zero-emission assembly plant in Valencia, Spain, representing a 300 million euro capital investment. The facility operates entirely on rooftop solar arrays and geothermal energy, targeting full carbon neutrality by 2030. Managing Director Elena Rossi noted that the plant will employ 650 specialized technicians recruited from local vocational institutes."""
   metadata:
     category: summarization
     subtype: news_report
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['300 million euro', '300 million euros']
     - type: icontains-any
       value: ['650 specialized technicians', '650 technicians']
     - type: not-icontains
-      value: bankruptcy
+      value: 'bankruptcy'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-06 news_report short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Following months of stakeholder negotiations, the Department of Wildlife reopened the Pine Ridge Nature Reserve to eco-tourists, capping daily visitor permits at 250 individuals. Conservation officer Liam Gallagher explained that the temporary closure allowed local wolf populations to stabilize following a severe mange outbreak. Concurrently, neighboring landowners received $150,000 in federal grants to construct predator-proof fencing for livestock protection. State tourism boards project a 15% rebound in regional lodging bookings."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the daily permit limit (250 individuals) and the grant amount ($150,000).
+      """Following months of stakeholder negotiations, the Department of Wildlife reopened the Pine Ridge Nature Reserve to eco-tourists, capping daily visitor permits at 250 individuals. Conservation officer Liam Gallagher explained that the temporary closure allowed local wolf populations to stabilize following a severe mange outbreak. Concurrently, neighboring landowners received $150,000 in federal grants to construct predator-proof fencing for livestock protection. State tourism boards project a 15% rebound in regional lodging bookings."""
   metadata:
     category: summarization
     subtype: news_report
     difficulty: hard
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['250 individuals', '250 permits']
     - type: icontains-any
       value: ['$150,000', '150000 dollars']
     - type: not-icontains
-      value: volcano
+      value: 'volcano'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-07 news_report short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """A sudden maritime storm off the coast of Cape Hatteras grounded a cargo vessel carrying 500 containers of consumer electronics. Coast Guard cutter Heron deployed rescue swimmers to airlift the 22-member crew to safety before hull breaches occurred. Salvage operations are slated to commence on Monday morning under calm weather forecasts."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the cargo quantity (500 containers) and crew size (22-member crew).
+      """A sudden maritime storm off the coast of Cape Hatteras grounded a cargo vessel carrying 500 containers of consumer electronics. Coast Guard cutter Heron deployed rescue swimmers to airlift the 22-member crew to safety before hull breaches occurred. Salvage operations are slated to commence on Monday morning under calm weather forecasts."""
   metadata:
     category: summarization
     subtype: news_report
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['500 containers', 'five hundred containers']
     - type: icontains-any
       value: ['22-member crew', '22 crew members']
     - type: not-icontains
-      value: submarine
+      value: 'submarine'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-08 technical_explainer short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Photovoltaic solar panels convert sunlight into electricity by utilizing semiconductor materials such as silicon that exhibit the photoelectric effect. When photons strike the cell surface, they knock electrons free from their atomic bonds, generating an electrical current. Standard commercial panels operate at an average efficiency rating of 21 percent under optimal daylight exposure."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the underlying principle (photoelectric effect) and average efficiency (21 percent).
+      """Photovoltaic solar panels convert sunlight into electricity by utilizing semiconductor materials such as silicon that exhibit the photoelectric effect. When photons strike the cell surface, they knock electrons free from their atomic bonds, generating an electrical current. Standard commercial panels operate at an average efficiency rating of 21 percent under optimal daylight exposure."""
   metadata:
     category: summarization
     subtype: technical_explainer
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['photoelectric effect', 'photo-electric effect']
     - type: icontains-any
       value: ['21 percent', '21%']
     - type: not-icontains
-      value: turbine
+      value: 'turbine'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-09 technical_explainer short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Asymmetric cryptography relies on key pairs consisting of a public key for encryption and a private key for decryption. Algorithms like RSA utilize the computational difficulty of factoring large prime numbers to secure data transmission across untrusted networks. Digital certificates issued by trusted certificate authorities bind public keys to verified organizational identities, mitigating man-in-the-middle interception risks."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning asymmetric cryptography and the RSA algorithm.
+      """Asymmetric cryptography relies on key pairs consisting of a public key for encryption and a private key for decryption. Algorithms like RSA utilize the computational difficulty of factoring large prime numbers to secure data transmission across untrusted networks. Digital certificates issued by trusted certificate authorities bind public keys to verified organizational identities, mitigating man-in-the-middle interception risks."""
   metadata:
     category: summarization
     subtype: technical_explainer
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['asymmetric cryptography', 'public-key cryptography']
     - type: icontains-any
       value: ['RSA', 'Rivest-Shamir-Adleman']
-    - type: not-icontains
-      value: symmetric
+    - type: not-regex
+      value: '(?<![aA])[sS]ymmetric'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-10 technical_explainer short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Lithium-ion battery degradation is primarily driven by solid electrolyte interphase layer growth and lithium plating during high-rate charging cycles. Operating temperatures exceeding 45 degrees Celsius accelerate thermal runaway risks and permanent capacity loss. Researchers at Quantum Labs recently developed a ceramic separator coating that extends cycle life by 40 percent while maintaining low internal resistance across 2,000 continuous charge iterations."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the operating temperature limit (45 degrees Celsius) and cycle life extension (40 percent).
+      """Lithium-ion battery degradation is primarily driven by solid electrolyte interphase layer growth and lithium plating during high-rate charging cycles. Operating temperatures exceeding 45 degrees Celsius accelerate thermal runaway risks and permanent capacity loss. Researchers at Quantum Labs recently developed a ceramic separator coating that extends cycle life by 40 percent while maintaining low internal resistance across 2,000 continuous charge iterations."""
   metadata:
     category: summarization
     subtype: technical_explainer
     difficulty: hard
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['45 degrees Celsius', '45°C']
     - type: icontains-any
       value: ['40 percent', '40%']
     - type: not-icontains
-      value: magnetic
+      value: 'magnetic'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-11 technical_explainer short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Database indexing speeds up data retrieval operations at the cost of slower write performance and increased storage space. B-tree indexes maintain sorted data structures that allow search algorithms to locate records in logarithmic time complexity. Relational database management systems automatically generate primary key indexes upon table creation."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning B-tree indexes and logarithmic time complexity.
+      """Database indexing speeds up data retrieval operations at the cost of slower write performance and increased storage space. B-tree indexes maintain sorted data structures that allow search algorithms to locate records in logarithmic time complexity. Relational database management systems automatically generate primary key indexes upon table creation."""
   metadata:
     category: summarization
     subtype: technical_explainer
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['B-tree indexes', 'B-tree']
     - type: icontains-any
       value: ['logarithmic time complexity', 'logarithmic time']
     - type: not-icontains
-      value: hash
+      value: 'hash'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-12 technical_explainer short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Cloud computing resource elasticity allows virtual server instances to scale horizontally and vertically based on real-time traffic demand. Load balancers distribute incoming network requests across multiple backend nodes to prevent server overload and single points of failure. Automated scaling policies configured in Kubernetes clusters spin up new container pods whenever CPU utilization exceeds 80 percent for more than five minutes."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning Kubernetes clusters and the 80 percent CPU utilization threshold.
+      """Cloud computing resource elasticity allows virtual server instances to scale horizontally and vertically based on real-time traffic demand. Load balancers distribute incoming network requests across multiple backend nodes to prevent server overload and single points of failure. Automated scaling policies configured in Kubernetes clusters spin up new container pods whenever CPU utilization exceeds 80 percent for more than five minutes."""
   metadata:
     category: summarization
     subtype: technical_explainer
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['Kubernetes clusters', 'Kubernetes']
     - type: icontains-any
       value: ['80 percent', '80%']
     - type: not-icontains
-      value: mainframe
+      value: 'mainframe'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-13 technical_explainer short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Machine learning model overfitting occurs when a neural network memorizes training set noise rather than learning generalizable underlying patterns. Regularization techniques such as L2 weight decay and dropout layers randomly deactivate 20 percent of hidden neurons during training iterations to improve validation accuracy. Meanwhile, gradient descent optimizers update network weights using mini-batches of 64 data samples per step."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the 20 percent neuron deactivation rate and mini-batches of 64 data samples.
+      """Machine learning model overfitting occurs when a neural network memorizes training set noise rather than learning generalizable underlying patterns. Regularization techniques such as L2 weight decay and dropout layers randomly deactivate 20 percent of hidden neurons during training iterations to improve validation accuracy. Meanwhile, gradient descent optimizers update network weights using mini-batches of 64 data samples per step."""
   metadata:
     category: summarization
     subtype: technical_explainer
     difficulty: hard
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['20 percent', '20%']
     - type: icontains-any
       value: ['64 data samples', 'batch size of 64']
     - type: not-icontains
-      value: unsupervised
+      value: 'unsupervised'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-14 narrative short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Clara walked along the cobblestone path of her grandfather''s orchard, collecting fallen autumn apples in a wicker basket. For over forty years, Arthur tended these heirloom Honeycrisp trees without chemical pesticides or automated irrigation systems. As the afternoon sun dipped below the distant hills, she realized that preserving the orchard''s heritage was her true calling."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the collection of autumn apples and the forty years Arthur tended the orchard.
+      """Clara walked along the cobblestone path of her grandfather's orchard, collecting fallen autumn apples in a wicker basket. For over forty years, Arthur tended these heirloom Honeycrisp trees without chemical pesticides or automated irrigation systems. As the afternoon sun dipped below the distant hills, she realized that preserving the orchard's heritage was her true calling."""
   metadata:
     category: summarization
     subtype: narrative
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['autumn apples', 'apples']
     - type: icontains-any
       value: ['forty years', '40 years']
     - type: not-icontains
-      value: winter
+      value: 'winter'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-15 narrative short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Detective Vance examined the dusty study of the Victorian manor, noticing a displaced painting on the mahogany wall. Behind the hinged artwork rested a hidden wall safe containing three velvet-lined jewelry boxes and a handwritten ledger dated October 1912. The butler nervously admitted he had polished the brass frame only hours before the midnight blackout."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the three velvet-lined jewelry boxes and the October 1912 ledger found in the safe.
+      """Detective Vance examined the dusty study of the Victorian manor, noticing a displaced painting on the mahogany wall. Behind the hinged artwork rested a hidden wall safe containing three velvet-lined jewelry boxes and a handwritten ledger dated October 1912. The butler nervously admitted he had polished the brass frame only hours before the midnight blackout."""
   metadata:
     category: summarization
     subtype: narrative
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['October 1912', 'October 1912 ledger']
     - type: icontains-any
       value: ['three velvet-lined jewelry boxes', 'three jewelry boxes']
     - type: not-icontains
-      value: digital
+      value: 'digital'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-16 narrative short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Aboard the research vessel Nautilus, marine biologist Dr. Aris Thorne recorded hydrophone frequencies at a depth of 3,500 meters in the Mariana Trench. A distinct harmonic vibration lasting precisely 42 seconds echoed across the sonar display, defying known biological or geological explanations. First Mate Maya Lin secured backup data logs onto encrypted solid-state drives before surface weather deteriorated into gale-force squalls."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the depth of 3,500 meters and the vibration lasting 42 seconds.
+      """Aboard the research vessel Nautilus, marine biologist Dr. Aris Thorne recorded hydrophone frequencies at a depth of 3,500 meters in the Mariana Trench. A distinct harmonic vibration lasting precisely 42 seconds echoed across the sonar display, defying known biological or geological explanations. First Mate Maya Lin secured backup data logs onto encrypted solid-state drives before surface weather deteriorated into gale-force squalls."""
   metadata:
     category: summarization
     subtype: narrative
     difficulty: hard
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['3,500 meters', 'three thousand five hundred meters']
     - type: icontains-any
       value: ['42 seconds', 'forty-two seconds']
     - type: not-icontains
-      value: spacecraft
+      value: 'spacecraft'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-17 narrative short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """At dawn, baker Julian kneaded sourdough dough on his scarred maple workbench before preheating the stone hearth oven to 450 degrees Fahrenheit. Regular customers queued outside the glass storefront, drawn by the warm aroma of freshly baked cinnamon pastries and rustic loaves. By 9:00 AM, every single item on the display shelf was completely sold out."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the oven temperature of 450 degrees Fahrenheit and the 9:00 AM sellout.
+      """At dawn, baker Julian kneaded sourdough dough on his scarred maple workbench before preheating the stone hearth oven to 450 degrees Fahrenheit. Regular customers queued outside the glass storefront, drawn by the warm aroma of freshly baked cinnamon pastries and rustic loaves. By 9:00 AM, every single item on the display shelf was completely sold out."""
   metadata:
     category: summarization
     subtype: narrative
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['450 degrees Fahrenheit', '450°F']
     - type: icontains-any
       value: ['9:00 AM', 'nine in the morning']
     - type: not-icontains
-      value: evening
+      value: 'evening'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-18 email_or_dialogue short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """From: project.lead@apexcorp.com\nTo: engineering-team@apexcorp.com\nSubject: Q3 Release Schedule Update\n\nHi team, please note that the upcoming software deployment has been rescheduled to Friday, August 22, due to pending security audit clearances. QA lead Marcus confirmed that all critical bug fixes have passed regression testing successfully. Let me know if you encounter any blockers during staging verification."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the rescheduled deployment date of Friday, August 22, and QA lead Marcus.
+      """From: project.lead@apexcorp.com
+      To: engineering-team@apexcorp.com
+      Subject: Q3 Release Schedule Update
+
+      Hi team, please note that the upcoming software deployment has been rescheduled to Friday, August 22, due to pending security audit clearances. QA lead Marcus confirmed that all critical bug fixes have passed regression testing successfully. Let me know if you encounter any blockers during staging verification."""
   metadata:
     category: summarization
     subtype: email_or_dialogue
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['Friday, August 22', 'August 22']
     - type: icontains-any
       value: ['QA lead Marcus', 'Marcus']
     - type: not-icontains
-      value: Wednesday
+      value: 'Wednesday'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-19 email_or_dialogue short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Customer Support Agent: Thank you for calling Zenith Telecom, how may I assist you today?\nClient: My fiber-optic internet connection dropped completely yesterday evening around 8 PM, and my router status light is flashing red.\nCustomer Support Agent: I see that system maintenance was performed in your neighborhood last night; let me reboot your port remotely right now to restore service within five minutes."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the 8 PM outage and the restoration within five minutes.
+      """Customer Support Agent: Thank you for calling Zenith Telecom, how may I assist you today?
+      Client: My fiber-optic internet connection dropped completely yesterday evening around 8 PM, and my router status light is flashing red.
+      Customer Support Agent: I see that system maintenance was performed in your neighborhood last night; let me reboot your port remotely right now to restore service within five minutes."""
   metadata:
     category: summarization
     subtype: email_or_dialogue
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['8 PM', 'eight in the evening']
     - type: icontains-any
       value: ['five minutes', '5 minutes']
     - type: not-icontains
-      value: broadband
+      value: 'broadband'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-20 email_or_dialogue short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """From: hr@nexusventures.org\nTo: cfo@nexusventures.org\nSubject: Office Relocation Budget Approval Request\n\nDear Chief Financial Officer, our lease renewal negotiations for the downtown headquarters concluded with a proposed 12 percent rent increase starting next quarter. To offset this overhead, facility manager Elena proposed relocating our secondary accounting office to the Westside branch, saving approximately $60,000 annually. Please review the attached spreadsheet by Thursday noon so we can finalize the moving contracts."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the 12 percent rent increase and the projected $60,000 annual savings.
+      """From: hr@nexusventures.org
+      To: cfo@nexusventures.org
+      Subject: Office Relocation Budget Approval Request
+
+      Dear Chief Financial Officer, our lease renewal negotiations for the downtown headquarters concluded with a proposed 12 percent rent increase starting next quarter. To offset this overhead, facility manager Elena proposed relocating our secondary accounting office to the Westside branch, saving approximately $60,000 annually. Please review the attached spreadsheet by Thursday noon so we can finalize the moving contracts."""
   metadata:
     category: summarization
     subtype: email_or_dialogue
     difficulty: hard
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['12 percent', 'twelve percent']
     - type: icontains-any
       value: ['$60,000', 'sixty thousand dollars']
     - type: not-icontains
-      value: bonus
+      value: 'bonus'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-21 email_or_dialogue short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Manager: Welcome to your first day at Horizon Logistics, Maya. Your shift runs from 8:00 AM to 4:00 PM in fulfillment zone B.\nEmployee: Thank you, I am excited to get started. Should I complete the safety training module before heading to the warehouse floor?\nManager: Yes, please finish the online safety quiz on terminal 4 before putting on your high-visibility vest."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the 8:00 AM to 4:00 PM shift and terminal 4.
+      """Manager: Welcome to your first day at Horizon Logistics, Maya. Your shift runs from 8:00 AM to 4:00 PM in fulfillment zone B.
+      Employee: Thank you, I am excited to get started. Should I complete the safety training module before heading to the warehouse floor?
+      Manager: Yes, please finish the online safety quiz on terminal 4 before putting on your high-visibility vest."""
   metadata:
     category: summarization
     subtype: email_or_dialogue
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['8:00 AM to 4:00 PM', '8 AM to 4 PM']
     - type: icontains-any
       value: ['terminal 4', 'terminal four']
     - type: not-icontains
-      value: night
+      value: 'night'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-22 data_heavy short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """During the third quarter fiscal review, Apex Retail reported total gross revenues of $14.5 million, representing an 18 percent year-over-year increase. Online e-commerce sales accounted for 65 percent of total transactions, while brick-and-mortar storefronts experienced a 4 percent foot-traffic decline. Operating expenses remained stable at $9.2 million across all regional divisions."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the $14.5 million in gross revenues and the 18 percent increase.
+      """During the third quarter fiscal review, Apex Retail reported total gross revenues of $14.5 million, representing an 18 percent year-over-year increase. Online e-commerce sales accounted for 65 percent of total transactions, while brick-and-mortar storefronts experienced a 4 percent foot-traffic decline. Operating expenses remained stable at $9.2 million across all regional divisions."""
   metadata:
     category: summarization
     subtype: data_heavy
     difficulty: easy
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['$14.5 million', 'fourteen point five million dollars']
     - type: icontains-any
       value: ['18 percent', 'eighteen percent']
     - type: not-icontains
-      value: decrease
+      value: 'decrease'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-23 data_heavy short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """A comprehensive energy audit of municipal buildings in Cedar City revealed total annual electricity consumption of 14,200 megawatt-hours across 45 public facilities. Public schools represented 50 percent of total usage, followed by municipal water treatment plants at 30 percent. Implementing LED lighting retrofits and smart thermostats is projected to reduce overall consumption by 22 percent by the end of next year."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the total electricity consumption of 14,200 megawatt-hours and that public schools accounted for 50 percent.
+      """A comprehensive energy audit of municipal buildings in Cedar City revealed total annual electricity consumption of 14,200 megawatt-hours across 45 public facilities. Public schools represented 50 percent of total usage, followed by municipal water treatment plants at 30 percent. Implementing LED lighting retrofits and smart thermostats is projected to reduce overall consumption by 22 percent by the end of next year."""
   metadata:
     category: summarization
     subtype: data_heavy
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['14,200 megawatt-hours', 'fourteen thousand two hundred megawatt-hours']
     - type: icontains-any
       value: ['50 percent', 'half']
     - type: not-icontains
-      value: gas
+      value: 'gas'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-24 data_heavy short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Clinical trial metrics for pharmaceutical compound RX-904 evaluated 1,200 adult participants over a 24-week intervention period. Patients receiving the 50 milligrams active dosage exhibited a 78 percent reduction in primary symptom markers compared to the placebo cohort. Adverse side effects were reported by 8 percent of participants, leading to 15 trial discontinuations due to mild gastrointestinal discomfort."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the 1,200 adult participants and the 78 percent reduction in primary symptoms.
+      """Clinical trial metrics for pharmaceutical compound RX-904 evaluated 1,200 adult participants over a 24-week intervention period. Patients receiving the 50 milligrams active dosage exhibited a 78 percent reduction in primary symptom markers compared to the placebo cohort. Adverse side effects were reported by 8 percent of participants, leading to 15 trial discontinuations due to mild gastrointestinal discomfort."""
   metadata:
     category: summarization
     subtype: data_heavy
     difficulty: hard
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['1,200 adult participants', 'twelve hundred participants']
     - type: icontains-any
       value: ['78 percent', 'seventy-eight percent']
     - type: not-icontains
-      value: vaccine
+      value: 'vaccine'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
 
 - description: 'SU-25 data_heavy short label'
   vars:
-    input: 'Summarize the text between the triple quotes in at most 2 sentences.
-      """Municipal traffic sensors recorded an average daily volume of 35,500 vehicles along Interstate 94 during the month of October. Peak congestion occurred between 7:30 AM and 9:00 AM, with average speeds dropping to 22 miles per hour. Heavy freight trucks comprised 15 percent of total vehicle counts during overnight hours."""'
+    input: |-
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, mentioning the average volume of 35,500 vehicles and the peak congestion speed of 22 miles per hour.
+      """Municipal traffic sensors recorded an average daily volume of 35,500 vehicles along Interstate 94 during the month of October. Peak congestion occurred between 7:30 AM and 9:00 AM, with average speeds dropping to 22 miles per hour. Heavy freight trucks comprised 15 percent of total vehicle counts during overnight hours."""
   metadata:
     category: summarization
     subtype: data_heavy
     difficulty: medium
   assert:
     - type: javascript
-      value: output.trim().split(/\s+/).length <= 40 && output.trim().split(/[.!?]+/).filter(Boolean).length <= 2
+      value: |
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        const sentences = text
+          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
+          .split(/(?<=[.!?])\s+/)
+          .filter(Boolean).length;
+        return words <= 40 && sentences <= 2;
     - type: icontains-any
       value: ['35,500 vehicles', 'thirty-five thousand five hundred vehicles']
     - type: icontains-any
       value: ['22 miles per hour', '22 mph']
     - type: not-icontains
-      value: bicycle
+      value: 'bicycle'
     - type: llm-rubric
-      value: The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.
+      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
       threshold: 0.5
