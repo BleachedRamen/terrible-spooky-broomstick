@@ -45,21 +45,32 @@ You can point to local inference engines (like Ollama, LM Studio, or vLLM via an
 \
 Example promptfooconfig.yaml snippet pointing to a local openai endpoint(llama.cpp):
 ```
+# The model you are testing/intending to test.
 providers:
-  - id: openai:chat:LFM2.5-8B-A1B-MoE
+  - id: http://localhost:9931/v1/chat/completions
+    label: Qwen3.5-2B
     config:
-      apiBaseUrl: http://localhost:9931/v1
-      apiKeyRequired: false
-      useDefaultApiKey: false
+      method: POST
+      headers:
+        Content-Type: application/json
+      body:
+        model: Qwen3.5-2B
+        messages:
+          - role: user
+            content: '{{prompt}}'
+      transformResponse: json.choices[0].message.content
 
+# This model MUST be smart and capable of outputting consistient JSON.
 defaultTest:
   options:
     provider:
-      id: openai:chat:Gemma-4-26B-QAT-IT
+      id: openai:chat:Gemma-4-Basic
       config:
-        apiBaseUrl: http://localhost:9931/v1
+        apiBaseUrl: http://localhost:9932/v1
         apiKeyRequired: false
         useDefaultApiKey: false
+        showThinking: false
+        max_tokens: 16384
 ```
 ### Refer to the [Promptfoo Provider Documentation](https://www.promptfoo.dev/docs/providers/) for full configuration options.
 Running Benchmarks
