@@ -1,12 +1,6 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
 # instruction_following.yaml — 25 tests, all deterministic (no llm-rubric).
-# Usage in promptfooconfig.yaml:
-#   prompts:
-#     - '{{input}}'
-#   tests: file://instruction_following.yaml
-# Note: defaultTest in promptfooconfig.yaml still applies (e.g. its llm-rubric).
-# Written by Gemini 3.8 Flash, Formatted by Claude Sonnet 5.5
- 
+
 # ---------- word_count ----------
 - description: 'IF-01 exact word count 12'
   vars:
@@ -19,8 +13,8 @@
       - exactly 12 whitespace-separated words
   assert:
     - type: javascript
-      value: 'output.trim().split(/\s+/).length === 12'
- 
+      value: 'output.normalize("NFKC").trim().split(/\s+/).length === 12'
+
 - description: 'IF-02 maximum word count 8'
   vars:
     input: 'Give one tip for saving energy at home. Use no more than 8 words.'
@@ -33,8 +27,8 @@
       - at most 8 words
   assert:
     - type: javascript
-      value: 'output.trim().length > 0 && output.trim().split(/\s+/).length <= 8'
- 
+      value: 'output.normalize("NFKC").trim().length > 0 && output.normalize("NFKC").trim().split(/\s+/).length <= 8'
+
 - description: 'IF-03 minimum word count 20'
   vars:
     input: 'Explain why birds migrate during the autumn season. Your response must contain at least 20 words.'
@@ -46,8 +40,8 @@
       - at least 20 words
   assert:
     - type: javascript
-      value: 'output.trim().split(/\s+/).length >= 20'
- 
+      value: 'output.normalize("NFKC").trim().split(/\s+/).length >= 20'
+
 # ---------- sentence_count ----------
 - description: 'IF-04 exact sentence count 1'
   vars:
@@ -60,8 +54,8 @@
       - exactly 1 sentence (split on whitespace after . ! ?)
   assert:
     - type: javascript
-      value: 'output.trim().length > 0 && output.trim().split(/(?<=[.!?])\s+/).length === 1'
- 
+      value: 'output.normalize("NFKC").trim().length > 0 && output.normalize("NFKC").trim().split(/(?<=[.!?])\s+/).length === 1'
+
 - description: 'IF-05 exact sentence count 2'
   vars:
     input: 'Explain how bicycles stay upright when moving. Write exactly 2 sentences.'
@@ -73,8 +67,8 @@
       - exactly 2 sentences
   assert:
     - type: javascript
-      value: 'output.trim().split(/(?<=[.!?])\s+/).length === 2'
- 
+      value: 'output.normalize("NFKC").trim().split(/(?<=[.!?])\s+/).length === 2'
+
 - description: 'IF-06 exact sentence count 3'
   vars:
     input: 'Write exactly 3 sentences about trains and how they travel.'
@@ -86,8 +80,8 @@
       - exactly 3 sentences
   assert:
     - type: javascript
-      value: 'output.trim().split(/(?<=[.!?])\s+/).length === 3'
- 
+      value: 'output.normalize("NFKC").trim().split(/(?<=[.!?])\s+/).length === 3'
+
 # ---------- forbidden_word_or_letter ----------
 - description: 'IF-07 forbidden letter z'
   vars:
@@ -104,7 +98,7 @@
       value: '[zZ]'
     - type: javascript
       value: 'output.trim().length > 0'
- 
+
 - description: 'IF-08 forbidden word delicious'
   vars:
     input: 'Write a short positive review of a bakery. Do not use the word "delicious" anywhere in your response.'
@@ -120,7 +114,7 @@
       value: 'delicious'
     - type: javascript
       value: 'output.trim().length > 0'
- 
+
 # ---------- required_word_or_phrase ----------
 - description: 'IF-09 required phrase spaced repetition'
   vars:
@@ -132,9 +126,9 @@
     requirements:
       - contains "spaced repetition" (case-insensitive)
   assert:
-    - type: icontains
-      value: 'spaced repetition'
- 
+    - type: regex
+      value: 'spaced\s+repetition'
+
 - description: 'IF-10 required word lantern twice'
   vars:
     input: 'Write a brief description of a dark campsite. Include the word "lantern" exactly twice.'
@@ -147,7 +141,7 @@
   assert:
     - type: javascript
       value: '(output.toLowerCase().match(/\blantern\b/g) || []).length === 2'
- 
+
 # ---------- start_end_text ----------
 - description: 'IF-11 start text Announcement:'
   vars:
@@ -160,8 +154,8 @@
       - first characters are "Announcement:" (leading whitespace ignored)
   assert:
     - type: javascript
-      value: 'output.trim().startsWith("Announcement:")'
- 
+      value: 'output.normalize("NFKC").trim().startsWith("Announcement:")'
+
 - description: 'IF-12 end text Stay safe on the trail!'
   vars:
     input: 'Share safety advice for hiking in the mountains. Your response must end with "Stay safe on the trail!"'
@@ -173,8 +167,8 @@
       - last characters are "Stay safe on the trail!" (trailing whitespace ignored)
   assert:
     - type: javascript
-      value: 'output.trim().endsWith("Stay safe on the trail!")'
- 
+      value: 'output.normalize("NFKC").trim().endsWith("Stay safe on the trail!")'
+
 - description: 'IF-13 start Dear team and end Regards'
   vars:
     input: 'Write a short message to colleagues about upcoming maintenance. Begin with "Dear team," and end with "Regards."'
@@ -187,10 +181,10 @@
       - ends with "Regards."
   assert:
     - type: javascript
-      value: 'output.trim().startsWith("Dear team,")'
+      value: 'output.normalize("NFKC").trim().startsWith("Dear team,")'
     - type: javascript
-      value: 'output.trim().endsWith("Regards.")'
- 
+      value: 'output.normalize("NFKC").trim().endsWith("Regards.")'
+
 # ---------- format_list ----------
 - description: 'IF-14 format list 3 bullet points'
   vars:
@@ -204,8 +198,8 @@
       - every non-blank line starts with "- "
   assert:
     - type: javascript
-      value: '((l) => l.length === 3 && l.every(s => s.startsWith("- ")))(output.trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
- 
+      value: '((l) => l.length === 3 && l.every(s => s.startsWith("- ")))(output.normalize("NFKC").trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
+
 - description: 'IF-15 format list 4 bullet points'
   vars:
     input: 'Name 4 items commonly found in a pencil case. Reply with exactly 4 bullet points, each starting with "- ".'
@@ -218,8 +212,8 @@
       - every non-blank line starts with "- "
   assert:
     - type: javascript
-      value: '((l) => l.length === 4 && l.every(s => s.startsWith("- ")))(output.trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
- 
+      value: '((l) => l.length === 4 && l.every(s => s.startsWith("- ")))(output.normalize("NFKC").trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
+
 - description: 'IF-16 format list 5 numbered steps'
   vars:
     input: 'List 5 steps to brew hot tea. Number each item sequentially from 1 to 5, with each step on a new line starting with "1. ", "2. ", and so on.'
@@ -232,8 +226,8 @@
       - line N starts with "N. " for N = 1..5
   assert:
     - type: javascript
-      value: '((l) => l.length === 5 && l.every((s, i) => s.startsWith((i + 1) + ". ")))(output.trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
- 
+      value: '((l) => l.length === 5 && l.every((s, i) => s.startsWith((i + 1) + ". ")))(output.normalize("NFKC").trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
+
 # ---------- case_format ----------
 - description: 'IF-17 case format lowercase'
   vars:
@@ -248,7 +242,7 @@
   assert:
     - type: javascript
       value: 'output === output.toLowerCase() && /[a-z]/.test(output)'
- 
+
 - description: 'IF-18 case format uppercase'
   vars:
     input: 'Write an emergency alert warning residents about flash flooding. Write your entire response in ALL CAPS with no lowercase letters.'
@@ -262,7 +256,7 @@
   assert:
     - type: javascript
       value: 'output === output.toUpperCase() && /[A-Z]/.test(output)'
- 
+
 # ---------- output_only ----------
 - description: 'IF-19 output only single word'
   vars:
@@ -277,9 +271,9 @@
   assert:
     - type: regex
       value: '^\s*[A-Za-z]+\s*$'
-    - type: icontains
-      value: 'nitrogen'
- 
+    - type: regex
+      value: '[nN]itrogen'
+
 - description: 'IF-20 output only single number'
   vars:
     input: 'How many minutes are in one hour? Reply with the single number only, no words and no punctuation.'
@@ -292,10 +286,8 @@
       - value is 60
   assert:
     - type: regex
-      value: '^\s*\d+\s*$'
-    - type: javascript
-      value: 'output.trim() === "60"'
- 
+      value: '^\s*60\s*$'
+
 # ---------- combination ----------
 - description: 'IF-21 combination word count and forbidden letter'
   vars:
@@ -307,14 +299,12 @@
     requirements:
       - exactly 10 words
       - no "z" or "Z"
-    compliant_sample: 'Tall green pine trees grow quietly across the damp soil.'
-    non_compliant_sample: 'A buzzing breeze blows softly through the quiet misty morning forest.'
   assert:
     - type: javascript
-      value: 'output.trim().split(/\s+/).length === 10'
+      value: 'output.normalize("NFKC").trim().split(/\s+/).length === 10'
     - type: not-regex
       value: '[zZ]'
- 
+
 - description: 'IF-22 combination uppercase and word count'
   vars:
     input: 'Issue an urgent warning to evacuate a building. Write entirely in ALL CAPS and use no more than 8 words.'
@@ -325,14 +315,12 @@
     requirements:
       - no lowercase characters
       - at most 8 words
-    compliant_sample: 'EVACUATE THE BUILDING IMMEDIATELY THROUGH NEAREST EXIT!'
-    non_compliant_sample: 'Please evacuate the building immediately through the nearest marked fire exit right now.'
   assert:
     - type: javascript
       value: 'output === output.toUpperCase() && /[A-Z]/.test(output)'
     - type: javascript
-      value: 'output.trim().length > 0 && output.trim().split(/\s+/).length <= 8'
- 
+      value: 'output.normalize("NFKC").trim().length > 0 && output.normalize("NFKC").trim().split(/\s+/).length <= 8'
+
 - description: 'IF-23 combination bullet list and forbidden word'
   vars:
     input: 'List 3 ways to reduce household waste. Reply with exactly 3 bullet points, each starting with "- ", and do not use the word "plastic" anywhere in your response.'
@@ -343,14 +331,12 @@
     requirements:
       - exactly 3 non-blank lines, each starting with "- "
       - does not contain "plastic" (case-insensitive)
-    compliant_sample: "- Compost organic kitchen scraps\n- Bring reusable cloth shopping bags\n- Repair worn garments before replacing"
-    non_compliant_sample: "- Stop buying single-use plastic bottles\n- Recycle plastic packaging containers"
   assert:
     - type: javascript
-      value: '((l) => l.length === 3 && l.every(s => s.startsWith("- ")))(output.trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
+      value: '((l) => l.length === 3 && l.every(s => s.startsWith("- ")))(output.normalize("NFKC").trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean))'
     - type: not-icontains
       value: 'plastic'
- 
+
 - description: 'IF-24 combination lowercase with start and end text'
   vars:
     input: 'Write a brief greeting and farewell to a visitor. Write entirely in lowercase letters, begin your response with "welcome," and end with "goodbye."'
@@ -362,16 +348,14 @@
       - no uppercase characters
       - starts with "welcome,"
       - ends with "goodbye."
-    compliant_sample: 'welcome, enjoy exploring every neighborhood of our town today; goodbye.'
-    non_compliant_sample: 'Welcome, enjoy exploring every neighborhood of our town today; Goodbye.'
   assert:
     - type: javascript
       value: 'output === output.toLowerCase()'
     - type: javascript
-      value: 'output.trim().startsWith("welcome,")'
+      value: 'output.normalize("NFKC").trim().startsWith("welcome,")'
     - type: javascript
-      value: 'output.trim().endsWith("goodbye.")'
- 
+      value: 'output.normalize("NFKC").trim().endsWith("goodbye.")'
+
 - description: 'IF-25 combination word count and required phrase'
   vars:
     input: 'Describe a modern wind farm using exactly 15 words. You must include the phrase "renewable energy" in your description.'
@@ -382,11 +366,8 @@
     requirements:
       - exactly 15 words
       - contains "renewable energy" (case-insensitive)
-    compliant_sample: 'Giant white turbines spin across open fields, generating clean renewable energy for modern coastal towns.'
-    non_compliant_sample: 'Wind turbines generate clean electricity when air moves across large blades on tall towers.'
   assert:
     - type: javascript
-      value: 'output.trim().split(/\s+/).length === 15'
-    - type: icontains
-      value: 'renewable energy'
- 
+      value: 'output.normalize("NFKC").trim().split(/\s+/).length === 15'
+    - type: regex
+      value: 'renewable\s+energy'
