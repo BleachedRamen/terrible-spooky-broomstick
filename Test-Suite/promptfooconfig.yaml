@@ -1,27 +1,41 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
 description: 'Local model suite'
+
 # Optionally set API keys here instead of exporting environment variables.
 # Never commit real keys to source control.
 # env:
 #   OPENAI_API_KEY: sk-...
+
 prompts:
-  - '{{input}}' 
+  - '{{input}}'
 
+# The model to be tested, currently pointed at a local OpenAi API(open on port 9931), with the model Qwen3.5-2B selected.
+# Ignore how the format between providers and defaultTest is dramatically different lol.
 providers:
-  - id: openai:chat:LFM2.5-8B-A1B-MoE
+  - id: 'http://localhost:9931/v1/chat/completions'
+    label: 'Qwen3.5-2B'
     config:
-      apiBaseUrl: http://localhost:9931/v1
-      apiKeyRequired: false
-      useDefaultApiKey: false
+      method: 'POST'
+      headers:
+        Content-Type: 'application/json'
+      body:
+        model: 'Qwen3.5-2B-Dense'
+        messages:
+          - role: 'user'
+            content: '{{prompt}}'
+      transformResponse: 'json.choices[0].message.content'
 
+# The model grading the test model. This model needs to be smart. Qwen3.5 2B exists as an example.
 defaultTest:
   options:
     provider:
-      id: openai:chat:Gemma-4-Basic
+      id: 'openai:chat:Qwen3.5-2B-Dense'
       config:
-        apiBaseUrl: http://localhost:9931/v1
+        apiBaseUrl: 'http://localhost:9931/v1'
         apiKeyRequired: false
         useDefaultApiKey: false
+        showThinking: false
 
+# Lol it literally just imports all yaml files from tests
 tests:
   - file://tests/*.yaml
