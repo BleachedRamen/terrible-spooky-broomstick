@@ -12,7 +12,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -20,10 +20,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['$4.2 million', '4.2 million dollars']
-    - type: icontains-any
-      value: ['March 14, 2027', 'March 14 2027']
+    - type: regex
+      value: '(?:\$|USD\s*)?4\.2\s*million(?:\s*dollars)?|four\s+point\s+two\s+million\s+dollars?'
+    - type: regex
+      value: 'March\s+14(?:th)?,?\s+2027'
     - type: not-icontains
       value: 'bridge'
     - type: llm-rubric
@@ -42,7 +42,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -50,10 +50,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['1,250 acres', 'twelve hundred fifty acres']
-    - type: icontains-any
-      value: ['45 miles per hour', '45 mph']
+    - type: regex
+      value: '(?:1,?250|twelve\s+hundred\s+(?:and\s+)?fifty)\s+acres'
+    - type: regex
+      value: '(?:45|forty-five)\s*(?:miles\s+per\s+hour|mph)'
     - type: not-icontains
       value: 'hurricane'
     - type: llm-rubric
@@ -72,7 +72,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -80,10 +80,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['$85 million', '85 million dollars']
-    - type: icontains-any
-      value: ['400 freight vehicles', '400 vehicles']
+    - type: regex
+      value: '(?:\$|USD\s*)?85\s*million(?:\s*dollars)?|eighty-five\s+million\s+dollars?'
+    - type: regex
+      value: '(?:400|four\s+hundred)\s+(?:freight\s+)?vehicles'
     - type: not-icontains
       value: 'bankruptcy'
     - type: llm-rubric
@@ -102,7 +102,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -110,10 +110,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['twelve hours', '12 hours']
-    - type: icontains-any
-      value: ['span section 4', 'section 4']
+    - type: regex
+      value: '(?:12|twelve)\s*hours?'
+    - type: regex
+      value: '(?:span\s+)?section\s*4'
     - type: not-icontains
       value: 'earthquake'
     - type: llm-rubric
@@ -132,7 +132,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -140,10 +140,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['300 million euro', '300 million euros']
-    - type: icontains-any
-      value: ['650 specialized technicians', '650 technicians']
+    - type: regex
+      value: '(?:€\s*300\s*million|300\s*million[\s-]*(?:euros?|€)|three\s+hundred\s+million\s+euros?)'
+    - type: regex
+      value: '(?:650|six\s+hundred\s+(?:and\s+)?fifty)\s+(?:specialized\s+)?technicians'
     - type: not-icontains
       value: 'bankruptcy'
     - type: llm-rubric
@@ -153,7 +153,7 @@
 - description: 'SU-06 news_report short label'
   vars:
     input: |-
-      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words, including the daily permit limit (250 individuals) and the grant amount ($150,000).
+      Summarize the text between the triple quotes in at most 2 sentences and at most 40 words. Include the daily visitor permit limit (250) and the federal grant amount ($150,000).
       """Following months of stakeholder negotiations, the Department of Wildlife reopened the Pine Ridge Nature Reserve to eco-tourists, capping daily visitor permits at 250 individuals. Conservation officer Liam Gallagher explained that the temporary closure allowed local wolf populations to stabilize following a severe mange outbreak. Concurrently, neighboring landowners received $150,000 in federal grants to construct predator-proof fencing for livestock protection. State tourism boards project a 15% rebound in regional lodging bookings."""
   metadata:
     category: summarization
@@ -162,22 +162,27 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
-        const words = text.split(/\s+/).filter(Boolean).length;
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[\w-]*\s*/g, '').normalize('NFKC').trim();
+        const words = text.split(/\s+/u).filter(Boolean).length;
         const sentences = text
-          .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\b(?:Mr|Mrs|Ms|Prof)\./gi, '')
+          .replace(/\bU\.S\./gi, 'US')
           .replace(/\b([ap])\.m\.(?=\s+[a-z])/gi, '$1m')
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['250 individuals', '250 permits']
-    - type: icontains-any
-      value: ['$150,000', '150000 dollars']
+    - type: javascript
+      value: |
+        const text = output.normalize('NFKC').toLowerCase();
+        return /\b250\b/.test(text) &&
+        /\b(?:permits?|visitors?|individuals?|people|guests|daily cap|daily limit)\b/.test(text);
+    - type: regex
+      value: '(?:\$|USD\s*)?150,?000(?:\s*dollars)?|one\s+hundred\s+(?:and\s+)?fifty\s+thousand\s+dollars?'
     - type: not-icontains
       value: 'volcano'
     - type: llm-rubric
-      value: 'The summary contains only information present in the text in {{input}}. Score 1 if fully faithful, 0.5 if it contains one minor unsupported detail, 0 otherwise.'
+      value: |
+        The summary must be factually faithful to the source. It must correctly state that Pine Ridge Nature Reserve reopened after a temporary closure related to a wolf mange outbreak, that daily visitor permits are limited to 250, and that neighboring landowners received $150,000 in federal grants for predator-proof livestock fencing. It may include other supported details, but must not introduce unsupported information or distort the events. Score 1 if all requirements are met, 0.5 if there is one minor omission or imprecision, and 0 if a key fact is incorrect or fabricated.
       threshold: 0.5
 
 - description: 'SU-07 news_report short label'
@@ -192,7 +197,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -200,10 +205,13 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['500 containers', 'five hundred containers']
-    - type: icontains-any
-      value: ['22-member crew', '22 crew members']
+    - type: regex
+      value: '(?:500|five\s+hundred)\s+(?:consumer[\s\p{Pd}]+electronics\s+)?containers'
+      flags: 'iu'
+
+    - type: regex
+      value: '(?:22|twenty[\s\p{Pd}]+two)[\s\p{Pd}]*(?:members?[\s\p{Pd}]+crew|crew[\s\p{Pd}]+members?|member[\s\p{Pd}]+crew|crew)'
+      flags: 'iu'
     - type: not-icontains
       value: 'submarine'
     - type: llm-rubric
@@ -222,7 +230,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -230,10 +238,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['photoelectric effect', 'photo-electric effect']
-    - type: icontains-any
-      value: ['21 percent', '21%']
+    - type: regex
+      value: 'photo-?electric\s+effect'
+    - type: regex
+      value: '(?:21\s*(?:%|percent)|twenty-one\s+percent)'
     - type: not-icontains
       value: 'turbine'
     - type: llm-rubric
@@ -252,7 +260,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -260,10 +268,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['asymmetric cryptography', 'public-key cryptography']
-    - type: icontains-any
-      value: ['RSA', 'Rivest-Shamir-Adleman']
+    - type: regex
+      value: '(?:[Aa]symmetric|[Pp]ublic-[Kk]ey)\s+[Cc]ryptography'
+    - type: regex
+      value: '\b(?:RSA|Rivest-Shamir-Adleman)\b'
     - type: not-regex
       value: '(?<![aA])[sS]ymmetric'
     - type: llm-rubric
@@ -282,7 +290,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -290,10 +298,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['45 degrees Celsius', '45°C']
-    - type: icontains-any
-      value: ['40 percent', '40%']
+    - type: regex
+      value: '(?:45\s*(?:°\s*C|degrees?\s+celsius)|forty-five\s+degrees?\s+celsius)'
+    - type: regex
+      value: '(?:40\s*(?:%|percent)|forty\s+percent)'
     - type: not-icontains
       value: 'magnetic'
     - type: llm-rubric
@@ -312,7 +320,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -320,10 +328,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['B-tree indexes', 'B-tree']
-    - type: icontains-any
-      value: ['logarithmic time complexity', 'logarithmic time']
+    - type: regex
+      value: 'B[-‐‑‒–—−]tree(?:\s+ind(?:exes|ices))?'
+    - type: regex
+      value: 'logarithmic\s+time(?:\s+complexity)?'
     - type: not-icontains
       value: 'hash'
     - type: llm-rubric
@@ -342,7 +350,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -350,10 +358,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['Kubernetes clusters', 'Kubernetes']
-    - type: icontains-any
-      value: ['80 percent', '80%']
+    - type: regex
+      value: 'Kubernetes(?:\s+clusters?)?'
+    - type: regex
+      value: '(?:80\s*(?:%|percent)|eighty\s+percent)'
     - type: not-icontains
       value: 'mainframe'
     - type: llm-rubric
@@ -372,7 +380,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -380,10 +388,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['20 percent', '20%']
-    - type: icontains-any
-      value: ['64 data samples', 'batch size of 64']
+    - type: regex
+      value: '(?:20\s*(?:%|percent)|twenty\s+percent)'
+    - type: regex
+      value: '(?:64\s+data\s+samples|batch(?:\s+size)?\s+of\s+64|mini-batches\s+of\s+64|64\s+samples?)'
     - type: not-icontains
       value: 'unsupervised'
     - type: llm-rubric
@@ -402,7 +410,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -410,10 +418,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['autumn apples', 'apples']
-    - type: icontains-any
-      value: ['forty years', '40 years']
+    - type: regex
+      value: '(?:autumn\s+)?apples'
+    - type: regex
+      value: '(?:40|forty)\s+years'
     - type: not-icontains
       value: 'winter'
     - type: llm-rubric
@@ -432,7 +440,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -440,10 +448,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['October 1912', 'October 1912 ledger']
-    - type: icontains-any
-      value: ['three velvet-lined jewelry boxes', 'three jewelry boxes']
+    - type: regex
+      value: 'October\s+1912(?:\s+ledger)?'
+    - type: regex
+      value: '(?:3|three)\s+(?:velvet[-\u2010-\u2015]\s*)?jewelry\s+boxes'
     - type: not-icontains
       value: 'digital'
     - type: llm-rubric
@@ -462,7 +470,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -470,10 +478,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['3,500 meters', 'three thousand five hundred meters']
-    - type: icontains-any
-      value: ['42 seconds', 'forty-two seconds']
+    - type: regex
+      value: '(?:3,?500|three\s+thousand\s+five\s+hundred)\s*meters?'
+    - type: regex
+      value: '(?:42|forty-two)(?:\s+|[-\u2010-\u2015])?seconds?'
     - type: not-icontains
       value: 'spacecraft'
     - type: llm-rubric
@@ -492,7 +500,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -500,10 +508,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['450 degrees Fahrenheit', '450°F']
-    - type: icontains-any
-      value: ['9:00 AM', 'nine in the morning']
+    - type: regex
+      value: '(?:450\s*(?:°\s*F|degrees?\s+fahrenheit)|four\s+hundred\s+(?:and\s+)?fifty\s+degrees?\s+fahrenheit)'
+    - type: regex
+      value: '(?:9(?::00)?\s*(?:AM|a\.m\.)|nine\s+(?:in\s+the\s+morning|a\.m\.))'
     - type: not-icontains
       value: 'evening'
     - type: llm-rubric
@@ -526,7 +534,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -534,10 +542,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['Friday, August 22', 'August 22']
-    - type: icontains-any
-      value: ['QA lead Marcus', 'Marcus']
+    - type: regex
+      value: '(?:Friday,?\s+)?August\s+22(?:nd)?'
+    - type: regex
+      value: '(?:QA\s+lead\s+)?Marcus'
     - type: not-icontains
       value: 'Wednesday'
     - type: llm-rubric
@@ -558,7 +566,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -566,10 +574,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['8 PM', 'eight in the evening']
-    - type: icontains-any
-      value: ['five minutes', '5 minutes']
+    - type: regex
+      value: '(?:8(?::00)?\s*(?:PM|p\.m\.)|eight\s+(?:in\s+the\s+evening|pm))'
+    - type: regex
+      value: '(?:5|five)\s+minutes'
     - type: not-icontains
       value: 'broadband'
     - type: llm-rubric
@@ -592,7 +600,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -600,10 +608,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['12 percent', 'twelve percent']
-    - type: icontains-any
-      value: ['$60,000', 'sixty thousand dollars']
+    - type: regex
+      value: '(?:12\s*(?:%|percent)|twelve\s+percent)'
+    - type: regex
+      value: '(?:\$|USD\s*)?60,?000(?:\s*dollars)?|sixty\s+thousand\s+dollars?'
     - type: not-icontains
       value: 'bonus'
     - type: llm-rubric
@@ -624,7 +632,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -632,10 +640,13 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['8:00 AM to 4:00 PM', '8 AM to 4 PM']
-    - type: icontains-any
-      value: ['terminal 4', 'terminal four']
+    - type: regex
+      value: '8(?::00)?\s*(?:AM|a\.m\.)\s*(?:to|\p{Pd})\s*4(?::00)?\s*(?:PM|p\.m\.)'
+      flags: 'iu'
+
+    - type: regex
+      value: 'terminal\s*(?:4|four)'
+      flags: 'iu'
     - type: not-icontains
       value: 'night'
     - type: llm-rubric
@@ -654,7 +665,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -662,10 +673,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['$14.5 million', 'fourteen point five million dollars']
-    - type: icontains-any
-      value: ['18 percent', 'eighteen percent']
+    - type: regex
+      value: '(?:\$|USD\s*)?14\.5\s*million(?:\s*dollars)?|fourteen\s+point\s+five\s+million\s+dollars?'
+    - type: regex
+      value: '(?:18\s*(?:%|percent)|eighteen\s+percent)'
     - type: not-icontains
       value: 'decrease'
     - type: llm-rubric
@@ -684,7 +695,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -692,10 +703,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['14,200 megawatt-hours', 'fourteen thousand two hundred megawatt-hours']
-    - type: icontains-any
-      value: ['50 percent', 'half']
+    - type: regex
+      value: '(?:14,?200|fourteen\s+thousand\s+(?:two\s+hundred\s+)?)\s*(?:megawatt-hours|MWh)'
+    - type: regex
+      value: '(?:50\s*(?:%|percent)|fifty\s+percent|half)'
     - type: not-icontains
       value: 'gas'
     - type: llm-rubric
@@ -714,7 +725,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -722,10 +733,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['1,200 adult participants', 'twelve hundred participants']
-    - type: icontains-any
-      value: ['78 percent', 'seventy-eight percent']
+    - type: regex
+      value: '(?:1,?200|twelve\s+hundred)\s+(?:adult\s+participants?|adults|participants?)'
+    - type: regex
+      value: '(?:78\s*(?:%|percent)|seventy-eight\s+percent)'
     - type: not-icontains
       value: 'vaccine'
     - type: llm-rubric
@@ -744,7 +755,7 @@
   assert:
     - type: javascript
       value: |
-        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').trim();
+        const text = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const words = text.split(/\s+/).filter(Boolean).length;
         const sentences = text
           .replace(/\b(?:Dr|Mr|Mrs|Ms|Prof)\./gi, '')
@@ -752,10 +763,10 @@
           .split(/(?<=[.!?])\s+/)
           .filter(Boolean).length;
         return words <= 40 && sentences <= 2;
-    - type: icontains-any
-      value: ['35,500 vehicles', 'thirty-five thousand five hundred vehicles']
-    - type: icontains-any
-      value: ['22 miles per hour', '22 mph']
+    - type: regex
+      value: '(?:35,?500|thirty-five\s+thousand\s+(?:five\s+hundred\s+)?)\s+vehicles'
+    - type: regex
+      value: '(?:22|twenty-two)\s*(?:miles\s+per\s+hour|mph)'
     - type: not-icontains
       value: 'bicycle'
     - type: llm-rubric
