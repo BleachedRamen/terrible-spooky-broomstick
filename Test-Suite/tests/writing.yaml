@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
 - description: "WR-01 meeting notes follow-up"
   vars:
     input: "Write a brief email message to a coworker who missed the morning planning meeting. Tone: polite and helpful. Say that the notes are attached and invite the coworker to ask about any unclear decision. Output exactly 2 sentences in plain text, with no subject line, bullets, or markdown heading."
@@ -205,7 +206,7 @@
     - type: not-icontains
       value: "Walking to the station, the rain soaked"
     - type: llm-rubric
-      value: "Output is a grammar correction. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) repairs the dangling modifier while keeping the intended event clear. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      value: "Output is a grammar correction to this sentence "Walking to the station, the rain soaked Jordan.". Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) repairs the dangling modifier while keeping the intended event clear. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
       threshold: 0.5
 - description: "WR-12 maintenance notice"
   vars:
@@ -262,10 +263,12 @@
         return text.length > 0 && sentenceCount === 2 && !/^\s*#{1,6}\s/m.test(output) && !/^\s*(?:[-*•]|\d+[.)])\s/m.test(output) && !/^\s*subject:/im.test(output);
     - type: not-icontains
       value: "The library room is closed during floor repairs"
-    - type: not-icontains
-      value: "will meet in the east hall until the room reopens"
+    - type: icontains
+      value: "east hall"
+    - type: icontains
+      value: "reading group"
     - type: llm-rubric
-      value: "Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) keeps the timeline and the stated reason intact. Score 1 if all met, 0.5 if one minor error, 0 otherwise."
+      value: "Output is a paraphrase. Criteria: (1) grammatically correct, (2) coherent and on-brief, (3) keeps the timeline and the stated reason intact. Score 1 if all met, Score 0.5 if one minor error, Score 0 otherwise."
       threshold: 0.5
 - description: "WR-15 damaged delivery procedure"
   vars:
