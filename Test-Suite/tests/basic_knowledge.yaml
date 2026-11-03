@@ -195,7 +195,8 @@
     difficulty: easy
   assert:
     - type: regex
-      value: 'Hyper[\s-‑–—]?text\s+Markup\s+Language'
+      value: 'Hyper[\s\p{Pd}]?text\s+Markup\s+Language'
+      flags: 'iu'
 
 - description: 'BK-19 World Wide Web inventor'
   vars:
