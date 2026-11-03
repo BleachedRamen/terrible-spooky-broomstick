@@ -36,7 +36,12 @@ defaultTest:
         useDefaultApiKey: false
         showThinking: false
         max_tokens: 16384
-# Adjust for your grader models verbosity.
+    # Global output normalization transform
+    # All test outputs will be normalized using the shared-normalizer.js before assertions are evaluated
+    # This ensures consistent handling of thinking blocks, markdown fencing, and Unicode variations
+    transform: |
+      const { normalizeOutput } = require('./shared-normalizer.js');
+      return normalizeOutput(output);
 
 # Lol it literally just imports all yaml files from tests
 tests:

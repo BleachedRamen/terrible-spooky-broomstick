@@ -1,279 +1,451 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
-- description: 'BK-01 symbol for gold'
+# Basic Knowledge - 25 tests: 6 baseline-easy, 8 medium, 6 hard, 5 adversarial
+
+# ============ BASELINE EASY (6) ============
+# Retain straightforward domain questions to track floor regressions
+
+- description: "BK-01 symbol for gold"
   vars:
     input: 'What chemical symbol represents the element gold? Answer in one short sentence.'
   metadata:
     category: basic_knowledge
     subtype: science
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: '\bAu\b'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /\bAu\b/i.test(norm);
 
-- description: 'BK-02 water boiling point'
-  vars:
-    input: 'At what temperature in degrees Celsius does pure water boil at standard sea-level pressure? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: easy
-  assert:
-    - type: regex
-      value: '\b100\b'
-
-- description: 'BK-03 mitochondria function'
-  vars:
-    input: 'What primary cellular function is performed by mitochondria? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: medium
-  assert:
-    - type: regex
-      value: '[eE]nergy\s+production|\bATP\b|[cC]ellular\s+respiration'
-
-- description: 'BK-04 speed of light'
-  vars:
-    input: 'What is the approximate speed of light in a vacuum in kilometers per second? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: medium
-  assert:
-    - type: regex
-      value: '\b(?:300[\s, ]?000|299[\s, ]?(?:792|800))\b'
-
-- description: 'BK-05 first synthetic element'
-  vars:
-    input: 'What is the name of the first artificially produced synthetic element on the periodic table? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: hard
-  assert:
-    - type: regex
-      value: '[tT]echnetium'
-
-- description: 'BK-06 capital of Australia'
+- description: "BK-06 capital of Australia"
   vars:
     input: 'What city serves as the capital of Australia? Answer in one short sentence.'
   metadata:
     category: basic_knowledge
     subtype: geography
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: 'Canberra'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /\bCanberra\b/i.test(norm);
 
-- description: 'BK-07 largest ocean'
-  vars:
-    input: 'What is the name of the largest ocean on Earth? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: geography
-    difficulty: easy
-  assert:
-    - type: regex
-      value: 'Pacific(?:\s+Ocean)?'
-
-- description: 'BK-08 longest river'
-  vars:
-    input: 'Which river is traditionally considered the longest in the world? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: geography
-    difficulty: medium
-  assert:
-    - type: regex
-      value: 'Nile(?:\s+River)?'
-
-- description: 'BK-09 highest waterfall'
-  vars:
-    input: 'What is the name of the highest uninterrupted waterfall in the world? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: geography
-    difficulty: hard
-  assert:
-    - type: regex
-      value: 'Angel\s+Falls'
-
-- description: 'BK-10 Titanic sinking year'
+- description: "BK-10 Titanic sinking year"
   vars:
     input: 'In what calendar year did the RMS Titanic sink in the Atlantic Ocean? Answer in one short sentence.'
   metadata:
     category: basic_knowledge
     subtype: history
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: '\b1912\b'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /\b1912\b/i.test(norm);
 
-- description: 'BK-11 printing press inventor'
-  vars:
-    input: 'Who is credited with inventing the mechanical movable-type printing press in Europe? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: history
-    difficulty: medium
-  assert:
-    - type: regex
-      value: '(?:Johannes\s+)?Gutenberg'
-
-- description: 'BK-12 Berlin Wall fall year'
-  vars:
-    input: 'In what calendar year did the Berlin Wall fall, opening the border between East and West Berlin? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: history
-    difficulty: medium
-  assert:
-    - type: regex
-      value: '\b1989\b'
-
-- description: 'BK-13 Magna Carta year'
-  vars:
-    input: 'In what calendar year was the Magna Carta sealed by King John at Runnymede? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: history
-    difficulty: hard
-  assert:
-    - type: regex
-      value: '\b1215\b'
-
-- description: 'BK-14 Romeo and Juliet author'
+- description: "BK-14 Romeo and Juliet author"
   vars:
     input: 'Who wrote the classic tragic play Romeo and Juliet? Answer in one short sentence.'
   metadata:
     category: basic_knowledge
     subtype: literature_language
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: '(?:William\s+)?Shakespeare'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /(?:William\s+)?Shakespeare/i.test(norm);
 
-- description: 'BK-15 language family'
-  vars:
-    input: 'To which major language family do Mandarin and Cantonese belong? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: literature_language
-    difficulty: medium
-  assert:
-    - type: regex
-      value: 'Sino[\s-‑–—]?Tibetan'
-
-- description: 'BK-16 Odyssey epic poem'
-  vars:
-    input: 'What ancient Greek epic poem details the long journey of Odysseus returning home after the Trojan War? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: literature_language
-    difficulty: hard
-  assert:
-    - type: regex
-      value: '(?:The\s+)?Odyssey'
-
-- description: 'BK-17 CPU definition'
+- description: "BK-17 CPU definition"
   vars:
     input: 'What do the initials CPU stand for in computer hardware architecture? Answer in one short sentence.'
   metadata:
     category: basic_knowledge
     subtype: everyday_technology
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: 'Central\s+Processing\s+Unit'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /Central\s+Processing\s+Unit/i.test(norm);
 
-- description: 'BK-18 HTML definition'
-  vars:
-    input: 'What do the initials HTML stand for in web development? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: everyday_technology
-    difficulty: easy
-  assert:
-    - type: regex
-      value: 'Hyper[\s\p{Pd}]?text\s+Markup\s+Language'
-      flags: 'iu'
-
-- description: 'BK-19 World Wide Web inventor'
-  vars:
-    input: 'Who is credited with inventing the World Wide Web in 1989? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: everyday_technology
-    difficulty: medium
-  assert:
-    - type: regex
-      value: '(?:Tim\s+)?Berners[\s-‑–—]?Lee'
-
-- description: 'BK-20 Mona Lisa painter'
-  vars:
-    input: 'Who painted the famous Renaissance portrait known as the Mona Lisa? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: arts_culture
-    difficulty: easy
-  assert:
-    - type: regex
-      value: 'Leonardo(?:\s+da\s+Vinci)?|da\s+Vinci'
-
-- description: 'BK-21 musical term fortissimo'
-  vars:
-    input: 'What Italian musical term is used to indicate a very loud volume? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: arts_culture
-    difficulty: medium
-  assert:
-    - type: regex
-      value: '[fF]ortissimo'
-
-- description: 'BK-22 primary colors'
-  vars:
-    input: 'What three colors make up the traditional primary color set in art and painting? Answer in one short sentence.'
-  metadata:
-    category: basic_knowledge
-    subtype: arts_culture
-    difficulty: medium
-  assert:
-    - type: icontains-all
-      value:
-        - 'red'
-        - 'yellow'
-        - 'blue'
-
-- description: 'BK-23 largest human organ'
+- description: "BK-23 largest human organ"
   vars:
     input: 'What is the single largest organ of the human body? Answer in one short sentence.'
   metadata:
     category: basic_knowledge
     subtype: human_body_nature
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: '[sS]kin'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /\bskin\b/i.test(norm);
 
-- description: 'BK-24 symbol for iron'
+# ============ MEDIUM (8) ============
+# Distinguish adjacent concepts
+
+- description: "BK-02 mass vs weight on moon"
   vars:
-    input: 'What chemical symbol represents the element iron on the periodic table? Answer in one short sentence.'
+    input: 'On the lunar surface, does an object have the same mass as on Earth? Explain the difference between mass and weight in this context.'
   metadata:
     category: basic_knowledge
     subtype: science
     difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: '\bFe\b'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must distinguish: mass is invariant, weight changes
+        const massInvariant = /mass.*?(unchanged|same|invariant|constant)/i.test(norm);
+        const weightChanges = /weight.*?(decreases|less|reduced|1\/6|one sixth)/i.test(norm);
+        return massInvariant && weightChanges;
 
-- description: 'BK-25 hardest natural substance'
+- description: "BK-03 accuracy vs precision"
   vars:
-    input: 'What is the hardest naturally occurring substance found on Earth? Answer in one short sentence.'
+    input: 'A target has 5 arrows clustered tightly together but far from the bullseye. Is this an example of accuracy, precision, both, or neither? Explain your answer.'
   metadata:
     category: basic_knowledge
-    subtype: human_body_nature
-    difficulty: hard
+    subtype: science
+    difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-    - type: regex
-      value: '[dD]iamond'
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Clustered = precise, far from bullseye = not accurate
+        const preciseNotAccurate = /(?:precise|precision).*?(?:not accurate|inaccurate|without accuracy)/i.test(norm) ||
+                                   /(?:not accurate|inaccurate).*?(?:but precise|however precise)/i.test(norm);
+        return preciseNotAccurate;
+
+- description: "BK-04 synchronous vs asynchronous execution"
+  vars:
+    input: 'In programming, what is the key difference between synchronous and asynchronous execution? Explain with an example.'
+  metadata:
+    category: basic_knowledge
+    subtype: everyday_technology
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must mention blocking vs non-blocking or waiting vs not waiting
+        const syncBlocks = /synchronous.*?(blocks|waits|holds|sequential)/i.test(norm);
+        const asyncNoBlock = /asynchronous.*?(non[-\s]?blocking|does not wait|concurrent|background)/i.test(norm);
+        return syncBlocks && asyncNoBlock;
+
+- description: "BK-05 virus vs virion"
+  vars:
+    input: 'What is the difference between a virus and a virion? Explain the relationship between these terms.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Virus is the species/concept, virion is the individual particle
+        const virusConcept = /virus.*?(species|type|concept|genetic)/i.test(norm);
+        const virionParticle = /virion.*?(particle|individual|physical|infectious particle)/i.test(norm);
+        return virusConcept && virionParticle;
+
+- description: "BK-07 longest river clarification"
+  vars:
+    input: 'Which river is traditionally considered the longest in the world, and what is the approximate length in kilometers? Answer both parts.'
+  metadata:
+    category: basic_knowledge
+    subtype: geography
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        const nile = /Nile/i.test(norm);
+        const length = /(?:6\.?6[5-7]?|66[5-7]0|approximately\s+6[,\.]?6[5-7]?0)/i.test(norm);
+        return nile && length;
+
+- description: "BK-08 language family Sino-Tibetan"
+  vars:
+    input: 'To which major language family do Mandarin, Cantonese, and Tibetan belong? Also name one other language in this family besides these three.'
+  metadata:
+    category: basic_knowledge
+    subtype: literature_language
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        const sinoTibetan = /Sino[\s-]?Tibetan/i.test(norm);
+        const otherLang = /(?:Burmese|Tibetan|Nepali|Assamese|Bodo)/i.test(norm);
+        return sinoTibetan && otherLang;
+
+- description: "BK-09 primary colors art vs light"
+  vars:
+    input: 'What are the traditional primary colors in art (pigment mixing)? How do they differ from the primary colors in light (additive mixing)?'
+  metadata:
+    category: basic_knowledge
+    subtype: arts_culture
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        const artColors = /(?:red.*?yellow.*?blue|RYB)/i.test(norm);
+        const lightColors = /(?:red.*?green.*?blue|RGB|additive)/i.test(norm);
+        return artColors && lightColors;
+
+- description: "BK-11 World Wide Web inventor details"
+  vars:
+    input: 'Who invented the World Wide Web, in what year, and at which organization? Answer all three parts.'
+  metadata:
+    category: basic_knowledge
+    subtype: everyday_technology
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        const inventor = /(?:Tim\s+)?Berners[\s-]?Lee/i.test(norm);
+        const year = /1989/i.test(norm);
+        const org = /CERN/i.test(norm);
+        return inventor && year && org;
+
+# ============ HARD (6) ============
+# Reconcile apparent contradictions caused by scope, measurement reference frames, or semantic collision
+
+- description: "BK-01 hard - Cp vs Cv for ideal gases"
+  vars:
+    input: 'For an ideal gas, why is the specific heat at constant pressure (Cp) always greater than the specific heat at constant volume (Cv)? Explain the physical reason.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Cp = Cv + R (gas constant), because at constant pressure, energy is used for both heating AND work
+        const cpGtCv = /Cp.*?[>\s]Cv|Cv\s*[<\s]Cp/i.test(norm);
+        const workDone = /(?:work done|expansion|volume change|PdV|R\s*=\s*8\.314)/i.test(norm);
+        return cpGtCv && workDone;
+
+- description: "BK-02 hard - photon zero mass but momentum"
+  vars:
+    input: 'A photon has zero invariant (rest) mass, yet it carries momentum and can exert radiation pressure. How is this possible? Explain using the relativistic relationship between energy, momentum, and mass.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // E=pc for massless particles, or E^2 = (pc)^2 + (m0c^2)^2 with m0=0
+        const zeroRestMass = /(?:zero.*?rest mass|rest mass.*?zero|m0\s*=\s*0)/i.test(norm);
+        const momentumFromEnergy = /(?:E\s*=\s*pc|E\^2.*?p\^2.*?c\^2|momentum.*?energy|p\s*=\s*E\/c)/i.test(norm);
+        return zeroRestMass && momentumFromEnergy;
+
+- description: "BK-03 hard - water expands on freezing mechanism"
+  vars:
+    input: 'Why does water expand when it freezes? Explain the molecular mechanism, specifically addressing the role of hydrogen bonds.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must mention hexagonal lattice/ice crystal structure
+        const hexagonal = /(?:hexagonal|ice.*?lattice|crystal.*?structure|tetrahedral)/i.test(norm);
+        // Must mention hydrogen bonds create open structure
+        const hBonds = /(?:hydrogen bonds|H-bonds).*?(open|space|lattice|structure)/i.test(norm) ||
+                       /(?:open|space|lattice).*?(hydrogen bonds|H-bonds)/i.test(norm);
+        return hexagonal && hBonds;
+
+- description: "BK-04 hard - time dilation and twin paradox"
+  vars:
+    input: 'In the twin paradox, one twin travels at relativistic speeds and returns to find the stay-at-home twin has aged more. Explain why both twins do not see the other as younger, resolving the apparent symmetry.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must mention acceleration/deceleration breaks symmetry
+        const acceleration = /(?:acceleration|deceleration|turnaround|non-inertial|breaks.*?symmetry)/i.test(norm);
+        const timeDilation = /(?:time dilation|proper time|Lorentz)/i.test(norm);
+        return acceleration && timeDilation;
+
+- description: "BK-05 hard - tides bulge explanation"
+  vars:
+    input: 'Why are there two tidal bulges on Earth (one facing the Moon and one opposite) instead of just one? Explain the physical forces involved.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must mention centrifugal force and gravity gradient
+        const centrifugal = /(?:centrifugal|inertial)/i.test(norm);
+        const gravityGradient = /(?:gravity.*?gradient|differential.*?gravity|far side.*?less)/i.test(norm);
+        return centrifugal && gravityGradient;
+
+- description: "BK-06 hard - relativistic mass vs invariant mass"
+  vars:
+    input: 'In modern physics, the concept of "relativistic mass" has fallen out of favor. What is the difference between relativistic mass and invariant (rest) mass, and why is the latter preferred in contemporary physics?'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must mention that relativistic mass depends on velocity/frame
+        const relativisticMass = /(?:relativistic mass.*?velocity|mass.*?increases.*?speed|frame.*?dependent)/i.test(norm);
+        // Must mention invariant mass is constant
+        const invariantMass = /(?:invariant mass|rest mass).*?(constant|unchanged|same.*?all.*?frames)/i.test(norm);
+        return relativisticMass && invariantMass;
+
+# ============ ADVERSARIAL (5) ============
+# Prompts with false or biased premises that must be explicitly rejected
+
+- description: "BK-01 adversarial - sound speed in cold air"
+  vars:
+    input: 'Given that sound waves travel faster in cold air because denser air compresses molecules closer together, calculate the approximate speed ratio between 0°C and 20°C.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must reject false premise: sound travels SLOWER in cold air
+        const rejectsPremise = /(?:slower.*?cold|faster.*?warm|premise.*?(?:incorrect|false|flawed|wrong)|contradicts)/i.test(norm);
+        // Must provide correct relation: speed proportional to sqrt(T)
+        const correctRelation = /(?:proportional.*?temperature|sqrt.*?T|kelvin|\u0394T)/i.test(norm);
+        return rejectsPremise && correctRelation;
+
+- description: "BK-02 adversarial - hydrogen bonds break in freezing"
+  vars:
+    input: 'Given that water expands upon freezing because hydrogen bonds break apart, explain how pressure alters this expansion.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must reject premise: hydrogen bonds do NOT break, they form hexagonal lattice
+        const rejectsPremise = /(?:hydrogen bonds.*?(?:do not break|stabilize|form|create|strengthen)|premise.*?(?:incorrect|false|flawed)|bonds.*?form.*?lattice)/i.test(norm);
+        // Must mention hexagonal/ice structure
+        const correctStructure = /(?:hexagonal|ice.*?lattice|crystal.*?structure|tetrahedral)/i.test(norm);
+        return rejectsPremise && correctStructure;
+
+- description: "BK-03 adversarial - seasons caused by distance"
+  vars:
+    input: 'Given that Earth is closest to the Sun in January (perihelion) and farthest in July (aphelion), explain why the Northern Hemisphere has summer in July and winter in January.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must reject the implied premise that distance causes seasons
+        const rejectsPremise = /(?:distance.*?(?:not.*?cause|does not cause|minimal.*?effect)|seasons.*?(?:not.*?distance|caused.*?tilt))/i.test(norm);
+        // Must mention axial tilt
+        const correctCause = /(?:axial tilt|23\.5|23\u00B0|obliquity|tilt.*?axis)/i.test(norm);
+        return rejectsPremise && correctCause;
+
+- description: "BK-04 adversarial - centrifugal force in circular motion"
+  vars:
+    input: 'Given that centrifugal force is a real outward force acting on objects in circular motion, explain how a car can stay on a curved road without flying off.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must reject premise: centrifugal is fictitious/pseudo-force
+        const rejectsPremise = /(?:centrifugal.*?(?:fictitious|pseudo|apparent|not real)|inertial.*?frame|fictitious.*?force)/i.test(norm);
+        // Must mention centripetal force (real inward force)
+        const correctForce = /(?:centripetal.*?force|inward.*?force|toward.*?center)/i.test(norm);
+        return rejectsPremise && correctForce;
+
+- description: "BK-05 adversarial - vacuum sound transmission"
+  vars:
+    input: 'Given that sound can travel through a vacuum because electromagnetic waves can propagate without a medium, explain how astronauts communicate in space.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // Must reject premise: sound cannot travel through vacuum
+        const rejectsPremise = /(?:sound.*?(?:cannot|does not|requires.*?medium|vacuum.*?cannot)|no.*?sound.*?vacuum)/i.test(norm);
+        // Must distinguish sound (mechanical) from EM waves
+        const correctDistinction = /(?:electromagnetic|radio.*?waves|EM|sound.*?mechanical|medium.*?required)/i.test(norm);
+        return rejectsPremise && correctDistinction;

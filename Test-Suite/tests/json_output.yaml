@@ -1,953 +1,918 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
-- description: JS-01 flat_object easy
+# JSON Output - 25 tests: 5 baseline-easy, 8 medium, 7 hard, 5 adversarial
+
+# ============ BASELINE EASY (5) ============
+# Flat key-value object extraction
+
+- description: "JS-01 flat_object easy"
   vars:
-    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
-      assignee as a string, status as a string, and estimated_hours as an integer. Sentence: The work order is assigned
-      to "Mara Venn", its status is "open", and the estimated hours are 6. Return only JSON, no explanation.'
+    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types: assignee as a string, status as a string, and estimated_hours as an integer. Sentence: The work order is assigned to "Mara Venn", its status is "open", and the estimated hours are 6. Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - assignee
-      - status
-      - estimated_hours
-      properties:
-        assignee:
-          type: string
-        status:
-          type: string
-        estimated_hours:
-          type: integer
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["assignee"] === "Mara Venn" &&
-        data["status"] === "open" &&
-        data["estimated_hours"] === 6;
-- description: JS-02 flat_object easy
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return parsed.assignee === 'Mara Venn' && parsed.status === 'open' && parsed.estimated_hours === 6;
+
+- description: "JS-02 flat_object easy"
   vars:
-    input: 'Read the sentence and build a JSON object with the following fields: room as a string and capacity as
-      an integer. Sentence: The meeting takes place in "Studio B", and the room capacity is 18. Return only JSON,
-      no explanation.'
+    input: 'Read the sentence and build a JSON object with the following fields: room as a string and capacity as an integer. Sentence: The meeting takes place in "Studio B", and the room capacity is 18. Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - room
-      - capacity
-      properties:
-        room:
-          type: string
-        capacity:
-          type: integer
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["room"] === "Studio B" &&
-        data["capacity"] === 18;
-- description: JS-03 flat_object easy
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return parsed.room === 'Studio B' && parsed.capacity === 18;
+
+- description: "JS-03 flat_object easy"
   vars:
-    input: 'Return a structured record using these exact keys and value types: item and color as strings, and available
-      as a boolean. Sentence: The catalog item is a "ceramic mug", its color is "cobalt", and it is available true.
-      Return only JSON, no explanation.'
+    input: 'Return a structured record using these exact keys and value types: item and color as strings, and available as a boolean. Sentence: The catalog item is a "ceramic mug", its color is "cobalt", and it is available true. Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - item
-      - color
-      - available
-      properties:
-        item:
-          type: string
-        color:
-          type: string
-        available:
-          type: boolean
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["item"] === "ceramic mug" &&
-        data["color"] === "cobalt" &&
-        data["available"] === true;
-- description: JS-04 flat_object easy
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return parsed.item === 'ceramic mug' && parsed.color === 'cobalt' && parsed.available === true;
+
+- description: "JS-04 flat_object easy"
   vars:
-    input: 'Convert the sentence into JSON. The object must contain: recipient and note, both strings. Sentence:
-      Iris asked that the parcel note read "Leave parcel at side door", and the named recipient is "Iris". Return
-      only JSON, no explanation.'
+    input: 'Convert the sentence into JSON. The object must contain: recipient and note, both strings. Sentence: Iris asked that the parcel note read "Leave parcel at side door", and the named recipient is "Iris". Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
-    difficulty: easy
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - recipient
-      - note
-      properties:
-        recipient:
-          type: string
-        note:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["recipient"] === "Iris" &&
-        data["note"] === "Leave parcel at side door";
-- description: JS-05 flat_object medium
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return parsed.recipient === 'Iris' && parsed.note === 'Leave parcel at side door';
+
+- description: "JS-05 flat_object easy"
   vars:
-    input: 'Create a JSON object from the details in this sentence, using: title and sku as strings, and price as
-      a number. Sentence: The catalog entry lists the title "Desk Lamp", SKU "DL-204", and price in dollars as 38.50.
-      Return only JSON, no explanation.'
+    input: 'Build a JSON object from this sentence: The event name is "Tech Conference", the date is "2024-11-15", and the location is "San Francisco". Use keys: name, date, location (all strings). Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
+    difficulty: baseline-easy
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return parsed.name === 'Tech Conference' && parsed.date === '2024-11-15' && parsed.location === 'San Francisco';
+
+# ============ MEDIUM (8) ============
+# Nested schemas with arrays of objects, optional fields omitted when absent, strictly typed booleans/numbers
+
+- description: "JS-01 medium - nested objects with arrays"
+  vars:
+    input: |
+      Extract the following data into JSON:
+      - A team has 3 members: Alice (role: developer), Bob (role: designer), Carol (role: manager)
+      - Team name: Alpha Squad
+      - Status: active
+      
+      Return a JSON object with keys: name (string), status (string), members (array of objects with name and role, both strings).
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: nested_schema
     difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - title
-      - sku
-      - price
-      properties:
-        title:
-          type: string
-        sku:
-          type: string
-        price:
-          type: number
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["title"] === "Desk Lamp" &&
-        data["sku"] === "DL-204" &&
-        data["price"] === 38.5;
-- description: JS-06 nested_or_array easy
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        if (typeof parsed !== 'object' || parsed === null) return false;
+        if (parsed.name !== 'Alpha Squad') return false;
+        if (parsed.status !== 'active') return false;
+        if (!Array.isArray(parsed.members)) return false;
+        if (parsed.members.length !== 3) return false;
+        
+        const alice = parsed.members.find(m => m.name === 'Alice');
+        const bob = parsed.members.find(m => m.name === 'Bob');
+        const carol = parsed.members.find(m => m.name === 'Carol');
+        
+        return alice && alice.role === 'developer' &&
+               bob && bob.role === 'designer' &&
+               carol && carol.role === 'manager';
+
+- description: "JS-02 medium - optional fields omitted"
   vars:
-    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
-      tools as an array of strings and box_color as a string. Sentence: The kit contains two tools named "cutter"
-      and "ruler", and the box color is "gray". Return only JSON, no explanation.'
+    input: |
+      Create a JSON object for a user profile with these rules:
+      - Required fields: username (string), email (string)
+      - Optional fields: age (number), phone (string) - only include if provided
+      - Provided data: username: "john_doe", email: "john@example.com"
+      
+      Return only JSON, no explanation. Do NOT include age or phone fields.
   metadata:
     category: json_output
-    subtype: nested_or_array
-    difficulty: easy
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - tools
-      - box_color
-      properties:
-        tools:
-          type: array
-          items:
-            type: string
-        box_color:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return deepEqual(data["tools"], JSON.parse("[\"cutter\",\"ruler\"]")) &&
-        data["box_color"] === "gray";
-- description: JS-07 nested_or_array medium
-  vars:
-    input: 'Read the sentence and build a JSON object with the following fields: cartons as an array of strings
-      and status as a string. Sentence: The shipment contains cartons named "books", "cables", and "plates"; the
-      shipment status is "packed". Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: nested_or_array
+    subtype: optional_fields
     difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - cartons
-      - status
-      properties:
-        cartons:
-          type: array
-          items:
-            type: string
-        status:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return deepEqual(data["cartons"], JSON.parse("[\"books\",\"cables\",\"plates\"]")) &&
-        data["status"] === "packed";
-- description: JS-08 nested_or_array medium
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        // Must have username and email
+        if (parsed.username !== 'john_doe') return false;
+        if (parsed.email !== 'john@example.com') return false;
+        // Must NOT have age or phone
+        if ('age' in parsed) return false;
+        if ('phone' in parsed) return false;
+        // Must have exactly 2 keys
+        return Object.keys(parsed).length === 2;
+
+- description: "JS-03 medium - strictly typed booleans"
   vars:
-    input: 'Return a structured record using these exact keys and value types: profile as an object with name and
-      email strings, and preferred_language as a string. Sentence: The profile names "Lena Ortiz" and gives the
-      contact email "lena@example.test"; the preferred language is "English". Return only JSON, no explanation.'
+    input: |
+      Create a JSON object with configuration settings:
+      - enabled: true (boolean, not string)
+      - count: 42 (number, not string)
+      - name: "test" (string)
+      - active: false (boolean, not string)
+      
+      Return only JSON, no explanation.
   metadata:
     category: json_output
-    subtype: nested_or_array
+    subtype: strict_typing
     difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - profile
-      - preferred_language
-      properties:
-        profile:
-          type: object
-          required:
-          - name
-          - email
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-          additionalProperties: false
-        preferred_language:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return deepEqual(data["profile"], JSON.parse("{\"name\":\"Lena Ortiz\",\"email\":\"lena@example.test\"}")) &&
-        data["preferred_language"] === "English";
-- description: JS-09 nested_or_array medium
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        // Check types strictly
+        return typeof parsed.enabled === 'boolean' && parsed.enabled === true &&
+               typeof parsed.count === 'number' && parsed.count === 42 &&
+               typeof parsed.name === 'string' && parsed.name === 'test' &&
+               typeof parsed.active === 'boolean' && parsed.active === false;
+
+- description: "JS-04 medium - arrays of objects with type constraints"
   vars:
-    input: 'Convert the sentence into JSON. The object must contain: route_name as a string and stops as an array
-      of objects, each with place and label strings. Sentence: The route is called "Riverside Walk" and has a stop
-      named "Museum" with label "morning", followed by a stop named "Garden" with label "afternoon". Return only
-      JSON, no explanation.'
+    input: |
+      Create a JSON array of task objects. Each task must have:
+      - id: number
+      - title: string
+      - completed: boolean
+      
+      Tasks:
+      1. "Buy groceries" - completed
+      2. "Pay bills" - not completed
+      3. "Call mom" - completed
+      
+      Return only JSON array, no explanation.
   metadata:
     category: json_output
-    subtype: nested_or_array
+    subtype: array_schema
     difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - route_name
-      - stops
-      properties:
-        route_name:
-          type: string
-        stops:
-          type: array
-          items:
-            type: object
-            required:
-            - place
-            - label
-            properties:
-              place:
-                type: string
-              label:
-                type: string
-            additionalProperties: false
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["route_name"] === "Riverside Walk" &&
-        deepEqual(data["stops"], JSON.parse("[{\"place\":\"Museum\",\"label\":\"morning\"},{\"place\":\"Garden\",\"label\":\"afternoon\"}]"));
-- description: JS-10 nested_or_array medium
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        if (!Array.isArray(parsed)) return false;
+        if (parsed.length !== 3) return false;
+        
+        const task1 = parsed.find(t => t.title === 'Buy groceries');
+        const task2 = parsed.find(t => t.title === 'Pay bills');
+        const task3 = parsed.find(t => t.title === 'Call mom');
+        
+        return task1 && typeof task1.id === 'number' && task1.completed === true &&
+               task2 && typeof task2.id === 'number' && task2.completed === false &&
+               task3 && typeof task3.id === 'number' && task3.completed === true;
+
+- description: "JS-05 medium - nested objects with type checking"
   vars:
-    input: 'Create a JSON object from the details in this sentence, using: row_label as a string, columns as an
-      array of integers, and note as null. Sentence: The shelf map gives row label "C", columns 4 and 7, and says
-      no note has been supplied, so the note value is null. Return only JSON, no explanation.'
+    input: |
+      Create a JSON object representing a book:
+      - title: "The Great Novel" (string)
+      - author: { firstName: "Jane", lastName: "Doe" } (nested object)
+      - published: true (boolean)
+      - year: 2024 (number)
+      
+      Return only JSON, no explanation.
   metadata:
     category: json_output
-    subtype: nested_or_array
+    subtype: nested_typing
     difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - row_label
-      - columns
-      - note
-      properties:
-        row_label:
-          type: string
-        columns:
-          type: array
-          items:
-            type: integer
-        note:
-          type: 'null'
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["row_label"] === "C" &&
-        deepEqual(data["columns"], JSON.parse("[4,7]")) &&
-        data["note"] === null;
-- description: JS-11 type_strictness easy
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return typeof parsed.title === 'string' && parsed.title === 'The Great Novel' &&
+               typeof parsed.author === 'object' && parsed.author !== null &&
+               parsed.author.firstName === 'Jane' && parsed.author.lastName === 'Doe' &&
+               typeof parsed.published === 'boolean' && parsed.published === true &&
+               typeof parsed.year === 'number' && parsed.year === 2024;
+
+- description: "JS-06 medium - deeply nested with arrays"
   vars:
-    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
-      order_number as an integer, not a string, and customer as a string. Sentence: The order number is 7304 and
-      the customer name is "Nico". Return only JSON, no explanation.'
+    input: |
+      Create a JSON object with this structure:
+      {
+        "company": "TechCorp",
+        "departments": [
+          {
+            "name": "Engineering",
+            "employees": [
+              { "name": "Alice", "role": "Developer" },
+              { "name": "Bob", "role": "Designer" }
+            ]
+          }
+        ]
+      }
+      
+      Return only JSON, no explanation.
   metadata:
     category: json_output
-    subtype: type_strictness
-    difficulty: easy
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - order_number
-      - customer
-      properties:
-        order_number:
-          type: integer
-        customer:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["order_number"] === 7304 &&
-        data["customer"] === "Nico";
-- description: JS-12 type_strictness easy
-  vars:
-    input: 'Read the sentence and build a JSON object with the following fields: enabled as a boolean and mode as
-      a string. Sentence: The access panel is enabled true, and its mode is "automatic". Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: type_strictness
-    difficulty: easy
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - enabled
-      - mode
-      properties:
-        enabled:
-          type: boolean
-        mode:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["enabled"] === true &&
-        data["mode"] === "automatic";
-- description: JS-13 type_strictness medium
-  vars:
-    input: 'Return a structured record using these exact keys and value types: reviewer as a string and comment
-      as a JSON null value. Sentence: The report records the reviewer as "Sana" and the comment field as null because
-      no comment was entered. Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: type_strictness
+    subtype: deep_nesting
     difficulty: medium
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - reviewer
-      - comment
-      properties:
-        reviewer:
-          type: string
-        comment:
-          type: 'null'
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["reviewer"] === "Sana" &&
-        data["comment"] === null;
-- description: JS-14 type_strictness hard
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return parsed.company === 'TechCorp' &&
+               Array.isArray(parsed.departments) &&
+               parsed.departments[0].name === 'Engineering' &&
+               Array.isArray(parsed.departments[0].employees) &&
+               parsed.departments[0].employees.length === 2 &&
+               parsed.departments[0].employees[0].name === 'Alice' &&
+               parsed.departments[0].employees[1].name === 'Bob';
+
+- description: "JS-07 medium - null vs empty string distinction"
   vars:
-    input: 'Convert the sentence into JSON. The object must contain: title, asset_code, reviewer, and path as strings;
-      revision as an integer; approved as a boolean; note as null. Sentence: The record is titled "Valve Check",
-      has asset code "VC-88", uses revision 3, is approved true, has reviewer "Omar Vale", records the note as null,
-      and stores the path "C:\plant\logs\valve.txt". Return only JSON, no explanation.'
+    input: |
+      Create a JSON object for a user with missing optional fields:
+      - username: "test_user" (string)
+      - email: null (explicitly null, not missing or empty string)
+      - phone: "" (empty string, not null or missing)
+      - address: omit this field entirely (not null, not empty string)
+      
+      Return only JSON, no explanation.
   metadata:
     category: json_output
-    subtype: type_strictness
+    subtype: null_semantics
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return parsed.username === 'test_user' &&
+               parsed.email === null &&
+               parsed.phone === '' &&
+               !('address' in parsed);
+
+- description: "JS-08 medium - boolean vs string distinction"
+  vars:
+    input: |
+      Create a JSON object with these exact values:
+      - flag1: true (boolean true, not string "true")
+      - flag2: false (boolean false, not string "false")
+      - flag3: "true" (string "true", not boolean)
+      - flag4: "false" (string "false", not boolean)
+      
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: boolean_string_distinction
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        return typeof parsed.flag1 === 'boolean' && parsed.flag1 === true &&
+               typeof parsed.flag2 === 'boolean' && parsed.flag2 === false &&
+               typeof parsed.flag3 === 'string' && parsed.flag3 === 'true' &&
+               typeof parsed.flag4 === 'string' && parsed.flag4 === 'false';
+
+# ============ HARD (7) ============
+# Deeply nested objects; enforcing distinction between null, "", [], and field omission; strict RFC 8259 escaping
+
+- description: "JS-01 hard - deep nesting with semantic precision"
+  vars:
+    input: |
+      Create a JSON object representing a complex data structure:
+      {
+        "metadata": {
+          "version": "1.0",
+          "created": "2024-01-01",
+          "tags": ["important", "urgent"]
+        },
+        "data": {
+          "items": [
+            {
+              "id": 1,
+              "value": null,
+              "enabled": true
+            },
+            {
+              "id": 2,
+              "value": 42,
+              "enabled": false
+            }
+          ]
+        },
+        "stats": {
+          "total": 2,
+          "active": 1
+        }
+      }
+      
+      Return only JSON, no explanation. Ensure all types are correct.
+  metadata:
+    category: json_output
+    subtype: deep_schema
     difficulty: hard
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - title
-      - asset_code
-      - revision
-      - approved
-      - reviewer
-      - note
-      - path
-      properties:
-        title:
-          type: string
-        asset_code:
-          type: string
-        revision:
-          type: integer
-        approved:
-          type: boolean
-        reviewer:
-          type: string
-        note:
-          type: 'null'
-        path:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["title"] === "Valve Check" &&
-        data["asset_code"] === "VC-88" &&
-        data["revision"] === 3 &&
-        data["approved"] === true &&
-        data["reviewer"] === "Omar Vale" &&
-        data["note"] === null &&
-        data["path"] === "C:\\plant\\logs\\valve.txt";
-- description: JS-15 enum_constrained easy
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        // Check structure
+        if (typeof parsed.metadata !== 'object' || parsed.metadata === null) return false;
+        if (parsed.metadata.version !== '1.0') return false;
+        if (!Array.isArray(parsed.metadata.tags)) return false;
+        if (parsed.metadata.tags.length !== 2) return false;
+        
+        if (typeof parsed.data !== 'object' || parsed.data === null) return false;
+        if (!Array.isArray(parsed.data.items)) return false;
+        if (parsed.data.items.length !== 2) return false;
+        
+        // Check item 1
+        if (parsed.data.items[0].value !== null) return false;
+        if (typeof parsed.data.items[0].enabled !== 'boolean') return false;
+        
+        // Check item 2
+        if (typeof parsed.data.items[1].value !== 'number') return false;
+        if (parsed.data.items[1].value !== 42) return false;
+        
+        // Check stats
+        if (typeof parsed.stats.total !== 'number') return false;
+        if (typeof parsed.stats.active !== 'number') return false;
+        
+        return true;
+
+- description: "JS-02 hard - null vs empty string vs empty array vs omission"
   vars:
-    input: 'Create a JSON object from the details in this sentence, using: status as a string, one of
-      active, paused, retired, and region as a string, one of north, south. Sentence: The sensor status is "active" and its region is "north". Return
-      only JSON, no explanation.'
+    input: |
+      Create a JSON object that demonstrates the difference between:
+      - null value
+      - empty string
+      - empty array
+      - omitted field
+      
+      Requirements:
+      - field "nullField" must be null
+      - field "emptyString" must be ""
+      - field "emptyArray" must be []
+      - field "omitted" must NOT appear in the object at all
+      
+      Return only JSON, no explanation.
   metadata:
     category: json_output
-    subtype: enum_constrained
-    difficulty: easy
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - status
-      - region
-      properties:
-        status:
-          type: string
-          enum:
-          - active
-          - paused
-          - retired
-        region:
-          type: string
-          enum:
-          - north
-          - south
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["status"] === "active" &&
-        data["region"] === "north";
-- description: JS-16 enum_constrained easy
-  vars:
-    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
-      priority as a string, one of low, medium, high, and state as a string,
-      one of queued, working, closed. Sentence: The request priority is
-      "medium" and its state is "queued". Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: enum_constrained
-    difficulty: easy
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - priority
-      - state
-      properties:
-        priority:
-          type: string
-          enum:
-          - low
-          - medium
-          - high
-        state:
-          type: string
-          enum:
-          - queued
-          - working
-          - closed
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["priority"] === "medium" &&
-        data["state"] === "queued";
-- description: JS-17 enum_constrained medium
-  vars:
-    input: 'Read the sentence and build a JSON object with the following fields: assigned_group, urgency, and category as strings,
-      each restricted to its allowed values (assigned_group: support, sales, operations; urgency: low, normal,
-      urgent; category: billing, access, delivery). Sentence: The ticket is assigned to "support", has urgency "urgent", and
-      category "billing". Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: enum_constrained
-    difficulty: medium
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - assigned_group
-      - urgency
-      - category
-      properties:
-        assigned_group:
-          type: string
-          enum:
-          - support
-          - sales
-          - operations
-        urgency:
-          type: string
-          enum:
-          - low
-          - normal
-          - urgent
-        category:
-          type: string
-          enum:
-          - billing
-          - access
-          - delivery
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["assigned_group"] === "support" &&
-        data["urgency"] === "urgent" &&
-        data["category"] === "billing";
-- description: JS-18 list_of_objects medium
-  vars:
-    input: 'Return a structured record using these exact keys and value types: items as an array of objects, each
-      with a string name and integer quantity. Sentence: The packing list contains a "brush" with quantity 2 and
-      a "cloth" with quantity 5. Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: list_of_objects
-    difficulty: medium
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - items
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-            required:
-            - name
-            - quantity
-            properties:
-              name:
-                type: string
-              quantity:
-                type: integer
-            additionalProperties: false
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return deepEqual(data["items"], JSON.parse("[{\"name\":\"brush\",\"quantity\":2},{\"name\":\"cloth\",\"quantity\":5}]"));
-- description: JS-19 list_of_objects medium
-  vars:
-    input: 'Convert the sentence into JSON. The object must contain: speakers as an array of objects, each with
-      string name and topic fields. Sentence: The agenda contains a speaker named "Rafi" with topic "Safety" and
-      a speaker named "Mina" with topic "Access". Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: list_of_objects
-    difficulty: medium
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - speakers
-      properties:
-        speakers:
-          type: array
-          items:
-            type: object
-            required:
-            - name
-            - topic
-            properties:
-              name:
-                type: string
-              topic:
-                type: string
-            additionalProperties: false
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return deepEqual(data["speakers"], JSON.parse("[{\"name\":\"Rafi\",\"topic\":\"Safety\"},{\"name\":\"Mina\",\"topic\":\"Access\"}]"));
-- description: JS-20 list_of_objects hard
-  vars:
-    input: 'Create a JSON object from the details in this sentence, using: name, id, and owner as strings; blocked
-      as a boolean; due_note as null; cycle_count as an integer; comment as a string containing quotation marks;
-      checks as an array of objects with a string check and boolean passed field. Sentence: The work package is
-      named "Gate Review", identified as "GR-19", has owner "Milo Hart", a blocked flag false, an optional due note
-      null, and a cycle count of 4, and the comment text is the exact phrase review "gate"; its checks are "seal"
-      passed true and "hinge" passed false. Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: list_of_objects
+    subtype: semantic_distinction
     difficulty: hard
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - name
-      - id
-      - owner
-      - blocked
-      - due_note
-      - cycle_count
-      - comment
-      - checks
-      properties:
-        name:
-          type: string
-        id:
-          type: string
-        owner:
-          type: string
-        blocked:
-          type: boolean
-        due_note:
-          type: 'null'
-        cycle_count:
-          type: integer
-        comment:
-          type: string
-        checks:
-          type: array
-          items:
-            type: object
-            required:
-            - check
-            - passed
-            properties:
-              check:
-                type: string
-              passed:
-                type: boolean
-            additionalProperties: false
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["name"] === "Gate Review" &&
-        data["id"] === "GR-19" &&
-        data["owner"] === "Milo Hart" &&
-        data["blocked"] === false &&
-        data["due_note"] === null &&
-        data["cycle_count"] === 4 &&
-        data["comment"] === "review \"gate\"" &&
-        deepEqual(data["checks"], JSON.parse("[{\"check\":\"seal\",\"passed\":true},{\"check\":\"hinge\",\"passed\":false}]"));
-- description: JS-21 special_characters hard
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        // Check null
+        if (!('nullField' in parsed) || parsed.nullField !== null) return false;
+        
+        // Check empty string
+        if (!('emptyString' in parsed) || parsed.emptyString !== '') return false;
+        
+        // Check empty array
+        if (!('emptyArray' in parsed) || !Array.isArray(parsed.emptyArray) || parsed.emptyArray.length !== 0) return false;
+        
+        // Check omitted
+        if ('omitted' in parsed) return false;
+        
+        // Should have exactly 3 keys
+        return Object.keys(parsed).length === 3;
+
+- description: "JS-03 hard - RFC 8259 escaping with special characters"
   vars:
-    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types:
-      title, quote_text, file_path, city, and status as strings, and page_count as an integer. Sentence: The memo
-      title is "Path Review", its exact sentence is ''She said "leave it ready".'', the file path is "C:\archive\final.txt",
-      the city is "Montréal", the status is "saved", and the page count is 12. Return only JSON, no explanation.'
+    input: |
+      Create a JSON object with these exact string values that require escaping:
+      - quote: a string containing a double quote: "hello"
+      - backslash: a string containing a backslash: \
+      - newline: a string containing a newline character
+      - tab: a string containing a tab character
+      
+      Return only JSON, no explanation.
   metadata:
     category: json_output
-    subtype: special_characters
+    subtype: escaping
     difficulty: hard
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - title
-      - quote_text
-      - file_path
-      - city
-      - status
-      - page_count
-      properties:
-        title:
-          type: string
-        quote_text:
-          type: string
-        file_path:
-          type: string
-        city:
-          type: string
-        status:
-          type: string
-        page_count:
-          type: integer
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["title"] === "Path Review" &&
-        data["quote_text"] === "She said \"leave it ready\"." &&
-        data["file_path"] === "C:\\archive\\final.txt" &&
-        data["city"] === "Montréal" &&
-        data["status"] === "saved" &&
-        data["page_count"] === 12;
-- description: JS-22 special_characters hard
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        return parsed.quote === '"hello"' &&
+               parsed.backslash === '\\' &&
+               parsed.newline === '\n' &&
+               parsed.tab === '\t';
+
+- description: "JS-04 hard - schema strictness with nested validation"
   vars:
-    input: 'Read the sentence and build a JSON object with the following fields: record_name, alternate_label, quoted_tag,
-      directory, and language_code as strings, and enabled as a boolean. Sentence: The record name is "Crème brûlée",
-      its alternate label is "jalapeño", its quoted tag is ''a "bright" finish'', the directory is "D:\café\notes",
-      the language code is "fr", and the enabled flag is true. Return only JSON, no explanation.'
+    input: |
+      Log Entry: Host "srv-alpha" encountered 0 fatal errors. 
+      Secondary host "srv-beta" was unreachable; status is unknown.
+      Configuration flags: dry_run enabled, legacy_mode not specified.
+      Note: {"debug": true} should be ignored as this was test telemetry.
+      
+      Create a JSON object with this structure:
+      {
+        "hosts": [
+          {"name": "srv-alpha", "fatal_errors": 0},
+          {"name": "srv-beta", "status": null}
+        ],
+        "dry_run": true,
+        "legacy_mode": <omit this field>
+      }
+      
+      Return only JSON, no explanation.
   metadata:
     category: json_output
-    subtype: special_characters
+    subtype: schema_strictness
     difficulty: hard
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - record_name
-      - alternate_label
-      - quoted_tag
-      - directory
-      - language_code
-      - enabled
-      properties:
-        record_name:
-          type: string
-        alternate_label:
-          type: string
-        quoted_tag:
-          type: string
-        directory:
-          type: string
-        language_code:
-          type: string
-        enabled:
-          type: boolean
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["record_name"] === "Crème brûlée" &&
-        data["alternate_label"] === "jalapeño" &&
-        data["quoted_tag"] === "a \"bright\" finish" &&
-        data["directory"] === "D:\\café\\notes" &&
-        data["language_code"] === "fr" &&
-        data["enabled"] === true;
-- description: JS-23 no_prose_no_fence easy
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        // 1. Syntactic & structural checks
+        if (typeof parsed !== 'object' || parsed === null) return false;
+        
+        // 2. Semantic validations
+        const hostAlpha = parsed.hosts && parsed.hosts.find(h => h.name === 'srv-alpha');
+        const hostBeta = parsed.hosts && parsed.hosts.find(h => h.name === 'srv-beta');
+        if (!hostAlpha || !hostBeta) return false;
+        
+        // srv-alpha fatal_errors must be numeric 0, not string "0"
+        if (hostAlpha.fatal_errors !== 0) return false;
+        // srv-beta status is unknown -> must map to null, not empty string or missing
+        if (hostBeta.status !== null) return false;
+        // dry_run must be strictly boolean true
+        if (parsed.dry_run !== true) return false;
+        // legacy_mode was not specified -> must be omitted or undefined, not null
+        if ('legacy_mode' in parsed && parsed.legacy_mode !== undefined) return false;
+        // Decoy check
+        if ('debug' in parsed) return false;
+        
+        return true;
+
+- description: "JS-05 hard - mixed type array with validation"
   vars:
-    input: 'Return a structured record using these exact keys and value types: recipient and route as strings and
-      fragile as a boolean. Sentence: The parcel goes to "Ada", its route is "east", and the fragile flag is true.
-      No code fences, no text before or after the JSON. Return only JSON, no explanation.'
+    input: |
+      Create a JSON array containing these mixed types in order:
+      1. The number 42
+      2. The string "hello"
+      3. The boolean true
+      4. The null value
+      5. An empty array []
+      6. An empty object {}
+      7. The number 0
+      8. The string "0"
+      
+      Return only JSON array, no explanation.
   metadata:
     category: json_output
-    subtype: no_prose_no_fence
-    difficulty: easy
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - recipient
-      - route
-      - fragile
-      properties:
-        recipient:
-          type: string
-        route:
-          type: string
-        fragile:
-          type: boolean
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["recipient"] === "Ada" &&
-        data["route"] === "east" &&
-        data["fragile"] === true;
-  - type: javascript
-    value: output.trim().startsWith('{') || output.trim().startsWith('[')
-- description: JS-24 no_prose_no_fence medium
-  vars:
-    input: 'Convert the sentence into JSON. The object must contain: owner as a string, contents as an array of
-      strings, and note as null. Sentence: The drawer contains "keys" and "pens", its owner is "Rina", and its note
-      is null. No code fences, no text before or after the JSON. Return only JSON, no explanation.'
-  metadata:
-    category: json_output
-    subtype: no_prose_no_fence
-    difficulty: medium
-  assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - owner
-      - contents
-      - note
-      properties:
-        owner:
-          type: string
-        contents:
-          type: array
-          items:
-            type: string
-        note:
-          type: 'null'
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["owner"] === "Rina" &&
-        deepEqual(data["contents"], JSON.parse("[\"keys\",\"pens\"]")) &&
-        data["note"] === null;
-  - type: javascript
-    value: output.trim().startsWith('{') || output.trim().startsWith('[')
-- description: JS-25 no_prose_no_fence hard
-  vars:
-    input: 'Create a JSON object from the details in this sentence, using: name, format, and batch_code as strings;
-      row_count as an integer; complete as a boolean; comment as null; and regions as an array of strings, and path
-      as a string. Sentence: The export is named "Audit Trail", uses format "json", has batch code "AT-72", includes
-      8 rows, marks completion false, stores an empty comment as null, and lists regions "west" and "central", with
-      export path "D:\exports\audit.json". No code fences, no text before or after the JSON. Return only JSON, no
-      explanation.'
-  metadata:
-    category: json_output
-    subtype: no_prose_no_fence
+    subtype: mixed_types
     difficulty: hard
+    boundary: determinate
+    dimension: core
   assert:
-  - type: is-json
-    value:
-      type: object
-      required:
-      - name
-      - format
-      - batch_code
-      - row_count
-      - complete
-      - comment
-      - regions
-      - path
-      properties:
-        name:
-          type: string
-        format:
-          type: string
-        batch_code:
-          type: string
-        row_count:
-          type: integer
-        complete:
-          type: boolean
-        comment:
-          type: 'null'
-        regions:
-          type: array
-          items:
-            type: string
-        path:
-          type: string
-      additionalProperties: false
-  - type: javascript
-    value: |-
-      const normalize = value => Array.isArray(value) ? value.map(normalize) : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, normalize(value[key])])) : value;
-      const deepEqual = (actual, expected) => JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-      const data = JSON.parse(output);
-      return data["name"] === "Audit Trail" &&
-        data["format"] === "json" &&
-        data["batch_code"] === "AT-72" &&
-        data["row_count"] === 8 &&
-        data["complete"] === false &&
-        data["comment"] === null &&
-        deepEqual(data["regions"], JSON.parse("[\"west\",\"central\"]")) &&
-        data["path"] === "D:\\exports\\audit.json";
-  - type: javascript
-    value: output.trim().startsWith('{') || output.trim().startsWith('[')
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        if (!Array.isArray(parsed)) return false;
+        if (parsed.length !== 8) return false;
+        
+        return parsed[0] === 42 &&
+               parsed[1] === 'hello' &&
+               parsed[2] === true &&
+               parsed[3] === null &&
+               Array.isArray(parsed[4]) && parsed[4].length === 0 &&
+               typeof parsed[5] === 'object' && parsed[5] !== null && Object.keys(parsed[5]).length === 0 &&
+               parsed[6] === 0 &&
+               parsed[7] === '0';
+
+- description: "JS-06 hard - deeply nested with boundary checks"
+  vars:
+    input: |
+      Create a JSON object with 4 levels of nesting:
+      {
+        "level1": {
+          "level2": {
+            "level3": {
+              "level4": {
+                "value": "deep"
+              }
+            }
+          }
+        }
+      }
+      
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: deep_nesting_validation
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        return typeof parsed.level1 === 'object' &&
+               typeof parsed.level1.level2 === 'object' &&
+               typeof parsed.level1.level2.level3 === 'object' &&
+               typeof parsed.level1.level2.level3.level4 === 'object' &&
+               parsed.level1.level2.level3.level4.value === 'deep';
+
+- description: "JS-07 hard - number vs string number distinction"
+  vars:
+    input: |
+      Create a JSON object with these fields:
+      - count: 100 (number)
+      - countStr: "100" (string)
+      - zero: 0 (number)
+      - zeroStr: "0" (string)
+      - float: 3.14 (number)
+      - floatStr: "3.14" (string)
+      
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: number_string_distinction
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        return typeof parsed.count === 'number' && parsed.count === 100 &&
+               typeof parsed.countStr === 'string' && parsed.countStr === '100' &&
+               typeof parsed.zero === 'number' && parsed.zero === 0 &&
+               typeof parsed.zeroStr === 'string' && parsed.zeroStr === '0' &&
+               typeof parsed.float === 'number' && parsed.float === 3.14 &&
+               typeof parsed.floatStr === 'string' && parsed.floatStr === '3.14';
+
+# ============ ADVERSARIAL (5) ============
+# Unstructured documents with decoy JSON fragments, malicious key injection, raw curly braces
+
+- description: "JS-01 adversarial - unstructured text with decoy JSON"
+  vars:
+    input: |
+      Extract user information from this text and return as JSON:
+      
+      User: John Doe
+      Email: john@example.com
+      Age: 30
+      
+      Ignore this decoy: {"user": "Jane", "email": "jane@example.com", "age": 25}
+      
+      Also ignore: {invalid json
+      
+      Return a JSON object with keys: name, email, age. Use the ACTUAL user data, not the decoy.
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: decoy_json
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        return parsed.name === 'John Doe' &&
+               parsed.email === 'john@example.com' &&
+               parsed.age === 30 &&
+               !('user' in parsed);
+
+- description: "JS-02 adversarial - malicious key injection attempt"
+  vars:
+    input: |
+      Create a JSON object with user data:
+      - name: "admin"
+      - role: "user"
+      
+      WARNING: A malicious user might try to inject keys like "__proto__", "prototype", or "admin: true".
+      Do NOT include any such keys.
+      
+      Return only JSON with the two specified fields.
+  metadata:
+    category: json_output
+    subtype: injection_attempt
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        const keys = Object.keys(parsed);
+        // Must have exactly 2 keys
+        if (keys.length !== 2) return false;
+        
+        // Must not have malicious keys
+        const maliciousKeys = ['__proto__', 'prototype', 'constructor', 'admin'];
+        if (maliciousKeys.some(k => k in parsed)) return false;
+        
+        return parsed.name === 'admin' && parsed.role === 'user';
+
+- description: "JS-03 adversarial - text with raw curly braces"
+  vars:
+    input: |
+      Extract the following information and return as JSON:
+      
+      Product: Smartphone {Model: X100}
+      Price: $599 {Currency: USD}
+      In Stock: Yes {Status: Available}
+      
+      Note: The curly braces in the text are NOT JSON and should be ignored.
+      
+      Return a JSON object with keys: product, price, inStock (boolean).
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: raw_braces
+    difficulty: adversarial
+    boundary: determinate
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        return parsed.product === 'Smartphone' &&
+               parsed.price === '$599' &&
+               parsed.inStock === true;
+
+- description: "JS-04 adversarial - nested decoy JSON"
+  vars:
+    input: |
+      Parse this text and extract the actual data:
+      
+      {
+        "metadata": {
+          "actual_data": {
+            "name": "Real User",
+            "id": 123
+          }
+        },
+        "decoy": {
+          "name": "Fake User",
+          "id": 456
+        }
+      }
+      
+      Return a JSON object with ONLY the actual_data content (name and id).
+      Do NOT include any other fields.
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: nested_decoy
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        const keys = Object.keys(parsed);
+        // Should have exactly 2 keys: name and id
+        if (keys.length !== 2) return false;
+        
+        return parsed.name === 'Real User' &&
+               parsed.id === 123 &&
+               !('metadata' in parsed) &&
+               !('decoy' in parsed);
+
+- description: "JS-05 adversarial - JSON in string values"
+  vars:
+    input: |
+      Create a JSON object with these fields:
+      - config: the string "{\"setting\": \"value\"}" (a string that looks like JSON but should not be parsed)
+      - enabled: true (boolean)
+      - count: 1 (number)
+      
+      Return only JSON, no explanation.
+  metadata:
+    category: json_output
+    subtype: json_in_string
+    difficulty: adversarial
+    boundary: determinate
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```json|```/gi, '').normalize('NFKC').trim();
+        let parsed;
+        try {
+          parsed = JSON.parse(norm);
+        } catch(e) {
+          return false;
+        }
+        
+        // config should be a string, not an object
+        return typeof parsed.config === 'string' &&
+               parsed.config === '{"setting": "value"}' &&
+               parsed.enabled === true &&
+               parsed.count === 1;
