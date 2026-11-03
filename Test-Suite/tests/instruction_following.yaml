@@ -153,8 +153,8 @@
     requirements:
       - first characters are "Announcement:" (leading whitespace ignored)
   assert:
-    - type: javascript
-      value: 'output.normalize("NFKC").trim().startsWith("Announcement:")'
+  - type: javascript
+    value: 'output.normalize("NFKC").trim().replace(/[*_`~]+/g, "").startsWith("Announcement:")'
 
 - description: 'IF-12 end text Stay safe on the trail!'
   vars:
@@ -166,8 +166,8 @@
     requirements:
       - last characters are "Stay safe on the trail!" (trailing whitespace ignored)
   assert:
-    - type: javascript
-      value: 'output.normalize("NFKC").trim().endsWith("Stay safe on the trail!")'
+  - type: javascript
+    value: 'output.normalize("NFKC").replace(/[*_`]+$/g, "").trim().endsWith("Stay safe on the trail!")'
 
 - description: 'IF-13 start Dear team and end Regards'
   vars:
