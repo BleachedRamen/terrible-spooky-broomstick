@@ -28,6 +28,7 @@ providers:
 # The model grading the test model. This model needs to be smart. Qwen3.5 2B exists as an example.
 defaultTest:
   options:
+    transform: file://shared-normalizer.js:normalizeOutput
     provider:
       id: 'openai:chat:Qwen3.5-2B-Dense'
       config:
@@ -39,9 +40,6 @@ defaultTest:
     # Global output normalization transform
     # All test outputs will be normalized using the shared-normalizer.js before assertions are evaluated
     # This ensures consistent handling of thinking blocks, markdown fencing, and Unicode variations
-    transform: |
-      const { normalizeOutput } = require('./shared-normalizer.js');
-      return normalizeOutput(output);
 
 # Lol it literally just imports all yaml files from tests
 tests:
