@@ -95,11 +95,11 @@
         return /\bskin\b/i.test(norm);
 
 # ============ MEDIUM (8) ============
-# Distinguish adjacent concepts
+# Multi-Hop + Disjoint Fact Chaining: Require connecting 2-3 non-adjacent factual domains
 
-- description: "BK-02 mass vs weight on moon"
+- description: "BK-02 element named after Copernicus homeland discovery year"
   vars:
-    input: 'On the lunar surface, does an object have the same mass as on Earth? Explain the difference between mass and weight in this context.'
+    input: 'Nicolaus Copernicus was born in a region now part of Poland. An element is named after Poland. What is this element and in what year was it discovered? Answer with element symbol and year separated by a comma.'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -109,69 +109,12 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        // Must distinguish: mass is invariant, weight changes
-        const massInvariant = /mass.*?(unchanged|same|invariant|constant)/i.test(norm);
-        const weightChanges = /weight.*?(decreases|less|reduced|1\/6|one sixth)/i.test(norm);
-        return massInvariant && weightChanges;
+        const norm = output.normalize('NFKC').trim();
+        return /Po,1898/i.test(norm);
 
-- description: "BK-03 accuracy vs precision"
+- description: "BK-03 African river Indian Ocean outlet after excluding top three"
   vars:
-    input: 'A target has 5 arrows clustered tightly together but far from the bullseye. Is this an example of accuracy, precision, both, or neither? Explain your answer.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: medium
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Clustered = precise, far from bullseye = not accurate
-        const preciseNotAccurate = /(?:precise|precision).*?(?:not accurate|inaccurate|without accuracy)/i.test(norm) ||
-                                   /(?:not accurate|inaccurate).*?(?:but precise|however precise)/i.test(norm);
-        return preciseNotAccurate;
-
-- description: "BK-04 synchronous vs asynchronous execution"
-  vars:
-    input: 'In programming, what is the key difference between synchronous and asynchronous execution? Explain with an example.'
-  metadata:
-    category: basic_knowledge
-    subtype: everyday_technology
-    difficulty: medium
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Must mention blocking vs non-blocking or waiting vs not waiting
-        const syncBlocks = /synchronous.*?(blocks|waits|holds|sequential)/i.test(norm);
-        const asyncNoBlock = /asynchronous.*?(non[-\s]?blocking|does not wait|concurrent|background)/i.test(norm);
-        return syncBlocks && asyncNoBlock;
-
-- description: "BK-05 virus vs virion"
-  vars:
-    input: 'What is the difference between a virus and a virion? Explain the relationship between these terms.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: medium
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Virus is the species/concept, virion is the individual particle
-        const virusConcept = /virus.*?(species|type|concept|genetic)/i.test(norm);
-        const virionParticle = /virion.*?(particle|individual|physical|infectious particle)/i.test(norm);
-        return virusConcept && virionParticle;
-
-- description: "BK-07 longest river clarification"
-  vars:
-    input: 'Which river is traditionally considered the longest in the world, and what is the approximate length in kilometers? Answer both parts.'
+    input: 'The Nile flows into the Mediterranean, the Congo and Niger into the Atlantic. Excluding these three, which African river that flows into the Indian Ocean is the longest? Provide only the name.'
   metadata:
     category: basic_knowledge
     subtype: geography
@@ -181,14 +124,27 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        const nile = /Nile/i.test(norm);
-        const length = /(?:6\.?6[5-7]?|66[5-7]0|approximately\s+6[,\.]?6[5-7]?0)/i.test(norm);
-        return nile && length;
+        const norm = output.normalize('NFKC').trim();
+        return /^Zambezi$/i.test(norm);
 
-- description: "BK-08 language family Sino-Tibetan"
+- description: "BK-04 Curies elements alphabetical"
   vars:
-    input: 'To which major language family do Mandarin, Cantonese, and Tibetan belong? Also name one other language in this family besides these three.'
+    input: 'Marie and Pierre Curie discovered two elements. Name both elements in alphabetical order, separated by a comma. Do not include any other text or punctuation.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /^Polonium,Radium$/i.test(norm);
+
+- description: "BK-05 Joyce Dublin tower and date"
+  vars:
+    input: "James Joyce was born in Dublin. The opening scene of Ulysses takes place in a specific tower. What is the name of this tower and what is the date of the novel's action (in YYYY-MM-DD format)? Answer with tower name and date separated by a comma."
   metadata:
     category: basic_knowledge
     subtype: literature_language
@@ -198,31 +154,12 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        const sinoTibetan = /Sino[\s-]?Tibetan/i.test(norm);
-        const otherLang = /(?:Burmese|Tibetan|Nepali|Assamese|Bodo)/i.test(norm);
-        return sinoTibetan && otherLang;
+        const norm = output.normalize('NFKC').trim();
+        return /Martello Tower,1904-06-16/i.test(norm);
 
-- description: "BK-09 primary colors art vs light"
+- description: "BK-06 Unix C Bell Labs year"
   vars:
-    input: 'What are the traditional primary colors in art (pigment mixing)? How do they differ from the primary colors in light (additive mixing)?'
-  metadata:
-    category: basic_knowledge
-    subtype: arts_culture
-    difficulty: medium
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        const artColors = /(?:red.*?yellow.*?blue|RYB)/i.test(norm);
-        const lightColors = /(?:red.*?green.*?blue|RGB|additive)/i.test(norm);
-        return artColors && lightColors;
-
-- description: "BK-11 World Wide Web inventor details"
-  vars:
-    input: 'Who invented the World Wide Web, in what year, and at which organization? Answer all three parts.'
+    input: 'The C programming language was created to write Unix at Bell Labs. In what year was Unix first released, and what was the original name of the C language before it was called C? Answer with year and original name separated by a comma.'
   metadata:
     category: basic_knowledge
     subtype: everyday_technology
@@ -232,18 +169,80 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        const inventor = /(?:Tim\s+)?Berners[\s-]?Lee/i.test(norm);
-        const year = /1989/i.test(norm);
-        const org = /CERN/i.test(norm);
-        return inventor && year && org;
+        const norm = output.normalize('NFKC').trim();
+        return /1971,B/i.test(norm);
+
+- description: "BK-07 Van Gogh Starry Night location and movement"
+  vars:
+    input: 'The Starry Night was painted by Vincent van Gogh while he was in which institution, and which art movement does this painting belong to? Answer with institution name and movement separated by a comma.'
+  metadata:
+    category: basic_knowledge
+    subtype: arts_culture
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /Saint[- ]Remy,Post[- ]Impressionism/i.test(norm);
+
+- description: "BK-08 Mozart Magic Flute birth country libretto language"
+  vars:
+    input: 'Wolfgang Amadeus Mozart composed The Magic Flute. In which country was he born, what language was the original libretto written in, and who wrote the libretto? Answer with country, language, and librettist last name separated by commas.'
+  metadata:
+    category: basic_knowledge
+    subtype: arts_culture
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /Austria,German,Schikaneder/i.test(norm);
+
+- description: "BK-09 Einstein E=mc2 birth city Nobel year and category"
+  vars:
+    input: 'Albert Einstein formulated E=mc2. In which city was he born, in what year did he receive the Nobel Prize, and in which category? Answer with city, year, and category separated by commas.'
+  metadata:
+    category: basic_knowledge
+    subtype: science
+    difficulty: medium
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /Ulm,1921,Physics/i.test(norm);
 
 # ============ HARD (6) ============
-# Reconcile apparent contradictions caused by scope, measurement reference frames, or semantic collision
+# Suppressed Primaries + Multi-Constraint Elimination: Explicitly prohibit canonical answers or require elimination across constraints
 
-- description: "BK-01 hard - Cp vs Cv for ideal gases"
+- description: "BK-01 hard - longest African river to Indian Ocean with negative constraints"
   vars:
-    input: 'For an ideal gas, why is the specific heat at constant pressure (Cp) always greater than the specific heat at constant volume (Cv)? Explain the physical reason.'
+    input: 'Excluding the Nile, Congo, and Niger, name the longest river in Africa that flows directly into the Indian Ocean. Do not use the words "river", "the", "a", or "an" in your answer. Provide only the proper name in lowercase.'
+  metadata:
+    category: basic_knowledge
+    subtype: geography
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim().toLowerCase();
+        const isZambezi = /^zambezi$/i.test(norm);
+        const noRiver = !/river/i.test(norm);
+        const noThe = !/\bthe\b/i.test(norm);
+        const noA = !/\ba\b/i.test(norm);
+        const noAn = !/\ban\b/i.test(norm);
+        return isZambezi && noRiver && noThe && noA && noAn;
+
+- description: "BK-02 hard - element between silver and indium with symbol only"
+  vars:
+    input: 'Silver has atomic number 47 and indium has atomic number 49. What is the chemical symbol of the element with atomic number exactly between them? Do not provide the element name. Do not use any punctuation, spaces, or capital letters beyond the first.'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -253,15 +252,58 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        // Cp = Cv + R (gas constant), because at constant pressure, energy is used for both heating AND work
-        const cpGtCv = /Cp.*?[>\s]Cv|Cv\s*[<\s]Cp/i.test(norm);
-        const workDone = /(?:work done|expansion|volume change|PdV|R\s*=\s*8\.314)/i.test(norm);
-        return cpGtCv && workDone;
+        const norm = output.normalize('NFKC').trim();
+        return /^Cd$/i.test(norm);
 
-- description: "BK-02 hard - photon zero mass but momentum"
+- description: "BK-03 hard - Shakespeare longest play excluding top three with constraint"
   vars:
-    input: 'A photon has zero invariant (rest) mass, yet it carries momentum and can exert radiation pressure. How is this possible? Explain using the relativistic relationship between energy, momentum, and mass.'
+    input: 'Excluding Hamlet, Macbeth, and Othello, which Shakespeare play has the most total words according to standard Folger Library counts? Do not include the word "The" at the beginning. Provide only the play title.'
+  metadata:
+    category: basic_knowledge
+    subtype: literature_language
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        const normalized = norm.replace(/^The\s+/i, '').trim();
+        return /^Richard III$/i.test(normalized);
+
+- description: "BK-04 hard - country with most Nobel Prizes per capita non-Nordic"
+  vars:
+    input: 'Excluding Sweden, Norway, Denmark, Finland, and Iceland, which country has the highest number of Nobel Prize laureates per capita? Do not provide any explanation. Provide only the country name.'
+  metadata:
+    category: basic_knowledge
+    subtype: human_body_nature
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /^Switzerland$/i.test(norm);
+
+- description: "BK-05 hard - US president non-consecutive terms with format constraint"
+  vars:
+    input: 'Which United States president served two non-consecutive terms? Provide the answer in the format: "LASTNAME_ONLY" (all caps, no spaces, no punctuation).'
+  metadata:
+    category: basic_knowledge
+    subtype: history
+    difficulty: hard
+    boundary: determinate
+    dimension: core
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /^CLEVELAND$/i.test(norm);
+
+- description: "BK-06 hard - planet with most moons excluding gas giants and Earth"
+  vars:
+    input: 'Excluding Jupiter, Saturn, Uranus, Neptune, and Earth, which planet in our solar system has the most confirmed natural satellites? Provide only the planet name.'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -271,93 +313,30 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        // E=pc for massless particles, or E^2 = (pc)^2 + (m0c^2)^2 with m0=0
-        const zeroRestMass = /(?:zero.*?rest mass|rest mass.*?zero|m0\s*=\s*0)/i.test(norm);
-        const momentumFromEnergy = /(?:E\s*=\s*pc|E\^2.*?p\^2.*?c\^2|momentum.*?energy|p\s*=\s*E\/c)/i.test(norm);
-        return zeroRestMass && momentumFromEnergy;
-
-- description: "BK-03 hard - water expands on freezing mechanism"
-  vars:
-    input: 'Why does water expand when it freezes? Explain the molecular mechanism, specifically addressing the role of hydrogen bonds.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: hard
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Must mention hexagonal lattice/ice crystal structure
-        const hexagonal = /(?:hexagonal|ice.*?lattice|crystal.*?structure|tetrahedral)/i.test(norm);
-        // Must mention hydrogen bonds create open structure
-        const hBonds = /(?:hydrogen bonds|H-bonds).*?(open|space|lattice|structure)/i.test(norm) ||
-                       /(?:open|space|lattice).*?(hydrogen bonds|H-bonds)/i.test(norm);
-        return hexagonal && hBonds;
-
-- description: "BK-04 hard - time dilation and twin paradox"
-  vars:
-    input: 'In the twin paradox, one twin travels at relativistic speeds and returns to find the stay-at-home twin has aged more. Explain why both twins do not see the other as younger, resolving the apparent symmetry.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: hard
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Must mention acceleration/deceleration breaks symmetry
-        const acceleration = /(?:acceleration|deceleration|turnaround|non-inertial|breaks.*?symmetry)/i.test(norm);
-        const timeDilation = /(?:time dilation|proper time|Lorentz)/i.test(norm);
-        return acceleration && timeDilation;
-
-- description: "BK-05 hard - tides bulge explanation"
-  vars:
-    input: 'Why are there two tidal bulges on Earth (one facing the Moon and one opposite) instead of just one? Explain the physical forces involved.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: hard
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Must mention centrifugal force and gravity gradient
-        const centrifugal = /(?:centrifugal|inertial)/i.test(norm);
-        const gravityGradient = /(?:gravity.*?gradient|differential.*?gravity|far side.*?less)/i.test(norm);
-        return centrifugal && gravityGradient;
-
-- description: "BK-06 hard - relativistic mass vs invariant mass"
-  vars:
-    input: 'In modern physics, the concept of "relativistic mass" has fallen out of favor. What is the difference between relativistic mass and invariant (rest) mass, and why is the latter preferred in contemporary physics?'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: hard
-    boundary: determinate
-    dimension: core
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Must mention that relativistic mass depends on velocity/frame
-        const relativisticMass = /(?:relativistic mass.*?velocity|mass.*?increases.*?speed|frame.*?dependent)/i.test(norm);
-        // Must mention invariant mass is constant
-        const invariantMass = /(?:invariant mass|rest mass).*?(constant|unchanged|same.*?all.*?frames)/i.test(norm);
-        return relativisticMass && invariantMass;
+        const norm = output.normalize('NFKC').trim();
+        return /^Mars$/i.test(norm);
 
 # ============ ADVERSARIAL (5) ============
-# Prompts with false or biased premises that must be explicitly rejected
+# Subtle False Premise & Semantic Distractors: Embed factually incorrect presuppositions or bait training data reflexes
 
-- description: "BK-01 adversarial - sound speed in cold air"
+- description: "BK-01 adversarial - Drake raid after Treaty of Utrecht under Elizabeth I"
   vars:
-    input: 'Given that sound waves travel faster in cold air because denser air compresses molecules closer together, calculate the approximate speed ratio between 0°C and 20°C.'
+    input: 'During the reign of Queen Elizabeth I, which Spanish port did Francis Drake raid immediately following the signing of the Treaty of Utrecht? If no such raid occurred under her reign, output exactly: INVALID_TIMELINE'
+  metadata:
+    category: basic_knowledge
+    subtype: history
+    difficulty: adversarial
+    boundary: contradictory
+    dimension: adversarial
+  assert:
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC').trim();
+        return /^INVALID_TIMELINE$/i.test(norm);
+
+- description: "BK-02 adversarial - sound faster in cold air"
+  vars:
+    input: 'Given that sound waves travel faster in cold air because denser air compresses molecules closer together, calculate the approximate speed of sound at 0°C in m/s. If the premise is factually incorrect, output exactly: PREMISE_ERROR'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -367,16 +346,12 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        // Must reject false premise: sound travels SLOWER in cold air
-        const rejectsPremise = /(?:slower.*?cold|faster.*?warm|premise.*?(?:incorrect|false|flawed|wrong)|contradicts)/i.test(norm);
-        // Must provide correct relation: speed proportional to sqrt(T)
-        const correctRelation = /(?:proportional.*?temperature|sqrt.*?T|kelvin|\u0394T)/i.test(norm);
-        return rejectsPremise && correctRelation;
+        const norm = output.normalize('NFKC').trim();
+        return /^PREMISE_ERROR$/i.test(norm);
 
-- description: "BK-02 adversarial - hydrogen bonds break in freezing"
+- description: "BK-03 adversarial - seasons caused by Earth-Sun distance"
   vars:
-    input: 'Given that water expands upon freezing because hydrogen bonds break apart, explain how pressure alters this expansion.'
+    input: 'Given that Earth is closest to the Sun in January (perihelion) and farthest in July (aphelion), explain why the Northern Hemisphere experiences summer in July. If the premise incorrectly implies distance causes seasons, output exactly: DISTANCE_FALLACY'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -386,16 +361,12 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        // Must reject premise: hydrogen bonds do NOT break, they form hexagonal lattice
-        const rejectsPremise = /(?:hydrogen bonds.*?(?:do not break|stabilize|form|create|strengthen)|premise.*?(?:incorrect|false|flawed)|bonds.*?form.*?lattice)/i.test(norm);
-        // Must mention hexagonal/ice structure
-        const correctStructure = /(?:hexagonal|ice.*?lattice|crystal.*?structure|tetrahedral)/i.test(norm);
-        return rejectsPremise && correctStructure;
+        const norm = output.normalize('NFKC').trim();
+        return /^DISTANCE_FALLACY$/i.test(norm);
 
-- description: "BK-03 adversarial - seasons caused by distance"
+- description: "BK-04 adversarial - centrifugal force real outward force"
   vars:
-    input: 'Given that Earth is closest to the Sun in January (perihelion) and farthest in July (aphelion), explain why the Northern Hemisphere has summer in July and winter in January.'
+    input: 'Given that centrifugal force is a real outward force acting on objects in circular motion, describe how a roller coaster loop maintains contact with the track at the top. If the premise is physically incorrect, output exactly: FICTITIOUS_FORCE'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -405,16 +376,12 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        // Must reject the implied premise that distance causes seasons
-        const rejectsPremise = /(?:distance.*?(?:not.*?cause|does not cause|minimal.*?effect)|seasons.*?(?:not.*?distance|caused.*?tilt))/i.test(norm);
-        // Must mention axial tilt
-        const correctCause = /(?:axial tilt|23\.5|23\u00B0|obliquity|tilt.*?axis)/i.test(norm);
-        return rejectsPremise && correctCause;
+        const norm = output.normalize('NFKC').trim();
+        return /^FICTITIOUS_FORCE$/i.test(norm);
 
-- description: "BK-04 adversarial - centrifugal force in circular motion"
+- description: "BK-05 adversarial - vacuum sound transmission via EM waves"
   vars:
-    input: 'Given that centrifugal force is a real outward force acting on objects in circular motion, explain how a car can stay on a curved road without flying off.'
+    input: 'Given that sound can travel through a vacuum because electromagnetic waves propagate without a medium, explain how astronauts hear each other during spacewalks. If the premise conflates sound with electromagnetic waves, output exactly: CONFLATION_ERROR'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -424,28 +391,5 @@
   assert:
     - type: javascript
       value: |
-        const norm = output.normalize('NFKC');
-        // Must reject premise: centrifugal is fictitious/pseudo-force
-        const rejectsPremise = /(?:centrifugal.*?(?:fictitious|pseudo|apparent|not real)|inertial.*?frame|fictitious.*?force)/i.test(norm);
-        // Must mention centripetal force (real inward force)
-        const correctForce = /(?:centripetal.*?force|inward.*?force|toward.*?center)/i.test(norm);
-        return rejectsPremise && correctForce;
-
-- description: "BK-05 adversarial - vacuum sound transmission"
-  vars:
-    input: 'Given that sound can travel through a vacuum because electromagnetic waves can propagate without a medium, explain how astronauts communicate in space.'
-  metadata:
-    category: basic_knowledge
-    subtype: science
-    difficulty: adversarial
-    boundary: contradictory
-    dimension: adversarial
-  assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Must reject premise: sound cannot travel through vacuum
-        const rejectsPremise = /(?:sound.*?(?:cannot|does not|requires.*?medium|vacuum.*?cannot)|no.*?sound.*?vacuum)/i.test(norm);
-        // Must distinguish sound (mechanical) from EM waves
-        const correctDistinction = /(?:electromagnetic|radio.*?waves|EM|sound.*?mechanical|medium.*?required)/i.test(norm);
-        return rejectsPremise && correctDistinction;
+        const norm = output.normalize('NFKC').trim();
+        return /^CONFLATION_ERROR$/i.test(norm);
