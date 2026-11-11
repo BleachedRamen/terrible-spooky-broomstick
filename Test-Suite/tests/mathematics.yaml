@@ -366,18 +366,10 @@
 - description: MA-03 hard - piecewise continuity check
   vars:
     input: 'For the piecewise function:
-
       f(x) = ax + b, if x < 3
-
       f(x) = 2x + 5, if x >= 3
-
-
-      Find the values of a and b such that the function is continuous at x = 3.
-
-      Provide the value of a + b. End with "ANSWER: <number>" (digits only, can be
-      decimal).
-
-      '
+      Find a and b such that f is continuous AND differentiable at x = 3.
+      Provide the value of a + b. End with "ANSWER: <number>" (digits only, can be decimal).'
   metadata:
     category: mathematics
     subtype: continuity
@@ -519,16 +511,12 @@
       '
 - description: MA-06 hard - boundary continuity with piecewise
   vars:
-    input: 'For the piecewise function to be continuous at x = 2:
-
+    input: |
+      For the piecewise function to be continuous at x = 2:
       f(x) = x^2 + a, if x <= 2
-
       f(x) = bx + 3, if x > 2
 
-
-      Find the value of b - a. End with "ANSWER: <number>" (digits only, can be negative).
-
-      '
+      Find the value of 2b - a. End with "ANSWER: <number>" (digits only, can be negative).
   metadata:
     category: mathematics
     subtype: piecewise_continuity
@@ -536,43 +524,13 @@
     boundary: determinate
     dimension: core
   assert:
-  - type: javascript
-    value: 'const norm = output.normalize(''NFKC'');
-
-      // At x=2: left limit = 2^2 + a = 4 + a
-
-      // Right limit = b*2 + 3 = 2b + 3
-
-      // For continuity: 4 + a = 2b + 3 => a = 2b - 1
-
-      // We need b - a = b - (2b - 1) = -b + 1
-
-      // Still underdetermined! But wait, maybe they want a specific relationship?
-
-      // Actually, this is also underdetermined. There are infinitely many (a, b)
-      pairs.
-
-      // Unless... maybe the problem expects us to express it in terms of one variable?
-
-      // But the answer format expects a number...
-
-      // Let me reconsider: maybe I''m missing something. If we set x=2 exactly:
-
-      // f(2) = 4 + a (from first piece)
-
-      // For continuity at x=2: lim(x->2-) = lim(x->2+) = f(2)
-
-      // 4 + a = 2b + 3
-
-      // So a = 2b - 1
-
-      // Then b - a = b - (2b - 1) = -b + 1
-
-      // This is still underdetermined!
-
-      return /(under|no.*?unique|infinite|determined)/i.test(norm);
-
-      '
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        // At x = 2: 4 + a = 2b + 3 => 2b - a = 1
+        const m = [...norm.matchAll(/ANSWER:\s*(-?\d+)/gi)].pop();
+        return !!m && parseInt(m[1], 10) === 1;
+        
 - description: MA-07 hard - permutation with constraints
   vars:
     input: 'How many 3-digit numbers can be formed using the digits 1, 2, 3, 4, 5
