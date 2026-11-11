@@ -77,7 +77,10 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /Processing\s+Unit/i.test(norm) && !/Central/i.test(norm);
+        // Enforces Title Case and valid C-synonyms (Core, Chief, Center, etc.)
+        const hasValidSynonym = /\b(Core|Chief|Center|Centric|Crucial|Critical|Cardinal)\s+Processing\s+Unit\b/.test(norm);
+        const noCentral = !/\bCentral\b/i.test(norm);
+        return hasValidSynonym && noCentral;
 
 - description: "BK-23 largest human organ"
   vars:
@@ -92,7 +95,10 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /(?:outer.*?layer|epidermis|dermis)/i.test(norm) && !/skin/i.test(norm);
+        const hasDescription = /outer\s+(?:layer|covering)/i.test(norm) && /body/i.test(norm);
+        const noSkin = !/\bskin\b/i.test(norm);
+        const noLayers = !/\b(epidermis|dermis)\b/i.test(norm);
+        return hasDescription && noSkin && noLayers;
 
 # ============ MEDIUM (8) ============
 # Multi-Hop + Disjoint Fact Chaining: Require connecting 2-3 non-adjacent factual domains
