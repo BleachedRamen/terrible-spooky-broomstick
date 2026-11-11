@@ -2,11 +2,11 @@
 # Instruction Following - 25 tests: 5 baseline-easy, 8 medium, 7 hard, 5 adversarial
 
 # ============ BASELINE EASY (5) ============
-# Standard format + length constraints
+# Hardened instruction following with multi-constraint and decoy patterns
 
 - description: "IF-01 exact word count 12"
   vars:
-    input: 'Describe rain in exactly 12 words.'
+    input: 'Describe rain in exactly 12 words. Do NOT use the words "rain", "water", "fall", or "sky" in your description.'
   metadata:
     category: instruction_following
     constraint: word_count
@@ -18,11 +18,12 @@
       value: |
         const norm = output.normalize('NFKC').trim();
         const words = norm.split(/\s+/).filter(Boolean);
-        return words.length === 12;
+        const hasForbidden = /rain|water|fall|sky/i.test(norm);
+        return words.length === 12 && !hasForbidden;
 
 - description: "IF-02 maximum word count 8"
   vars:
-    input: 'Give one tip for saving energy at home. Use no more than 8 words.'
+    input: 'Give one tip for saving energy at home. Use no more than 8 words. Your tip must include the word "energy" and must NOT use the word "save".'
   metadata:
     category: instruction_following
     constraint: word_count
@@ -34,11 +35,13 @@
       value: |
         const norm = output.normalize('NFKC').trim();
         const words = norm.split(/\s+/).filter(Boolean);
-        return words.length > 0 && words.length <= 8;
+        const hasEnergy = /energy/i.test(norm);
+        const noSave = !/save/i.test(norm);
+        return words.length > 0 && words.length <= 8 && hasEnergy && noSave;
 
 - description: "IF-03 exact sentence count 1"
   vars:
-    input: 'Define what a telescope does. Write exactly 1 sentence.'
+    input: 'Define what a telescope does. Write exactly 1 sentence. Your sentence must NOT contain the words "telescope", "see", "far", or "away".'
   metadata:
     category: instruction_following
     constraint: sentence_count
@@ -50,11 +53,12 @@
       value: |
         const norm = output.normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1;
+        const hasForbidden = /telescope|see|far|away/i.test(norm);
+        return sentences.length === 1 && !hasForbidden;
 
 - description: "IF-04 forbidden letter z"
   vars:
-    input: 'Describe an afternoon at a park. Do not use the letter "z" or "Z" anywhere in your response.'
+    input: 'Describe an afternoon at a park. Do not use the letter "z" or "Z" anywhere in your response. Your description must be at least 20 characters long.'
   metadata:
     category: instruction_following
     constraint: forbidden_word_or_letter
@@ -65,11 +69,11 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC');
-        return !/[zZ]/.test(norm) && norm.trim().length > 0;
+        return !/[zZ]/.test(norm) && norm.trim().length >= 20;
 
 - description: "IF-05 required phrase spaced repetition"
   vars:
-    input: 'Share a tip for studying effectively. You must include the phrase "spaced repetition" in your answer.'
+    input: 'Share a tip for studying effectively. You must include the phrase "spaced repetition" in your answer. Do NOT use the words "study", "learn", or "memory" anywhere in your response.'
   metadata:
     category: instruction_following
     constraint: required_word_or_phrase
@@ -80,7 +84,9 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC');
-        return /spaced\s+repetition/i.test(norm);
+        const hasPhrase = /spaced\s+repetition/i.test(norm);
+        const hasForbidden = /study|learn|memory/i.test(norm);
+        return hasPhrase && !hasForbidden;
 
 # ============ MEDIUM (8) ============
 # 3 interacting constraints

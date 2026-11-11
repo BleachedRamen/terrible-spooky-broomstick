@@ -2,11 +2,11 @@
 # Writing & Grammar - 25 tests: 6 baseline-easy, 8 medium, 6 hard, 5 adversarial
 
 # ============ BASELINE EASY (6) ============
-# Clear grammatical and punctuation fixes with deterministic single solutions
+# Hardened baseline tests with multi-constraint requirements
 
 - description: "WR-01 meeting notes follow-up"
   vars:
-    input: "Write a brief email message to a coworker who missed the morning planning meeting. Tone: polite and helpful. Say that the notes are attached and invite the coworker to ask about any unclear decision. Output exactly 2 sentences in plain text, with no subject line, bullets, or markdown heading."
+    input: "Write a brief email message to a coworker who missed the morning planning meeting. Tone: polite and helpful. Say that the notes are attached and invite the coworker to ask about any unclear decision. Output exactly 2 sentences in plain text, with no subject line, bullets, or markdown heading. Do NOT use the words 'attached', 'notes', or 'meeting' in your response."
   metadata:
     category: writing
     subtype: email_or_message
@@ -18,11 +18,11 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 2 && !/^\s*#{1,6}\s/m.test(norm) && !/^\s*(?:[-*\u2022]|\d+[.)])\s/m.test(norm) && !/^\s*subject:/im.test(norm);
+        return sentences.length === 2 && !/^\s*#{1,6}\s/m.test(norm) && !/^\s*(?:[-*\u2022]|\d+[.)])\s/m.test(norm) && !/^\s*subject:/im.test(norm) && !/attached/i.test(norm) && !/notes/i.test(norm) && !/meeting/i.test(norm);
 
 - description: "WR-02 delay update"
   vars:
-    input: "Write a text message to a friend. Tone: casual and considerate. Explain that your train is delayed by about fifteen minutes and that you will send another message when you arrive. Output exactly 1 sentence in plain text, with no heading or bullets."
+    input: "Write a text message to a friend. Tone: casual and considerate. Explain that your train is delayed by about fifteen minutes and that you will send another message when you arrive. Output exactly 1 sentence in plain text, with no heading or bullets. Do NOT use the word 'train' or any time-related words like 'minutes', 'fifteen', or 'delayed'."
   metadata:
     category: writing
     subtype: email_or_message
@@ -34,11 +34,11 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && !/^\s*#{1,6}\s/m.test(norm) && !/^\s*(?:[-*\u2022]|\d+[.)])\s/m.test(norm);
+        return sentences.length === 1 && !/^\s*#{1,6}\s/m.test(norm) && !/^\s*(?:[-*\u2022]|\d+[.)])\s/m.test(norm) && !/train/i.test(norm) && !/minutes/i.test(norm) && !/fifteen/i.test(norm) && !/delayed/i.test(norm);
 
 - description: "WR-03 plural agreement"
   vars:
-    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"The reports is ready for review.\""
+    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"The reports is ready for review.\" Do NOT add any punctuation marks that are not in the original."
   metadata:
     category: writing
     subtype: grammar_correction
@@ -50,11 +50,13 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && /The reports are ready for review/i.test(norm) && !/The reports is ready/i.test(norm);
+        const hasPeriod = /\.$/.test(norm);
+        const noExtraPunctuation = !/[;:!]/i.test(norm);
+        return sentences.length === 1 && /The reports are ready for review/i.test(norm) && !/The reports is ready/i.test(norm) && hasPeriod && noExtraPunctuation;
 
 - description: "WR-04 verb tense correction"
   vars:
-    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"She go to the store every day.\""
+    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"She go to the store every day.\" The corrected sentence must start with a capital letter and end with a period, with no other changes."
   metadata:
     category: writing
     subtype: grammar_correction
@@ -66,11 +68,13 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && /She goes to the store every day/i.test(norm);
+        const startsWithCapital = /^[A-Z]/.test(norm);
+        const endsWithPeriod = /\.$/.test(norm);
+        return sentences.length === 1 && /^She goes to the store every day\.$/i.test(norm) && startsWithCapital && endsWithPeriod;
 
 - description: "WR-05 subject-verb agreement"
   vars:
-    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"The team are working on the project.\""
+    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"The team are working on the project.\" Do NOT change any words other than the verb 'are'."
   metadata:
     category: writing
     subtype: grammar_correction
@@ -82,11 +86,11 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && /The team is working on the project/i.test(norm);
+        return sentences.length === 1 && /^The team is working on the project\.$/i.test(norm) && !/are/.test(norm);
 
 - description: "WR-06 punctuation correction"
   vars:
-    input: "Audience: general readers. Tone: neutral and precise. Correct the punctuation in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"The meeting is scheduled for Monday Tuesday and Wednesday\""
+    input: "Audience: general readers. Tone: neutral and precise. Correct the punctuation in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"The meeting is scheduled for Monday Tuesday and Wednesday\" Use Oxford comma and end with a period."
   metadata:
     category: writing
     subtype: punctuation_correction
@@ -98,7 +102,7 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && /(Monday, Tuesday, and Wednesday|Monday, Tuesday and Wednesday)/i.test(norm);
+        return sentences.length === 1 && /^Monday, Tuesday, and Wednesday\.$/i.test(norm);
 
 # ============ MEDIUM (8) ============
 # Audience adaptation without semantic drift; maintaining caveats under severe length constraints
@@ -332,7 +336,7 @@
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
         const hasAck = /(?:issue|problem|complaint|concern)/i.test(norm);
         const hasRegret = /(?:sorry|regret|apologize)/i.test(norm);
-        const hasAction = /(?:looking.*?into|investigating|reviewing)/i.test(norm);
+        const hasAction = /(?:looking.*?into|investigating|review(?:ing)?)/i.test(norm);
         const noPromise = !/(?:promise|will.*?resolve|guarantee|by.*?tomorrow|by.*?next)/i.test(norm);
         return sentences.length === 1 && hasAck && hasRegret && hasAction && noPromise;
 
@@ -452,6 +456,6 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        const noPromise = !/(?:will.*?refund|issue.*?refund|exception|waive|override)/i.test(norm);
+        const noPromise = !/(?:will.*?refund|issue.*?a refund|exception|waive|override|able to.*?refund)/i.test(norm);
         const hasPolicy = /(?:30.*?days?|policy|eligible|45.*?days?)/i.test(norm);
         return sentences.length === 2 && noPromise && hasPolicy;

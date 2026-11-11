@@ -2,16 +2,16 @@
 # Context Retention - 25 tests: 6 baseline-easy, 8 medium, 6 hard, 5 adversarial
 
 # ============ BASELINE EASY (6) ============
-# Direct fact retrieval over mid-length dialogues
+# Hardened fact retrieval with decoy information and format constraints
 
 - description: "CR-01 single_fact the storage code"
   vars:
     input: |
       Remember this detail: The storage code is KITE-482.
 
-      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape.
+      In the pottery workshop, clay rests beneath a damp cloth until it is ready to shape. The code KITE-481 is for the pottery workshop, and KITE-483 is for the sculpture studio.
 
-      What is the storage code? Reply with the value only.
+      What is the storage code? Reply with the value only, and do NOT include any other codes.
   metadata:
     category: context_retention
     subtype: single_fact
@@ -22,16 +22,16 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return norm === 'KITE-482';
+        return norm === 'KITE-482' && !/KITE-48[013]/.test(norm);
 
 - description: "CR-02 single_fact the assigned reviewer"
   vars:
     input: |
       Remember this detail: The assigned reviewer is Avery Chen.
 
-      The market street is lined with plain shopfronts and broad windows.
+      The market street is lined with plain shopfronts and broad windows. Avery Chen works in the marketing department, but the reviewer for this task is someone different.
 
-      What is the assigned reviewer? Reply with the value only.
+      What is the assigned reviewer? Reply with the full name only, and do NOT include any department information.
   metadata:
     category: context_retention
     subtype: single_fact
@@ -42,16 +42,16 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return norm === 'Avery Chen';
+        return norm === 'Avery Chen' && !/marketing|department/i.test(norm);
 
 - description: "CR-03 single_fact the inspection date"
   vars:
     input: |
       Remember this detail: The inspection date is September 14, 2031.
 
-      A canal footpath runs between the water and a line of old brick walls.
+      A canal footpath runs between the water and a line of old brick walls. The inspection was originally scheduled for September 13, 2031, but was moved to September 15, 2031 before being confirmed for the actual date.
 
-      What is the inspection date? Reply with the value only.
+      What is the inspection date? Reply with the value only, using the format Month Day, Year.
   metadata:
     category: context_retention
     subtype: single_fact
@@ -62,16 +62,16 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return norm === 'September 14, 2031';
+        return norm === 'September 14, 2031' && !/September 13, 2031/.test(norm) && !/September 15, 2031/.test(norm);
 
 - description: "CR-04 two_facts the access code and the room name"
   vars:
     input: |
       Remember both details: the access code is FROST-28, and the room name is Juniper Hall.
 
-      At the center of the town, a paved square opens between modest storefronts.
+      At the center of the town, a paved square opens between modest storefronts. The code FROST-29 is for the library, and Juniper Hall is sometimes confused with Juniper Room.
 
-      What are the access code and the room name? Reply with both values only, in the order asked, separated by a vertical bar.
+      What are the access code and the room name? Reply with both values only, in the order asked, separated by a vertical bar. Do NOT use any alternative names or codes.
   metadata:
     category: context_retention
     subtype: two_facts
@@ -82,16 +82,16 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return norm === 'FROST-28|Juniper Hall';
+        return norm === 'FROST-28|Juniper Hall' && !/FROST-29|Juniper Room/.test(norm);
 
 - description: "CR-05 two_facts the contact name and the folder color"
   vars:
     input: |
       Remember both details: the contact name is Talia Mercer, and the folder color is amber.
 
-      The small railway station has a sheltered platform and a row of clear windows facing the tracks.
+      The small railway station has a sheltered platform and a row of clear windows facing the tracks. Talia Mercer prefers blue folders, but the folder for this project is a different color. Amber is often confused with orange.
 
-      What are the contact name and the folder color? Reply with both values only, in the order asked, separated by a vertical bar.
+      What are the contact name and the folder color? Reply with both values only, in the order asked, separated by a vertical bar. Do NOT use any alternative names or colors.
   metadata:
     category: context_retention
     subtype: two_facts
@@ -102,7 +102,7 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return norm === 'Talia Mercer|amber';
+        return norm === 'Talia Mercer|amber' && !/Talia Mercer|blue/.test(norm) && !/orange/i.test(norm);
 
 - description: "CR-06 mid_position the reference code"
   vars:

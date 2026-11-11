@@ -2,11 +2,11 @@
 # JSON Output - 25 tests: 5 baseline-easy, 8 medium, 7 hard, 5 adversarial
 
 # ============ BASELINE EASY (5) ============
-# Flat key-value object extraction
+# Hardened JSON extraction with decoy data and type constraints
 
 - description: "JS-01 flat_object easy"
   vars:
-    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types: assignee as a string, status as a string, and estimated_hours as an integer. Sentence: The work order is assigned to "Mara Venn", its status is "open", and the estimated hours are 6. Return only JSON, no explanation.'
+    input: 'From the sentence below, extract the stated details into one JSON object. Use these keys and types: assignee as a string, status as a string, and estimated_hours as an integer. Sentence: The work order is assigned to "Mara Venn", its status is "open", and the estimated hours are 6. There is also a backup assignee "Leo Chen" with status "pending" and 4 hours estimated, but ignore that. Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
@@ -23,11 +23,12 @@
         } catch(e) {
           return false;
         }
-        return parsed.assignee === 'Mara Venn' && parsed.status === 'open' && parsed.estimated_hours === 6;
+        const keys = Object.keys(parsed);
+        return parsed.assignee === 'Mara Venn' && parsed.status === 'open' && parsed.estimated_hours === 6 && keys.length === 3 && !parsed.backup && !parsed.Leo;
 
 - description: "JS-02 flat_object easy"
   vars:
-    input: 'Read the sentence and build a JSON object with the following fields: room as a string and capacity as an integer. Sentence: The meeting takes place in "Studio B", and the room capacity is 18. Return only JSON, no explanation.'
+    input: 'Read the sentence and build a JSON object with the following fields: room as a string and capacity as an integer. Sentence: The meeting takes place in "Studio B", and the room capacity is 18. Studio A has capacity 20, but that is not relevant. Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
@@ -44,11 +45,12 @@
         } catch(e) {
           return false;
         }
-        return parsed.room === 'Studio B' && parsed.capacity === 18;
+        const keys = Object.keys(parsed);
+        return parsed.room === 'Studio B' && parsed.capacity === 18 && keys.length === 2 && !parsed.Studio;
 
 - description: "JS-03 flat_object easy"
   vars:
-    input: 'Return a structured record using these exact keys and value types: item and color as strings, and available as a boolean. Sentence: The catalog item is a "ceramic mug", its color is "cobalt", and it is available true. Return only JSON, no explanation.'
+    input: 'Return a structured record using these exact keys and value types: item and color as strings, and available as a boolean. Sentence: The catalog item is a "ceramic mug", its color is "cobalt", and it is available true. The ceramic mug in red is not available, but that is a different item. Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
@@ -65,11 +67,12 @@
         } catch(e) {
           return false;
         }
-        return parsed.item === 'ceramic mug' && parsed.color === 'cobalt' && parsed.available === true;
+        const keys = Object.keys(parsed);
+        return parsed.item === 'ceramic mug' && parsed.color === 'cobalt' && parsed.available === true && keys.length === 3;
 
 - description: "JS-04 flat_object easy"
   vars:
-    input: 'Convert the sentence into JSON. The object must contain: recipient and note, both strings. Sentence: Iris asked that the parcel note read "Leave parcel at side door", and the named recipient is "Iris". Return only JSON, no explanation.'
+    input: 'Convert the sentence into JSON. The object must contain: recipient and note, both strings. Sentence: Iris asked that the parcel note read "Leave parcel at side door", and the named recipient is "Iris". There is also a backup recipient "Jasper" but ignore that. Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
@@ -86,11 +89,12 @@
         } catch(e) {
           return false;
         }
-        return parsed.recipient === 'Iris' && parsed.note === 'Leave parcel at side door';
+        const keys = Object.keys(parsed);
+        return parsed.recipient === 'Iris' && parsed.note === 'Leave parcel at side door' && keys.length === 2 && !parsed.backup;
 
 - description: "JS-05 flat_object easy"
   vars:
-    input: 'Build a JSON object from this sentence: The event name is "Tech Conference", the date is "2024-11-15", and the location is "San Francisco". Use keys: name, date, location (all strings). Return only JSON, no explanation.'
+    input: 'Build a JSON object from this sentence: The event name is "Tech Conference", the date is "2024-11-15", and the location is "San Francisco". There is also an old event "Tech Summit" on "2024-01-20" in "New York", but ignore that. Use keys: name, date, location (all strings). Return only JSON, no explanation.'
   metadata:
     category: json_output
     subtype: flat_object
@@ -107,7 +111,8 @@
         } catch(e) {
           return false;
         }
-        return parsed.name === 'Tech Conference' && parsed.date === '2024-11-15' && parsed.location === 'San Francisco';
+        const keys = Object.keys(parsed);
+        return parsed.name === 'Tech Conference' && parsed.date === '2024-11-15' && parsed.location === 'San Francisco' && keys.length === 3 && !parsed.Tech;
 
 # ============ MEDIUM (8) ============
 # Nested schemas with arrays of objects, optional fields omitted when absent, strictly typed booleans/numbers

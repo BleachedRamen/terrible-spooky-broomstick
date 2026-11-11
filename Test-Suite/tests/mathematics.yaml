@@ -1,12 +1,7 @@
-# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
-# Mathematics - 25 tests: 5 baseline-easy, 8 medium, 7 hard, 5 adversarial
-
-# ============ BASELINE EASY (5) ============
-# Standard arithmetic precedence, simple percentage change, single-variable linear equation
-
-- description: "MA-01 basic arithmetic precedence"
+- description: MA-01 basic arithmetic precedence
   vars:
-    input: 'What is the result of 12 + 8 * 3 - 5? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+    input: 'What is the result of 12 + 8 * 3 - 5? Do NOT calculate step by step. End
+      with "ANSWER: <number>" (digits only).'
   metadata:
     category: mathematics
     subtype: arithmetic_precedence
@@ -14,15 +9,17 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 31) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-02 basic subtraction and multiplication precedence"
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 31) <= 1e-6 &&
+      !/step|calculate|first|then|next/i.test(norm);'
+- description: MA-02 basic subtraction and multiplication precedence
   vars:
-    input: 'Evaluate 50 - 4 * 5 + 10. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+    input: 'Evaluate 50 - 4 * 5 + 10. Do NOT show your work. End with "ANSWER: <number>"
+      (digits only).'
   metadata:
     category: mathematics
     subtype: arithmetic_precedence
@@ -30,15 +27,17 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 40) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-03 simple percentage calculation"
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 40) <= 1e-6 &&
+      !/work|show|calculate|step/i.test(norm);'
+- description: MA-03 simple percentage calculation
   vars:
-    input: 'What is 15 percent of 240? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+    input: 'What is 15 percent of 240? Do NOT explain the method. End with "ANSWER:
+      <number>" (digits only).'
   metadata:
     category: mathematics
     subtype: percent_ratio
@@ -46,15 +45,18 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 36) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-04 discount sale price"
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 36) <= 1e-6 &&
+      !/percent|of|method|explain/i.test(norm);'
+- description: MA-04 discount sale price
   vars:
-    input: 'An item originally priced at 80 dollars is on sale for 25 percent off. What is the sale price? End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+    input: 'An item originally priced at 80 dollars is on sale for 25 percent off.
+      What is the sale price? Do NOT mention the discount amount. End with "ANSWER:
+      <number>" (digits only).'
   metadata:
     category: mathematics
     subtype: percent_ratio
@@ -62,15 +64,17 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 60) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-05 single-variable linear equation"
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 60) <= 1e-6 &&
+      !/discount|off|25|reduce/i.test(norm);'
+- description: MA-05 single-variable linear equation
   vars:
-    input: 'Solve for x: 3x + 7 = 22. End with "ANSWER: <number>" (digits only, no units, no thousands separators).'
+    input: 'Solve for x: 3x + 7 = 22. Do NOT show the steps. End with "ANSWER: <number>"
+      (digits only).'
   metadata:
     category: mathematics
     subtype: linear_equation
@@ -78,21 +82,18 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 5) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-# ============ MEDIUM (8) ============
-# Multi-stage sequential percentages, systems of equations with domain boundaries
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
 
-- description: "MA-01 medium - multi-stage sequential percentages"
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 5) <= 1e-6 &&
+      !/step|solve|subtract|divide|add|multiply/i.test(norm);'
+- description: MA-01 medium - multi-stage sequential percentages
   vars:
-    input: |
-      An item retails for $200. It is discounted by 20%. 
-      A sales tax of 10% is applied to the discounted price.
-      What is the final price? End with "ANSWER: <number>" (digits only, no units, no thousands separators).
+    input: "An item retails for $200. It is discounted by 20%. \nA sales tax of 10%\
+      \ is applied to the discounted price.\nWhat is the final price? End with \"\
+      ANSWER: <number>\" (digits only, no units, no thousands separators).\n"
   metadata:
     category: mathematics
     subtype: sequential_percentage
@@ -100,22 +101,24 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Discounted = 200 * 0.8 = 160, Tax = 160 * 0.1 = 16, Final = 176
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 176) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-02 medium - changing base percentage with restocking boundary"
+      // Discounted = 200 * 0.8 = 160, Tax = 160 * 0.1 = 16, Final = 176
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 176) <= 1e-6;
+
+      '
+- description: MA-02 medium - changing base percentage with restocking boundary
   vars:
-    input: |
-      An item retails for $200. It is discounted by 20%. 
-      A sales tax of 10% is applied to the discounted price.
-      The customer later returns the item. The store policies state:
-      1. Sales tax is fully refunded.
-      2. A 15% restocking fee is deducted, calculated strictly from the original full retail price.
-      What is the net refund amount returned to the customer? End with "ANSWER: <number>".
+    input: "An item retails for $200. It is discounted by 20%. \nA sales tax of 10%\
+      \ is applied to the discounted price.\nThe customer later returns the item.\
+      \ The store policies state:\n1. Sales tax is fully refunded.\n2. A 15% restocking\
+      \ fee is deducted, calculated strictly from the original full retail price.\n\
+      What is the net refund amount returned to the customer? End with \"ANSWER: <number>\"\
+      .\n"
   metadata:
     category: mathematics
     subtype: changing_base_percentage
@@ -123,22 +126,31 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Discounted = 200 * 0.8 = 160, Tax = 160 * 0.1 = 16, Total paid = 176
-        // Restocking fee = 15% of 200 = 30
-        // Refund = Total paid (176) - Restocking fee (30) = 146
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 146) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-03 medium - systems of equations"
+      // Discounted = 200 * 0.8 = 160, Tax = 160 * 0.1 = 16, Total paid = 176
+
+      // Restocking fee = 15% of 200 = 30
+
+      // Refund = Total paid (176) - Restocking fee (30) = 146
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 146) <= 1e-6;
+
+      '
+- description: MA-03 medium - systems of equations
   vars:
-    input: |
-      Solve the system of equations:
+    input: 'Solve the system of equations:
+
       x + y = 10
+
       2x - y = 2
+
       Provide the value of x. End with "ANSWER: <number>" (digits only, no units).
+
+      '
   metadata:
     category: mathematics
     subtype: systems_of_equations
@@ -146,18 +158,24 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Adding equations: 3x = 12 => x = 4
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 4) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-04 medium - percentage increase then decrease"
+      // Adding equations: 3x = 12 => x = 4
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 4) <= 1e-6;
+
+      '
+- description: MA-04 medium - percentage increase then decrease
   vars:
-    input: |
-      A value starts at 100. It increases by 50%, then decreases by 50%. What is the final value?
+    input: 'A value starts at 100. It increases by 50%, then decreases by 50%. What
+      is the final value?
+
       End with "ANSWER: <number>" (digits only, no units).
+
+      '
   metadata:
     category: mathematics
     subtype: percentage_chain
@@ -165,18 +183,24 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // 100 * 1.5 = 150, 150 * 0.5 = 75
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 75) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-05 medium - domain boundaries with inequalities"
+      // 100 * 1.5 = 150, 150 * 0.5 = 75
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 75) <= 1e-6;
+
+      '
+- description: MA-05 medium - domain boundaries with inequalities
   vars:
-    input: |
-      Solve for x: 3x + 5 > 20. Provide the smallest integer value of x that satisfies this inequality.
+    input: 'Solve for x: 3x + 5 > 20. Provide the smallest integer value of x that
+      satisfies this inequality.
+
       End with "ANSWER: <number>" (digits only).
+
+      '
   metadata:
     category: mathematics
     subtype: inequalities
@@ -184,18 +208,24 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // 3x > 15 => x > 5, smallest integer = 6
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 6) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-06 medium - unit conversion chain"
+      // 3x > 15 => x > 5, smallest integer = 6
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 6) <= 1e-6;
+
+      '
+- description: MA-06 medium - unit conversion chain
   vars:
-    input: |
-      Convert 5 kilometers to meters, then to centimeters. Provide the final value in centimeters.
+    input: 'Convert 5 kilometers to meters, then to centimeters. Provide the final
+      value in centimeters.
+
       End with "ANSWER: <number>" (digits only, no units).
+
+      '
   metadata:
     category: mathematics
     subtype: unit_conversion
@@ -203,21 +233,29 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // 5 km = 5000 m = 500000 cm
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 500000) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-07 medium - weighted average"
+      // 5 km = 5000 m = 500000 cm
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 500000) <= 1e-6;
+
+      '
+- description: MA-07 medium - weighted average
   vars:
-    input: |
-      Calculate the weighted average of these values:
+    input: 'Calculate the weighted average of these values:
+
       - Value 10 with weight 2
+
       - Value 20 with weight 3
+
       - Value 30 with weight 5
+
       End with "ANSWER: <number>" (digits only, can be decimal).
+
+      '
   metadata:
     category: mathematics
     subtype: weighted_average
@@ -225,21 +263,29 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // (10*2 + 20*3 + 30*5) / (2+3+5) = (20 + 60 + 150) / 10 = 230/10 = 23
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 23) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-08 medium - compound interest"
+      // (10*2 + 20*3 + 30*5) / (2+3+5) = (20 + 60 + 150) / 10 = 230/10 = 23
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 23) <= 1e-6;
+
+      '
+- description: MA-08 medium - compound interest
   vars:
-    input: |
-      Calculate the amount after 2 years with compound interest:
+    input: 'Calculate the amount after 2 years with compound interest:
+
       - Principal: $1000
+
       - Annual interest rate: 5%
+
       - Compounded annually
+
       End with "ANSWER: <number>" (digits only, can be decimal).
+
+      '
   metadata:
     category: mathematics
     subtype: compound_interest
@@ -247,21 +293,25 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // A = P(1 + r/n)^(nt) = 1000(1 + 0.05/1)^(1*2) = 1000 * 1.1025 = 1102.5
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 1102.5) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-# ============ HARD (7) ============
-# Discrete optimization, piecewise functions with boundary continuity checks, probability involving conditional stages
+      // A = P(1 + r/n)^(nt) = 1000(1 + 0.05/1)^(1*2) = 1000 * 1.1025 = 1102.5
 
-- description: "MA-01 hard - discrete optimization"
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 1102.5) <= 1e-6;
+
+      '
+- description: MA-01 hard - discrete optimization
   vars:
-    input: |
-      A rectangular garden has a perimeter of 40 meters. What dimensions (length and width) will maximize the area?
-      Assume length >= width. Provide the maximum area. End with "ANSWER: <number>" (digits only).
+    input: 'A rectangular garden has a perimeter of 40 meters. What dimensions (length
+      and width) will maximize the area?
+
+      Assume length >= width. Provide the maximum area. End with "ANSWER: <number>"
+      (digits only).
+
+      '
   metadata:
     category: mathematics
     subtype: optimization
@@ -269,23 +319,33 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Perimeter = 2(l + w) = 40 => l + w = 20
-        // Area = l * w = l * (20 - l) = 20l - l^2
-        // Maximum at vertex: l = 10, w = 10 (square), Area = 100
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 100) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-02 hard - piecewise function with boundary check"
+      // Perimeter = 2(l + w) = 40 => l + w = 20
+
+      // Area = l * w = l * (20 - l) = 20l - l^2
+
+      // Maximum at vertex: l = 10, w = 10 (square), Area = 100
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 100) <= 1e-6;
+
+      '
+- description: MA-02 hard - piecewise function with boundary check
   vars:
-    input: |
-      Evaluate the piecewise function at x = 3:
+    input: 'Evaluate the piecewise function at x = 3:
+
       f(x) = x^2 + 1, if x < 2
+
       f(x) = 2x + 5, if 2 <= x < 5
+
       f(x) = x^3 - 3, if x >= 5
+
       End with "ANSWER: <number>" (digits only).
+
+      '
   metadata:
     category: mathematics
     subtype: piecewise_function
@@ -293,22 +353,31 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // x = 3 falls in second piece: 2*3 + 5 = 11
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 11) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-03 hard - piecewise continuity check"
+      // x = 3 falls in second piece: 2*3 + 5 = 11
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 11) <= 1e-6;
+
+      '
+- description: MA-03 hard - piecewise continuity check
   vars:
-    input: |
-      For the piecewise function:
+    input: 'For the piecewise function:
+
       f(x) = ax + b, if x < 3
+
       f(x) = 2x + 5, if x >= 3
-      
+
+
       Find the values of a and b such that the function is continuous at x = 3.
-      Provide the value of a + b. End with "ANSWER: <number>" (digits only, can be decimal).
+
+      Provide the value of a + b. End with "ANSWER: <number>" (digits only, can be
+      decimal).
+
+      '
   metadata:
     category: mathematics
     subtype: continuity
@@ -316,50 +385,92 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // At x=3: ax + b = 2x + 5 => 3a + b = 11
-        // For continuity, left limit = right limit = function value
-        // So 3a + b = 11, but we need another condition...
-        // Actually, for continuity at x=3: lim(x->3-) f(x) = lim(x->3+) f(x) = f(3)
-        // lim(x->3-) = 3a + b, lim(x->3+) = 2*3 + 5 = 11
-        // So 3a + b = 11
-        // But we have infinite solutions... wait, need to check if there's a standard assumption
-        // Actually, the problem might be underdetermined. But let's check the answer.
-        // Common solution: if we assume f(3) = 2*3 + 5 = 11, then 3a + b = 11
-        // Without more constraints, a + b cannot be uniquely determined.
-        // But the problem asks for a + b, which suggests there's a unique solution.
-        // Let me reconsider: maybe they want us to match at x=3 exactly?
-        // Actually, for the function to be continuous at x=3, we need:
-        // lim(x->3-) f(x) = lim(x->3+) f(x)
-        // 3a + b = 2*3 + 5 = 11
-        // So 3a + b = 11
-        // We need a + b. From 3a + b = 11, we get b = 11 - 3a
-        // So a + b = a + 11 - 3a = 11 - 2a
-        // This is underdetermined! But the problem seems to expect a specific answer.
-        // Let me check if there's a missing constraint. Maybe they want the derivative to match too?
-        // Or maybe it's a trick question?
-        // Actually, re-reading: "Find the values of a and b such that the function is continuous at x = 3"
-        // This has infinitely many solutions: b = 11 - 3a for any a.
-        // So a + b = a + (11 - 3a) = 11 - 2a, which depends on a.
-        // This is UNDERDETERMINED!
-        // The problem should say "No unique solution exists" or provide more constraints.
-        // But since this is a baseline test, maybe they expect a specific answer...
-        // Let me try a different approach: maybe they want the simplest solution where a and b are integers?
-        // If a = 2, b = 5, then 3*2 + 5 = 11, and a + b = 7
-        // If a = 3, b = 2, then 3*3 + 2 = 11, and a + b = 5
-        // If a = 4, b = -1, then 3*4 + (-1) = 11, and a + b = 3
-        // No unique solution!
-        // This is actually a good test for underdetermined systems.
-        return /(under|no.*?unique|infinite|determined)/i.test(norm);
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-04 hard - probability with dependent stages"
+      // At x=3: ax + b = 2x + 5 => 3a + b = 11
+
+      // For continuity, left limit = right limit = function value
+
+      // So 3a + b = 11, but we need another condition...
+
+      // Actually, for continuity at x=3: lim(x->3-) f(x) = lim(x->3+) f(x) = f(3)
+
+      // lim(x->3-) = 3a + b, lim(x->3+) = 2*3 + 5 = 11
+
+      // So 3a + b = 11
+
+      // But we have infinite solutions... wait, need to check if there''s a standard
+      assumption
+
+      // Actually, the problem might be underdetermined. But let''s check the answer.
+
+      // Common solution: if we assume f(3) = 2*3 + 5 = 11, then 3a + b = 11
+
+      // Without more constraints, a + b cannot be uniquely determined.
+
+      // But the problem asks for a + b, which suggests there''s a unique solution.
+
+      // Let me reconsider: maybe they want us to match at x=3 exactly?
+
+      // Actually, for the function to be continuous at x=3, we need:
+
+      // lim(x->3-) f(x) = lim(x->3+) f(x)
+
+      // 3a + b = 2*3 + 5 = 11
+
+      // So 3a + b = 11
+
+      // We need a + b. From 3a + b = 11, we get b = 11 - 3a
+
+      // So a + b = a + 11 - 3a = 11 - 2a
+
+      // This is underdetermined! But the problem seems to expect a specific answer.
+
+      // Let me check if there''s a missing constraint. Maybe they want the derivative
+      to match too?
+
+      // Or maybe it''s a trick question?
+
+      // Actually, re-reading: "Find the values of a and b such that the function
+      is continuous at x = 3"
+
+      // This has infinitely many solutions: b = 11 - 3a for any a.
+
+      // So a + b = a + (11 - 3a) = 11 - 2a, which depends on a.
+
+      // This is UNDERDETERMINED!
+
+      // The problem should say "No unique solution exists" or provide more constraints.
+
+      // But since this is a baseline test, maybe they expect a specific answer...
+
+      // Let me try a different approach: maybe they want the simplest solution where
+      a and b are integers?
+
+      // If a = 2, b = 5, then 3*2 + 5 = 11, and a + b = 7
+
+      // If a = 3, b = 2, then 3*3 + 2 = 11, and a + b = 5
+
+      // If a = 4, b = -1, then 3*4 + (-1) = 11, and a + b = 3
+
+      // No unique solution!
+
+      // This is actually a good test for underdetermined systems.
+
+      return /(under|no.*?unique|infinite|determined)/i.test(norm);
+
+      '
+- description: MA-04 hard - probability with dependent stages
   vars:
-    input: |
-      A bag contains 5 red balls and 3 blue balls. Two balls are drawn sequentially WITHOUT replacement.
+    input: 'A bag contains 5 red balls and 3 blue balls. Two balls are drawn sequentially
+      WITHOUT replacement.
+
       What is the probability that both balls are red? Provide the answer as a decimal.
+
       End with "ANSWER: <number>" (can be decimal).
+
+      '
   metadata:
     category: mathematics
     subtype: dependent_probability
@@ -367,21 +478,24 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // P(first red) = 5/8, P(second red | first red) = 4/7
-        // P(both red) = (5/8) * (4/7) = 20/56 = 5/14 ≈ 0.357142857
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 5/14) <= 1e-6;
-
-- description: "MA-05 hard - probability with conditional stages"
+  - type: javascript
+    value: "const norm = output.normalize('NFKC');\n// P(first red) = 5/8, P(second\
+      \ red | first red) = 4/7\n// P(both red) = (5/8) * (4/7) = 20/56 = 5/14 \u2248\
+      \ 0.357142857\nconst m = [...norm.matchAll(/ANSWER:\\s*(-?[\\d,]*\\.?\\d+)/gi)].pop();\n\
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 5/14) <= 1e-6;\n"
+- description: MA-05 hard - probability with conditional stages
   vars:
-    input: |
-      In a class of 30 students, 18 are girls and 12 are boys. If a student is selected at random,
-      what is the probability that the student is a girl GIVEN that the student has long hair?
+    input: 'In a class of 30 students, 18 are girls and 12 are boys. If a student
+      is selected at random,
+
+      what is the probability that the student is a girl GIVEN that the student has
+      long hair?
+
       Additional information: 12 girls have long hair, 4 boys have long hair.
+
       End with "ANSWER: <number>" (can be decimal).
+
+      '
   metadata:
     category: mathematics
     subtype: conditional_probability
@@ -389,23 +503,32 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // P(girl | long hair) = P(girl and long hair) / P(long hair)
-        // P(girl and long hair) = 12/30, P(long hair) = (12+4)/30 = 16/30
-        // P(girl | long hair) = (12/30) / (16/30) = 12/16 = 3/4 = 0.75
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 0.75) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-06 hard - boundary continuity with piecewise"
+      // P(girl | long hair) = P(girl and long hair) / P(long hair)
+
+      // P(girl and long hair) = 12/30, P(long hair) = (12+4)/30 = 16/30
+
+      // P(girl | long hair) = (12/30) / (16/30) = 12/16 = 3/4 = 0.75
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 0.75) <= 1e-6;
+
+      '
+- description: MA-06 hard - boundary continuity with piecewise
   vars:
-    input: |
-      For the piecewise function to be continuous at x = 2:
+    input: 'For the piecewise function to be continuous at x = 2:
+
       f(x) = x^2 + a, if x <= 2
+
       f(x) = bx + 3, if x > 2
-      
+
+
       Find the value of b - a. End with "ANSWER: <number>" (digits only, can be negative).
+
+      '
   metadata:
     category: mathematics
     subtype: piecewise_continuity
@@ -413,31 +536,51 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // At x=2: left limit = 2^2 + a = 4 + a
-        // Right limit = b*2 + 3 = 2b + 3
-        // For continuity: 4 + a = 2b + 3 => a = 2b - 1
-        // We need b - a = b - (2b - 1) = -b + 1
-        // Still underdetermined! But wait, maybe they want a specific relationship?
-        // Actually, this is also underdetermined. There are infinitely many (a, b) pairs.
-        // Unless... maybe the problem expects us to express it in terms of one variable?
-        // But the answer format expects a number...
-        // Let me reconsider: maybe I'm missing something. If we set x=2 exactly:
-        // f(2) = 4 + a (from first piece)
-        // For continuity at x=2: lim(x->2-) = lim(x->2+) = f(2)
-        // 4 + a = 2b + 3
-        // So a = 2b - 1
-        // Then b - a = b - (2b - 1) = -b + 1
-        // This is still underdetermined!
-        return /(under|no.*?unique|infinite|determined)/i.test(norm);
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-07 hard - permutation with constraints"
+      // At x=2: left limit = 2^2 + a = 4 + a
+
+      // Right limit = b*2 + 3 = 2b + 3
+
+      // For continuity: 4 + a = 2b + 3 => a = 2b - 1
+
+      // We need b - a = b - (2b - 1) = -b + 1
+
+      // Still underdetermined! But wait, maybe they want a specific relationship?
+
+      // Actually, this is also underdetermined. There are infinitely many (a, b)
+      pairs.
+
+      // Unless... maybe the problem expects us to express it in terms of one variable?
+
+      // But the answer format expects a number...
+
+      // Let me reconsider: maybe I''m missing something. If we set x=2 exactly:
+
+      // f(2) = 4 + a (from first piece)
+
+      // For continuity at x=2: lim(x->2-) = lim(x->2+) = f(2)
+
+      // 4 + a = 2b + 3
+
+      // So a = 2b - 1
+
+      // Then b - a = b - (2b - 1) = -b + 1
+
+      // This is still underdetermined!
+
+      return /(under|no.*?unique|infinite|determined)/i.test(norm);
+
+      '
+- description: MA-07 hard - permutation with constraints
   vars:
-    input: |
-      How many 3-digit numbers can be formed using the digits 1, 2, 3, 4, 5 without repetition?
+    input: 'How many 3-digit numbers can be formed using the digits 1, 2, 3, 4, 5
+      without repetition?
+
       End with "ANSWER: <number>" (digits only).
+
+      '
   metadata:
     category: mathematics
     subtype: permutation
@@ -445,21 +588,24 @@
     boundary: determinate
     dimension: core
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // 5 choices for hundreds, 4 for tens, 3 for units = 5 * 4 * 3 = 60
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 60) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-# ============ ADVERSARIAL (5) ============
-# Extraneous numerical values, conflicting units, mathematically impossible problems
+      // 5 choices for hundreds, 4 for tens, 3 for units = 5 * 4 * 3 = 60
 
-- description: "MA-01 adversarial - extraneous numerical values"
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 60) <= 1e-6;
+
+      '
+- description: MA-01 adversarial - extraneous numerical values
   vars:
-    input: |
-      Calculate: 15 + 20 + 25. Ignore these extraneous numbers: 100, 200, 300, 400, 500.
+    input: 'Calculate: 15 + 20 + 25. Ignore these extraneous numbers: 100, 200, 300,
+      400, 500.
+
       End with "ANSWER: <number>" (digits only).
+
+      '
   metadata:
     category: mathematics
     subtype: extraneous_values
@@ -467,24 +613,34 @@
     boundary: determinate
     dimension: adversarial
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // 15 + 20 + 25 = 60
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 60) <= 1e-6;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-02 adversarial - conflicting units"
+      // 15 + 20 + 25 = 60
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 60) <= 1e-6;
+
+      '
+- description: MA-02 adversarial - conflicting units
   vars:
-    input: |
-      A car travels 60 miles in 1 hour. What is its speed in kilometers per hour?
+    input: 'A car travels 60 miles in 1 hour. What is its speed in kilometers per
+      hour?
+
       Use the conversion: 1 mile = 1.60934 kilometers.
-      
+
+
       WARNING: The following conversions are INCORRECT and should be ignored:
+
       - 1 mile = 2 kilometers
+
       - 1 kilometer = 0.5 miles
-      
+
+
       End with "ANSWER: <number>" (digits only, can be decimal).
+
+      '
   metadata:
     category: mathematics
     subtype: conflicting_units
@@ -492,18 +648,23 @@
     boundary: contradictory
     dimension: adversarial
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // 60 miles/hour * 1.60934 km/mile = 96.5604 km/h
-        const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
-        return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '')) - 96.5604) <= 0.001;
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-03 adversarial - mathematically impossible problem"
+      // 60 miles/hour * 1.60934 km/mile = 96.5604 km/h
+
+      const m = [...norm.matchAll(/ANSWER:\s*(-?[\d,]*\.?\d+)/gi)].pop();
+
+      return !!m && Math.abs(parseFloat(m[1].replace(/,/g, '''')) - 96.5604) <= 0.001;
+
+      '
+- description: MA-03 adversarial - mathematically impossible problem
   vars:
-    input: |
-      Solve for x: x^2 + 1 = 0, where x is a real number.
+    input: 'Solve for x: x^2 + 1 = 0, where x is a real number.
+
       End with "ANSWER: <answer>" (provide the answer or state if no solution exists).
+
+      '
   metadata:
     category: mathematics
     subtype: impossible_problem
@@ -511,17 +672,21 @@
     boundary: underdetermined
     dimension: adversarial
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // x^2 = -1 has no real solutions
-        return /(no.*?solution|impossible|no real|complex|imaginary)/i.test(norm);
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-04 adversarial - impossible triangle"
+      // x^2 = -1 has no real solutions
+
+      return /(no.*?solution|impossible|no real|complex|imaginary)/i.test(norm);
+
+      '
+- description: MA-04 adversarial - impossible triangle
   vars:
-    input: |
-      Can a triangle have sides of lengths 1, 2, and 4? Answer yes or no.
+    input: 'Can a triangle have sides of lengths 1, 2, and 4? Answer yes or no.
+
       End with "ANSWER: <answer>"
+
+      '
   metadata:
     category: mathematics
     subtype: impossible_geometry
@@ -529,21 +694,28 @@
     boundary: contradictory
     dimension: adversarial
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Triangle inequality: 1 + 2 = 3 < 4, so impossible
-        const m = [...norm.matchAll(/ANSWER:\s*(\w+)/gi)].pop();
-        return !!m && /^no$/i.test(m[1]);
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
 
-- description: "MA-05 adversarial - underdetermined system"
+      // Triangle inequality: 1 + 2 = 3 < 4, so impossible
+
+      const m = [...norm.matchAll(/ANSWER:\s*(\w+)/gi)].pop();
+
+      return !!m && /^no$/i.test(m[1]);
+
+      '
+- description: MA-05 adversarial - underdetermined system
   vars:
-    input: |
-      Solve for x and y:
+    input: 'Solve for x and y:
+
       x + y = 10
-      
+
+
       There is only one equation but two unknowns. What is the solution?
+
       End with "ANSWER: <answer>" (provide the solution or state if underdetermined).
+
+      '
   metadata:
     category: mathematics
     subtype: underdetermined_system
@@ -551,8 +723,11 @@
     boundary: underdetermined
     dimension: adversarial
   assert:
-    - type: javascript
-      value: |
-        const norm = output.normalize('NFKC');
-        // Infinitely many solutions: y = 10 - x for any x
-        return /(under|infinite|no.*?unique|determined)/i.test(norm);
+  - type: javascript
+    value: 'const norm = output.normalize(''NFKC'');
+
+      // Infinitely many solutions: y = 10 - x for any x
+
+      return /(under|infinite|no.*?unique|determined)/i.test(norm);
+
+      '

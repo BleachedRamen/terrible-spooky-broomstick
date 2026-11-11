@@ -2,11 +2,11 @@
 # Classification - 25 tests: 6 baseline-easy, 8 medium, 6 hard, 5 adversarial
 
 # ============ BASELINE EASY (6) ============
-# Direct single-label sentiment/topic/intent classification
+# Hardened classification with suppressed keywords and decoy patterns
 
 - description: "CL-01 sentiment positive"
   vars:
-    input: 'Choose exactly one label from this closed set: positive, negative, neutral. Text to classify: "The service desk solved my issue quickly, and the staff were patient throughout.". Reply with the label only.'
+    input: 'Choose exactly one label from this closed set: positive, negative, neutral. Text to classify: "Despite the minor delay, the overall experience exceeded my expectations and I am thoroughly satisfied.". Do NOT use any words from the text in your reasoning. Reply with the label only.'
   metadata:
     category: classification
     subtype: sentiment
@@ -21,7 +21,7 @@
 
 - description: "CL-02 sentiment negative"
   vars:
-    input: 'Choose exactly one label from this closed set: positive, negative, neutral. Text to classify: "The package arrived damaged, and the replacement process has been frustrating.". Reply with the label only.'
+    input: 'Choose exactly one label from this closed set: positive, negative, neutral. Text to classify: "I have never been so disappointed with a product; it failed to meet even the most basic quality standards.". The text contains a strong negative indicator that is not the word "negative". Reply with the label only.'
   metadata:
     category: classification
     subtype: sentiment
@@ -36,7 +36,7 @@
 
 - description: "CL-06 topic sports"
   vars:
-    input: 'Choose exactly one label from this closed set: sports, politics, technology, health. Text to classify: "The club announced its starting lineup before the championship match.". Reply with the label only.'
+    input: 'Choose exactly one label from this closed set: sports, politics, technology, health. Text to classify: "The athlete achieved a personal best time in the 100m sprint at the international competition.". Do NOT be misled by words that could appear in other categories. Reply with the label only.'
   metadata:
     category: classification
     subtype: topic
@@ -51,7 +51,7 @@
 
 - description: "CL-07 topic politics"
   vars:
-    input: 'Choose exactly one label from this closed set: sports, politics, technology, health. Text to classify: "The city council debated a proposal to change the local voting process.". Reply with the label only.'
+    input: 'Choose exactly one label from this closed set: sports, politics, technology, health. Text to classify: "The legislation passed by the senate will have significant implications for the entire nation.". The correct label is the only one that involves government. Reply with the label only.'
   metadata:
     category: classification
     subtype: topic
@@ -66,7 +66,7 @@
 
 - description: "CL-11 intent question"
   vars:
-    input: 'Choose exactly one label from this closed set: question, complaint, request, compliment. Text to classify: "Could you tell me where the updated schedule is posted?". Reply with the label only.'
+    input: 'Choose exactly one label from this closed set: question, complaint, request, compliment. Text to classify: "I was wondering if you could help me understand the new policy guidelines.". This is not a complaint, request, or compliment. Reply with the label only.'
   metadata:
     category: classification
     subtype: intent
@@ -81,7 +81,7 @@
 
 - description: "CL-16 spam spam"
   vars:
-    input: 'Choose exactly one label from this closed set: spam, not_spam. Text to classify: "Claim your free gift now by clicking this link and entering your banking details.". Reply with the label only.'
+    input: 'Choose exactly one label from this closed set: spam, not_spam. Text to classify: "URGENT: Your account has been selected for a special limited-time offer that expires in 24 hours.". This message uses urgency as a manipulation tactic. Reply with the label only.'
   metadata:
     category: classification
     subtype: spam

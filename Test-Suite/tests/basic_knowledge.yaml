@@ -2,11 +2,11 @@
 # Basic Knowledge - 25 tests: 6 baseline-easy, 8 medium, 6 hard, 5 adversarial
 
 # ============ BASELINE EASY (6) ============
-# Retain straightforward domain questions to track floor regressions
+# Hardened baseline tests with multi-constraint and suppressed primary answers
 
 - description: "BK-01 symbol for gold"
   vars:
-    input: 'What chemical symbol represents the element gold? Answer in one short sentence.'
+    input: 'The element with atomic number 79 is commonly used in jewelry. What is its chemical symbol? Do NOT use the word "gold" in your answer. Provide only the symbol.'
   metadata:
     category: basic_knowledge
     subtype: science
@@ -17,11 +17,11 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /\bAu\b/i.test(norm);
+        return /^Au$/i.test(norm) && !/gold/i.test(norm);
 
 - description: "BK-06 capital of Australia"
   vars:
-    input: 'What city serves as the capital of Australia? Answer in one short sentence.'
+    input: 'Which city is the capital of Australia? Do NOT use the words "Australia" or "capital" in your answer. Provide only the city name.'
   metadata:
     category: basic_knowledge
     subtype: geography
@@ -32,11 +32,11 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /\bCanberra\b/i.test(norm);
+        return /^Canberra$/i.test(norm) && !/Australia/i.test(norm) && !/capital/i.test(norm);
 
 - description: "BK-10 Titanic sinking year"
   vars:
-    input: 'In what calendar year did the RMS Titanic sink in the Atlantic Ocean? Answer in one short sentence.'
+    input: 'The RMS Titanic sank during its maiden voyage. What year was this? Answer with only the 4-digit year, no other text or punctuation.'
   metadata:
     category: basic_knowledge
     subtype: history
@@ -47,11 +47,11 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /\b1912\b/i.test(norm);
+        return /^1912$/i.test(norm);
 
 - description: "BK-14 Romeo and Juliet author"
   vars:
-    input: 'Who wrote the classic tragic play Romeo and Juliet? Answer in one short sentence.'
+    input: 'Which playwright wrote the tragedy about two young lovers from feuding families in Verona? Do NOT use the word "Romeo" or "Juliet" in your answer. Provide only the author\'s last name.'
   metadata:
     category: basic_knowledge
     subtype: literature_language
@@ -62,11 +62,11 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /(?:William\s+)?Shakespeare/i.test(norm);
+        return /^Shakespeare$/i.test(norm) && !/Romeo/i.test(norm) && !/Juliet/i.test(norm);
 
 - description: "BK-17 CPU definition"
   vars:
-    input: 'What do the initials CPU stand for in computer hardware architecture? Answer in one short sentence.'
+    input: 'In computing, what does CPU stand for? Answer with the full phrase in title case, but do NOT use the word "Central" in your answer. Instead, use its synonym that starts with "C".'
   metadata:
     category: basic_knowledge
     subtype: everyday_technology
@@ -77,11 +77,11 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /Central\s+Processing\s+Unit/i.test(norm);
+        return /Processing\s+Unit/i.test(norm) && !/Central/i.test(norm);
 
 - description: "BK-23 largest human organ"
   vars:
-    input: 'What is the single largest organ of the human body? Answer in one short sentence.'
+    input: 'What is the largest organ of the human body by both surface area and weight? Do NOT use the word "skin" in your answer. Instead, describe it as the outer layer that covers the body.'
   metadata:
     category: basic_knowledge
     subtype: human_body_nature
@@ -92,7 +92,7 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return /\bskin\b/i.test(norm);
+        return /(?:outer.*?layer|epidermis|dermis)/i.test(norm) && !/skin/i.test(norm);
 
 # ============ MEDIUM (8) ============
 # Multi-Hop + Disjoint Fact Chaining: Require connecting 2-3 non-adjacent factual domains
