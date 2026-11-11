@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
 description: 'Local model suite'
 
+outputPath: ./results.json
 # Optionally set API keys here instead of exporting environment variables.
 # Never commit real keys to source control.
 # env:
@@ -32,7 +33,7 @@ defaultTest:
     provider:
       id: 'openai:chat:Qwen3.5-2B-Dense'
       config:
-        apiBaseUrl: 'http://localhost:9931/v1'
+        apiBaseUrl: 'http://localhost:9932/v1'
         apiKeyRequired: false
         useDefaultApiKey: false
         showThinking: false
