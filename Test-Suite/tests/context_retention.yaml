@@ -102,7 +102,9 @@
     - type: javascript
       value: |
         const norm = output.normalize('NFKC').trim();
-        return norm === 'Talia Mercer|amber' && !/Talia Mercer|blue/.test(norm) && !/orange/i.test(norm);
+        return norm === 'Talia Mercer|amber'
+          && !/blue/i.test(norm)
+          && !/orange/i.test(norm);
 
 - description: "CR-06 mid_position the reference code"
   vars:
