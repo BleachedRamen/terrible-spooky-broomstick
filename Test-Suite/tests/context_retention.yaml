@@ -29,7 +29,7 @@
     input: |
       Remember this detail: The assigned reviewer is Avery Chen.
 
-      The market street is lined with plain shopfronts and broad windows. Avery Chen works in the marketing department, but the reviewer for this task is someone different.
+      The market street is lined with plain shopfronts and broad windows. Avery Chen works in the marketing department. Reviewers for other tasks were selected from different teams, but this task remained with the original assignee.
 
       What is the assigned reviewer? Reply with the full name only, and do NOT include any department information.
   metadata:
@@ -49,7 +49,7 @@
     input: |
       Remember this detail: The inspection date is September 14, 2031.
 
-      A canal footpath runs between the water and a line of old brick walls. The inspection was originally scheduled for September 13, 2031, but was moved to September 15, 2031 before being confirmed for the actual date.
+      A canal footpath runs between the water and a line of old brick walls. The inspection was originally considered for September 13, 2031, and a secondary slot was proposed for September 15, 2031, before the team officially confirmed the actual date.
 
       What is the inspection date? Reply with the value only, using the format Month Day, Year.
   metadata:
