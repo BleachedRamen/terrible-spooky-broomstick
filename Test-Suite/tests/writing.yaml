@@ -190,11 +190,11 @@
 
 - description: "WR-06 medium - parallel structure correction"
   vars:
-    input: "Audience: general readers. Tone: neutral and precise. Correct the grammar in the sentence and preserve its meaning. Return exactly 1 corrected sentence and nothing else: \"She likes hiking, swimming, and to ride a bicycle.\""
+    input: 'Correct the faulty parallelism in this sentence while preserving its meaning: "She enjoys swimming, running, and to ride a bicycle." Return exactly 1 corrected sentence and nothing else.'
   metadata:
     category: writing
-    subtype: grammar_correction
-    difficulty: medium
+    subtype: parallel_structure
+    difficulty: baseline-medium
     boundary: determinate
     dimension: core
   assert:
@@ -202,7 +202,10 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && /hiking, swimming, and (riding|biking|to ride)/i.test(norm);
+        // Requires gerund (-ing) form ("riding", "biking") and rejects the unparallel infinitive ("to ride")
+        const hasParallelForm = /\b(riding|biking)\b/i.test(norm);
+        const rejectsInfinitive = !/\bto\s+ride\b/i.test(norm);
+        return sentences.length === 1 && hasParallelForm && rejectsInfinitive;
 
 - description: "WR-07 medium - pronoun reference correction"
   vars:
@@ -290,7 +293,7 @@
 
 - description: "WR-04 hard - rewriting vague directive without inventing facts"
   vars:
-    input: "Rewrite this vague directive to be clear and actionable without adding any information that isn't in the original: \"We need to do something about the issue with the thing.\" Output exactly 1 sentence in plain text."
+    input: 'Rewrite this vague directive to be clear, specific, and actionable without inventing any details not implied by the text: "Someone should handle the problem with the quarterly report before tomorrow." Output exactly 1 sentence in plain text.'
   metadata:
     category: writing
     subtype: vague_to_clear
@@ -302,14 +305,16 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && !/something|thing|vague/i.test(norm);
+        const removesVagueWords = !/\b(someone|problem|handle)\b/i.test(norm);
+        const retainsContext = /\bquarterly\s+report\b/i.test(norm) && /\btomorrow\b/i.test(norm);
+        return sentences.length === 1 && removesVagueWords && retainsContext;
 
 - description: "WR-05 hard - ambiguous sentence clarification"
   vars:
-    input: "Rewrite this ambiguous sentence to make it clear who is doing what: \"The teacher saw the student with the telescope.\" Output exactly 1 sentence in plain text."
+    input: 'Rewrite this ambiguous sentence to make it completely clear that the teacher used the telescope: "The teacher saw the student with the telescope." Output exactly 1 sentence in plain text.'
   metadata:
     category: writing
-    subtype: ambiguity_preservation
+    subtype: ambiguity_resolution
     difficulty: hard
     boundary: determinate
     dimension: core
@@ -318,7 +323,10 @@
       value: |
         const norm = output.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/```[a-z]*|```/gi, '').normalize('NFKC').trim();
         const sentences = norm.split(/(?<=[.!?])\s+/).filter(Boolean);
-        return sentences.length === 1 && !/The teacher saw the student with the telescope/i.test(norm);
+        // Confirms the instrument is explicitly linked to the teacher's act of seeing
+        const teacherUsesTelescope = /(using\s+(?:a|the)\s+telescope,\s+the\s+teacher|the\s+teacher\s+used\s+(?:a|the)\s+telescope\s+to\s+see|through\s+(?:a|the)\s+telescope,\s+the\s+teacher)/i.test(norm);
+        const notOriginal = !/teacher saw the student with the telescope/i.test(norm);
+        return sentences.length === 1 && teacherUsesTelescope && notOriginal;
 
 - description: "WR-06 hard - policy-governed corporate communication"
   vars:
