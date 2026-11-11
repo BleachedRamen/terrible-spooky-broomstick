@@ -855,20 +855,15 @@
       return answer === ''2'' || /^the.*?number.*?2/i.test(answer);
 
       '
-- description: RS-01 adversarial - affirming the consequent
+- description: RS-01 adversarial - false premise challenge
   vars:
-    input: 'If the lights are on, then someone is home.
-
+    input: |
+      If the lights are on, then someone is home.
       The lights are on.
-
       Therefore, someone is home.
 
-
-      This argument commits a logical fallacy. Name the fallacy.
-
+      Identify the logical fallacy committed by this argument, or explain if it is valid.
       Think step by step, then finish with a final line "ANSWER: <answer>".
-
-      '
   metadata:
     category: reasoning
     subtype: logical_fallacy
@@ -876,41 +871,14 @@
     boundary: determinate
     dimension: adversarial
   assert:
-  - type: javascript
-    value: 'const norm = output.normalize(''NFKC'');
-
-      const answer = (norm.match(/ANSWER:\s*([^\n]+)/gi) || []).pop()?.replace(/^ANSWER:\s*/i,
-      '''').trim().toLowerCase();
-
-      // This is actually MODUS PONENS, which is valid!
-
-      // Wait, let me re-read: If P, then Q. P. Therefore Q. That''s modus ponens,
-      valid.
-
-      // The fallacy would be: If P, then Q. Q. Therefore P. (affirming the consequent)
-
-      // But the argument given is valid modus ponens.
-
-      // Unless... the argument is trying to trick us into thinking it''s a fallacy
-      when it''s not?
-
-      // Or maybe the user made a mistake in the problem statement?
-
-      // Actually, I think the problem statement is wrong. This is valid reasoning.
-
-      // Let me check the description again: "This argument commits a logical fallacy"
-
-      // But it doesn''t! This is a valid modus ponens.
-
-      // So the answer should be that there is no fallacy, or the question is wrong.
-
-      // But the problem says "Name the fallacy", implying there is one.
-
-      // I think this is a trick question - the argument is actually valid.
-
-      return /(none|no.*?fallacy|valid|modus.*?ponens|no fallacy)/i.test(norm);
-
-      '
+    - type: javascript
+      value: |
+        const norm = output.normalize('NFKC');
+        const m = norm.match(/ANSWER:\s*([^\n]+)/i);
+        const answer = m ? m[1].toLowerCase().trim() : '';
+        // Checks that the model recognized the argument as valid / modus ponens rather than hallucinating a fallacy
+        return /\b(no\s+fallacy|none|valid|modus\s+ponens)\b/i.test(answer);
+        
 - description: RS-02 adversarial - plausible fallacy in natural prose
   vars:
     input: 'Every time I wear my lucky socks, my team wins. Therefore, my lucky socks
