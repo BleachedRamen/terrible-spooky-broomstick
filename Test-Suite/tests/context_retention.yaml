@@ -295,8 +295,7 @@
         const norm = output.normalize('NFKC').trim();
         // Door: LOCKED -> UNLOCKED -> LOCKED
         // Window: OPEN -> CLOSED
-        return /Door:\s*LOCKED.*?Window:\s*CLOSED/i.test(norm) ||
-               /Door:\s*CLOSED.*?Window:\s*LOCKED/i.test(norm) === false;
+        return /Door:\s*LOCKED.*?Window:\s*CLOSED/i.test(norm);
 
 - description: "CR-08 medium - tracking superseded facts"
   vars:

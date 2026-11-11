@@ -656,8 +656,7 @@
         // So the answer should be that there is no fallacy, or the question is wrong.
         // But the problem says "Name the fallacy", implying there is one.
         // I think this is a trick question - the argument is actually valid.
-        return /(none|no.*?fallacy|valid|modus.*?ponens|no fallacy)/i.test(norm) ||
-               /(affirming.*?consequent)/i.test(norm) === false;
+        return /(none|no.*?fallacy|valid|modus.*?ponens|no fallacy)/i.test(norm);
 
 - description: "RS-02 adversarial - plausible fallacy in natural prose"
   vars:
