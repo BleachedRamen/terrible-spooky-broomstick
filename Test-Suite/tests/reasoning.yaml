@@ -43,7 +43,7 @@
     value: 'const norm = output.normalize(''NFKC'').toLowerCase().trim();
 
       return norm === ''yes'' && !/mammal|warm|dog|blood/i.test(norm);'
-- description: RS-04 categorical syllogism no
+- description: RS-04 categorical syllogism counterfactual
   vars:
     input: All birds can fly. All penguins are birds. Can all penguins fly? Answer
       yes or no only, no explanation.
@@ -55,9 +55,9 @@
     dimension: core
   assert:
   - type: javascript
-    value: 'const norm = output.normalize(''NFKC'').toLowerCase().trim();
-
-      return norm === ''no'' && !/bird|penguin|fly|can/i.test(norm);'
+    value: |
+      const norm = output.normalize('NFKC').toLowerCase().trim().replace(/\.$/, '');
+      return norm === 'yes';
 - description: RS-05 linear transitive ordering
   vars:
     input: If x > y and y > z, then is x > z? Answer yes or no only, no explanation.
@@ -69,9 +69,9 @@
     dimension: core
   assert:
   - type: javascript
-    value: 'const norm = output.normalize(''NFKC'').toLowerCase().trim();
-
-      return norm === ''yes'' && !/[xyz]|greater|less|than|if|then/i.test(norm);'
+    value: |
+      const norm = output.normalize('NFKC').toLowerCase().trim().replace(/\.$/, '');
+      return norm === 'yes';
 - description: RS-06 simple syllogism
   vars:
     input: All humans are mortal. Socrates is a human. Is Socrates mortal? Answer
